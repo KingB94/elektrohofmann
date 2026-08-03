@@ -1,0 +1,126 @@
+@import "tailwindcss";
+@import "@fontsource/archivo/600.css";
+@import "@fontsource/archivo/700.css";
+@import "@fontsource/archivo/800.css";
+@import "@fontsource/source-sans-3/400.css";
+@import "@fontsource/source-sans-3/500.css";
+@import "@fontsource/source-sans-3/600.css";
+@import "@fontsource/roboto-mono/400.css";
+@import "@fontsource/roboto-mono/500.css";
+
+/* ---------------------------------------------------------
+   Elektro Hofmann — Design tokens
+   Blau + Grau direkt aus dem bestehenden Firmenlogo, dazu ein
+   markenverwandtes, sehr dunkles Blau für dunkle Sektionen statt
+   eines neutralen Schwarz.
+   --------------------------------------------------------- */
+:root {
+  --ink: #1d1c19;
+  --night: #0b1d2c;
+  --night-raised: #122840;
+  --night-line: #1e3a54;
+  --paper: #faf9f7;
+  --paper-raised: #f1efea;
+  --paper-line: #e1ded6;
+  --blue: #066eb5;
+  --blue-deep: #04507f;
+  --steel: #9c9c9c;
+  --steel-deep: #6b6b6b;
+
+  --font-display: "Archivo", sans-serif;
+  --font-body: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, monospace;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-night: var(--night);
+  --color-night-raised: var(--night-raised);
+  --color-night-line: var(--night-line);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-line: var(--paper-line);
+  --color-blue: var(--blue);
+  --color-blue-deep: var(--blue-deep);
+  --color-steel: var(--steel);
+  --color-steel-deep: var(--steel-deep);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--blue);
+  color: white;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.plate-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.3em 0.7em;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+}
+
+.arrow-reveal {
+  opacity: 0;
+  transform: translateX(24px);
+  animation: arrow-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.15s;
+}
+
+@keyframes arrow-in {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow-reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
