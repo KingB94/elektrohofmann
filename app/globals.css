@@ -7,6 +7,7 @@
 @import "@fontsource/source-sans-3/600.css";
 @import "@fontsource/roboto-mono/400.css";
 @import "@fontsource/roboto-mono/500.css";
+@import "@fontsource-variable/fraunces/wght.css";
 
 /* ---------------------------------------------------------
    Elektro Hofmann — Design tokens
@@ -30,6 +31,38 @@
   --font-display: "Archivo", sans-serif;
   --font-body: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Roboto Mono", ui-monospace, monospace;
+  --font-serif: "Fraunces Variable", "Fraunces", Georgia, serif;
+}
+
+/* ---------------------------------------------------------
+   Variante B — „Hell & Premium“
+   Ausschließlich Farben aus dem Firmenlogo: Blau #066EB5,
+   Schwarz #21201C, Grau #9C9C9C, Weiß. Die Flächen sind ein
+   kühles Weiß, das leicht Richtung Logoblau gezogen ist —
+   damit das Blau als Akzent nicht kalt danebensteht.
+   Nur in /variante-b im Einsatz.
+   --------------------------------------------------------- */
+:root {
+  --frost: #ffffff;
+  --frost-base: #f4f7fa;
+  --frost-sunk: #e8eef5;
+  --frost-line: #d6dfe9;
+  --carbon: #21201c;
+  --carbon-soft: #4d4c47;
+}
+
+/* ---------------------------------------------------------
+   Variante C — „Hell & Handwerklich“
+   Warmes Werkstattpapier, Ruß statt Schwarz, Kupfer als
+   Akzent. Nur in /variante-c im Einsatz.
+   --------------------------------------------------------- */
+:root {
+  --bone: #f7f3ea;
+  --bone-raised: #efe7d8;
+  --bone-line: #ddd2be;
+  --soot: #1a1712;
+  --copper: #b0631b;
+  --copper-soft: #dc9d55;
 }
 
 @theme inline {
@@ -45,9 +78,24 @@
   --color-steel: var(--steel);
   --color-steel-deep: var(--steel-deep);
 
+  --color-frost: var(--frost);
+  --color-frost-base: var(--frost-base);
+  --color-frost-sunk: var(--frost-sunk);
+  --color-frost-line: var(--frost-line);
+  --color-carbon: var(--carbon);
+  --color-carbon-soft: var(--carbon-soft);
+
+  --color-bone: var(--bone);
+  --color-bone-raised: var(--bone-raised);
+  --color-bone-line: var(--bone-line);
+  --color-soot: var(--soot);
+  --color-copper: var(--copper);
+  --color-copper-soft: var(--copper-soft);
+
   --font-display: var(--font-display);
   --font-body: var(--font-body);
   --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
 }
 
 * {
@@ -122,5 +170,179 @@ body {
     opacity: 1;
     transform: none;
     animation: none;
+  }
+}
+
+/* =========================================================
+   Gemeinsame Bausteine der Alternativentwürfe (Variante B + C)
+   ========================================================= */
+
+/* Einblenden beim Hereinscrollen. Die Klasse `is-in` setzt der
+   IntersectionObserver in components/variants/Reveal.tsx. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Feines Raster als Hintergrundtextur — in Logoblau angelegt, damit
+   es auf den hellen Flächen der Variante B nur angedeutet wirkt. */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(6, 110, 181, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(6, 110, 181, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Millimeterpapier-Textur für die hellen Sektionen der Variante C. */
+.paper-grid {
+  background-image:
+    linear-gradient(to right, rgba(26, 23, 18, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26, 23, 18, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Pulsierender Ring hinter Statuspunkten. */
+.ring-pulse {
+  animation: ring-pulse 2.4s ease-out infinite;
+}
+
+@keyframes ring-pulse {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 0.9;
+  }
+  70% {
+    box-shadow: 0 0 0 11px transparent;
+    opacity: 0.9;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+    opacity: 0.9;
+  }
+}
+
+/* Wanderndes Licht unter den großen Kennzahlen. */
+.sweep-line {
+  animation: sweep-line 3.4s ease-in-out infinite;
+}
+
+@keyframes sweep-line {
+  0% {
+    transform: translateX(-100%);
+  }
+  55% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* --- Signatur-Animation: fallende Funken auf einer Leitung ------
+   Struktur nach dem Muster der Skill-Vorlage (Quelle oben,
+   fallende Partikel, Oberflächenlinie, Lichtbögen unten),
+   für die Elektrotechnik umgezeichnet. */
+.spark-fall {
+  animation: spark-fall 2.6s linear infinite;
+}
+
+@keyframes spark-fall {
+  0% {
+    transform: translate(-50%, -8px) rotate(-8deg);
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 96px) rotate(6deg);
+    opacity: 0;
+  }
+}
+
+.spark-arc {
+  animation: spark-arc 2.6s ease-out infinite;
+}
+
+@keyframes spark-arc {
+  0% {
+    transform: translateX(-50%) scale(0.35);
+    opacity: 0.85;
+  }
+  75% {
+    transform: translateX(-50%) scale(3.2);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(3.2);
+    opacity: 0;
+  }
+}
+
+/* Wechselnde Statuszeile am Fuß der Signatur-Animation. */
+.status-fade {
+  animation: status-fade 0.5s ease-out;
+}
+
+@keyframes status-fade {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Einlaufender Hero-Text. Bewusst als CSS-Animation mit
+   `backwards`: der sichtbare Zustand ist der Normalzustand, die
+   Animation blendet nur davor ein. So steht der Text auch dann da,
+   wenn JavaScript nicht läuft oder Animationen abgeschaltet sind. */
+.hero-in {
+  animation: hero-in 1s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Sanftes Schweben der Hero-Partikel. */
+.float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
   }
 }

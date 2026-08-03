@@ -8,6 +8,38 @@ selbst gehosteten Schriftarten (kein Nachladen von Google Fonts o. ä.).
 CI-Farben (Blau/Grau/Schwarz) direkt aus dem bestehenden Firmenlogo
 übernommen.
 
+## Drei Entwürfe zur Auswahl
+
+Zur Abstimmung mit dem Kunden liegen drei Gestaltungsvarianten
+nebeneinander. Alle drei ziehen ihre Inhalte aus derselben Quelle
+(`data/business.ts`) und denselben Bildern — es gibt also keine
+Textdubletten zu pflegen.
+
+| Route | Entwurf | Charakter |
+| --- | --- | --- |
+| `/` | **A — Hell & Sachlich** | Die bestehende Fassung. Heller Hintergrund, Firmenblau, Kachelraster. |
+| `/variante-b` | **B — Hell & Premium** | Vollbild-Hero, kühles Weiß, ausschließlich Logofarben (Blau `#066EB5`, Schwarz `#21201C`, Grau `#9C9C9C`), Scroll-Animationen (GSAP). |
+| `/variante-c` | **C — Warm & Handwerklich** | Warmes Papierweiß, Serifenschrift (Fraunces), Kupfer-Akzent, nummerierte Leistungsliste. |
+| `/designs` | Übersicht | Vergleichsseite mit allen drei Entwürfen — dieser Link geht an den Kunden. |
+
+Unten auf jeder Seite liegt eine kleine Leiste zum Umschalten zwischen
+den Entwürfen.
+
+### Wenn die Entscheidung gefallen ist
+
+1. In `app/(variante-a)/layout.tsx` sowie in den Layouts der beiden
+   anderen Varianten die Zeile `<VariantSwitcher … />` entfernen.
+2. Den gewählten Entwurf zur Startseite machen (Inhalt der jeweiligen
+   `page.tsx` nach `app/(variante-a)/page.tsx` übernehmen bzw. die
+   Route umbenennen).
+3. Die nicht gewählten Ordner `app/variante-b`, `app/variante-c`,
+   `app/designs` und die zugehörigen Komponenten unter
+   `components/variants/` löschen.
+4. In `app/robots.ts` die `disallow`-Liste wieder entfernen.
+
+Die Entwurfsseiten sind bis dahin per `robots: noindex` und über
+`robots.txt` von Suchmaschinen ausgenommen.
+
 ## ⚠️ Vor dem Live-Schalten unbedingt prüfen
 
 Die Inhalte dieser Seite stammen größtenteils direkt von der alten,
@@ -66,4 +98,8 @@ Dateiname) oder in den Komponenten auf einen neuen Dateinamen verweisen.
   [Source Sans 3](https://fonts.google.com/specimen/Source+Sans+3),
   [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) via
   [Fontsource](https://fontsource.org) (self-hosted, DSGVO-freundlich)
+- [Fraunces](https://fonts.google.com/specimen/Fraunces) (nur Variante C)
+  via [Fontsource](https://fontsource.org)
 - [lucide-react](https://lucide.dev) für UI-Icons
+- [GSAP](https://gsap.com) + ScrollTrigger (nur Variante B, für den
+  gestapelten Ablauf-Abschnitt)

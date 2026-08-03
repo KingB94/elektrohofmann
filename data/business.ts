@@ -53,6 +53,19 @@ export const business = {
     "https://www.google.com/maps/place/Florian+Hofmann/@47.8994536,12.7325377,17z",
 } as const;
 
+// Jahreszahlen werden gerechnet statt fest eingetragen, damit die
+// Seite nicht mit jedem Jahreswechsel veraltet.
+export const yearsInBusiness = (() => {
+  const start = new Date("2005-08-15");
+  const now = new Date();
+  const anniversaryPassed =
+    now.getMonth() > start.getMonth() ||
+    (now.getMonth() === start.getMonth() && now.getDate() >= start.getDate());
+  return now.getFullYear() - start.getFullYear() - (anniversaryPassed ? 0 : 1);
+})();
+
+export const yearsInTrade = new Date().getFullYear() - 1991;
+
 export const timeline = [
   { year: "1991", label: "Beginn der Ausbildung zum Elektroinstallateur" },
   { year: "2004", label: "Abschluss zum Elektromeister für Energie- und Gebäudetechnik" },

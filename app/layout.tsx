@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { business } from "@/data/business";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://elektro-hofmann.vercel.app"),
@@ -72,14 +70,12 @@ export default function RootLayout({
 
   return (
     <html lang="de" className="h-full">
-      <body className="min-h-full flex flex-col bg-paper text-ink">
+      <body className="min-h-full bg-paper text-ink">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

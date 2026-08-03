@@ -1,0 +1,28 @@
+# Abhängigkeiten
+node_modules
+.pnp
+.pnp.js
+
+# Build-Ausgaben
+.next/
+out/
+build/
+
+# TypeScript
+*.tsbuildinfo
+
+# Umgebungsvariablen
+.env
+.env*.local
+
+# Betriebssystem / Editor
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel
