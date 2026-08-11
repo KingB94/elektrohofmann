@@ -103,7 +103,17 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Bewusst KEIN `scroll-behavior: smooth` hier.
+     Es gilt auch für den Sprung nach oben, den Next.js nach jeder
+     Navigation auslöst — aus einem Seitenwechsel wird dann eine
+     animierte Fahrt über die gesamte Seitenhöhe. Auf dem Handy sind
+     diese Seiten über 10.000 px hoch; das dauert Sekunden, und wenn
+     sich die Layouthöhe unterwegs ändert (Bilder, Schriften,
+     ScrollTrigger), bricht der Browser die Fahrt ab und man bleibt
+     mitten in der neuen Seite stehen.
+
+     Sanftes Scrollen zu Sprungmarken übernimmt stattdessen
+     components/SmoothAnchors.tsx — das fasst Router-Klicks nicht an. */
   overflow-x: hidden;
 }
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { business } from "@/data/business";
+import SmoothAnchors from "@/components/SmoothAnchors";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://elektro-hofmann.vercel.app"),
@@ -76,6 +77,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         {children}
+        <SmoothAnchors />
       </body>
     </html>
   );
