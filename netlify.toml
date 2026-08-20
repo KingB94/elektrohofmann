@@ -1,0 +1,36 @@
+# ---------------------------------------------------------------
+# Netlify-Konfiguration.
+#
+# Das Next.js-Plugin erkennt Netlify automatisch — hier stehen nur
+# die Dinge, die nicht von allein passen.
+# ---------------------------------------------------------------
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Die Entwurfsseiten und das Redaktionssystem gehören nicht in den
+# Suchindex. robots.txt regelt das bereits; dieser Kopfzeileneintrag
+# wirkt zusätzlich und unabhängig davon.
+[[headers]]
+  for = "/variante-a"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/variante-c"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/designs"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/keystatic/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

@@ -1,0 +1,26 @@
+<!-- ---------------------------------------------------------------
+     Diese Datei wird nie angezeigt.
+
+     Netlify durchsucht beim Bauen die fertigen HTML-Dateien nach
+     Formularen. Die Seiten von Next.js entstehen jedoch erst im
+     Browser bzw. auf dem Server — deshalb steht hier eine schlichte
+     Kopie des Formulars, damit Netlify die Felder kennt und
+     Einsendungen entgegennimmt.
+
+     Wichtig: Die Feldnamen müssen mit denen in
+     components/variants/VariantContactForm.tsx übereinstimmen.
+     --------------------------------------------------------------- -->
+<html>
+  <head>
+    <title>Formularerkennung</title>
+  </head>
+  <body>
+    <form name="anfrage" data-netlify="true" data-netlify-honeypot="firmenname" hidden>
+      <input type="hidden" name="form-name" value="anfrage" />
+      <input type="text" name="name" />
+      <input type="text" name="kontakt" />
+      <textarea name="nachricht"></textarea>
+      <input type="text" name="firmenname" />
+    </form>
+  </body>
+</html>

@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Send, Check, Loader2 } from "lucide-react";
-import { business } from "@/data/business";
+import { Send, Check, Loader2, AlertCircle } from "lucide-react";
 
 type Tone = "light" | "warm";
-type Status = "idle" | "sending" | "sent";
+type Status = "idle" | "sending" | "sent" | "error";
 
-// Wie in Variante A wird die Anfrage über das E-Mail-Programm der
-// Besucherin oder des Besuchers verschickt — ohne Server und ohne dass
-// personenbezogene Daten irgendwo zwischengespeichert werden.
+// Die Anfrage geht an Netlify Forms und landet dort im Postfach des
+// Betriebs — ohne eigenen Server und ohne Datenbank.
+//
+// Gesendet wird an /__forms.html: eine schlichte Kopie des Formulars
+// im public-Ordner, an der Netlify beim Bauen die Felder erkennt.
+// Die Feldnamen hier und dort müssen übereinstimmen.
+const FORMULARNAME = "anfrage";
 const tones: Record<
   Tone,
   { label: string; input: string; button: string; hint: string; sent: string }
@@ -40,16 +43,30 @@ export default function VariantContactForm({ tone = "light" }: { tone?: Tone }) 
   const [contact, setContact] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
+  // Honigtopf: für Menschen unsichtbar. Füllt ihn etwas aus, war es ein Bot.
+  const [firmenname, setFirmenname] = useState("");
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setStatus("sending");
-    const subject = encodeURIComponent(`Anfrage über die Website von ${name || "—"}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nTelefon/E-Mail: ${contact}\n\nAnliegen:\n${message}`
-    );
-    window.location.href = `mailto:${business.email}?subject=${subject}&body=${body}`;
-    setTimeout(() => setStatus("sent"), 900);
+
+    try {
+      const antwort = await fetch("/__forms.html", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          "form-name": FORMULARNAME,
+          name,
+          kontakt: contact,
+          nachricht: message,
+          firmenname,
+        }).toString(),
+      });
+      if (!antwort.ok) throw new Error(String(antwort.status));
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   }
 
   const labelClass = `mb-2 block font-mono text-[0.66rem] uppercase tracking-[0.12em] ${t.label}`;
@@ -98,28 +115,52 @@ export default function VariantContactForm({ tone = "light" }: { tone?: Tone }) 
         />
       </div>
 
-      <button type="submit" disabled={status === "sending"} className={t.button}>
-        {status === "idle" && (
+      {/* Für Menschen unsichtbar, für Bots verlockend. */}
+      <p className="hidden" aria-hidden="true">
+        <label>
+          Firmenname
+          <input
+            tabIndex={-1}
+            autoComplete="off"
+            value={firmenname}
+            onChange={(e) => setFirmenname(e.target.value)}
+          />
+        </label>
+      </p>
+
+      <button
+        type="submit"
+        disabled={status === "sending" || status === "sent"}
+        className={t.button}
+      >
+        {(status === "idle" || status === "error") && (
           <>
             Anfrage senden <Send size={14} />
           </>
         )}
         {status === "sending" && (
           <>
-            Wird geöffnet <Loader2 size={14} className="animate-spin" />
+            Wird gesendet <Loader2 size={14} className="animate-spin" />
           </>
         )}
         {status === "sent" && (
           <>
-            E-Mail geöffnet <Check size={14} />
+            Anfrage ist angekommen <Check size={14} />
           </>
         )}
       </button>
 
+      {status === "error" && (
+        <p className="flex items-start gap-2 text-xs leading-relaxed text-red-600">
+          <AlertCircle size={14} className="mt-0.5 shrink-0" />
+          Das hat leider nicht geklappt. Bitte rufen Sie uns kurz an — oder
+          versuchen Sie es in ein paar Minuten noch einmal.
+        </p>
+      )}
+
       <p className={`text-xs leading-relaxed ${t.hint}`}>
-        Der Knopf öffnet Ihr E-Mail-Programm mit vorausgefüllter Nachricht — es
-        werden keine Daten auf dieser Seite gespeichert. Für dringende Anliegen
-        rufen Sie am besten direkt an.
+        Ihre Angaben werden nur verwendet, um Ihre Anfrage zu beantworten. Für
+        dringende Anliegen rufen Sie am besten direkt an.
       </p>
     </form>
   );
