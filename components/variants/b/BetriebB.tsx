@@ -1,27 +1,18 @@
 import Image from "next/image";
 import { Award, ShieldCheck, Truck } from "lucide-react";
-import { business, timeline } from "@/data/business";
+import type { Betrieb, UeberUns } from "@/lib/inhalte";
 import Reveal from "@/components/variants/Reveal";
 
-const trust = [
-  {
-    icon: Award,
-    title: "Meisterbetrieb",
-    body: `${business.profession}, eingetragen bei der ${business.chamber}.`,
-  },
-  {
-    icon: ShieldCheck,
-    title: "Geprüfte Sicherheit",
-    body: "Prüfungen nach VDE 0701/0702 und BGV A3 inklusive Protokoll und Fristenkontrolle.",
-  },
-  {
-    icon: Truck,
-    title: "Eigenes Gerät",
-    body: "Teleskoplader im Betrieb — Dach- und Hallenarbeiten ohne fremde Hebebühne.",
-  },
-];
+// Symbole gehören zur Gestaltung und werden der Reihe nach vergeben.
+const symbole = [Award, ShieldCheck, Truck];
 
-export default function BetriebB() {
+export default function BetriebB({
+  betrieb,
+  ueberUns,
+}: {
+  betrieb: Betrieb;
+  ueberUns: UeberUns;
+}) {
   return (
     <section id="betrieb" className="scroll-mt-24 relative overflow-hidden bg-frost-base py-24 md:py-32">
       <div className="grid-bg absolute inset-0 opacity-30" />
@@ -31,25 +22,20 @@ export default function BetriebB() {
           <div>
             <Reveal>
               <span className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-blue">
-                Der Betrieb
+                {ueberUns.kicker}
               </span>
               <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight tracking-[-0.025em] text-carbon sm:text-5xl">
-                Ein Familienbetrieb,
-                <br />
-                kein Callcenter.
+                {ueberUns.headline.split("\n").map((zeile) => (
+                  <span key={zeile} className="block">
+                    {zeile}
+                  </span>
+                ))}
               </h2>
               <p className="mt-7 text-[1.02rem] leading-relaxed text-carbon/65">
-                {business.owner} gründete {business.name} am {business.founded} —
-                nach Jahren als Elektroinstallateur und Baustellenleiter und der
-                Meisterschule für Energie- und Gebäudetechnik. Aus dem
-                Ein-Mann-Betrieb wurde ein eingespieltes Team, das 2012 in ein
-                neues Betriebsgelände in Wonneberg-Greinachtal zog.
+                {ueberUns.absatz1}
               </p>
               <p className="mt-4 text-[1.02rem] leading-relaxed text-carbon/65">
-                Wer bei uns anruft, spricht mit jemandem, der die Anlage später
-                auch sieht. Pünktlichkeit, Sauberkeit und faire Preise sind
-                dabei keine Werbeversprechen, sondern die Bedingung dafür, dass
-                man im Chiemgau weiterempfohlen wird.
+                {ueberUns.absatz2}
               </p>
             </Reveal>
 
@@ -59,9 +45,9 @@ export default function BetriebB() {
                   FH
                 </span>
                 <div>
-                  <p className="font-display text-lg font-bold text-carbon">{business.owner}</p>
+                  <p className="font-display text-lg font-bold text-carbon">{betrieb.owner}</p>
                   <p className="font-mono text-[0.66rem] uppercase tracking-[0.13em] text-blue-deep">
-                    {business.ownerRole}
+                    {betrieb.ownerRole}
                   </p>
                 </div>
               </div>
@@ -72,7 +58,7 @@ export default function BetriebB() {
             <Reveal delay={0.05}>
               <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm border border-frost-line">
                 <Image
-                  src="/images/gewerbehalle.jpg"
+                  src={ueberUns.bildGross}
                   alt="Elektroinstallation in einer Gewerbehalle"
                   fill
                   sizes="(max-width: 1024px) 92vw, 520px"
@@ -86,7 +72,7 @@ export default function BetriebB() {
               <Reveal delay={0.1} className="h-full">
                 <div className="relative h-full min-h-[190px] w-full overflow-hidden rounded-sm border border-frost-line">
                   <Image
-                    src="/images/teleskoplader.jpg"
+                    src={ueberUns.bildKlein}
                     alt="Teleskoplader von Elektro Hofmann im Einsatz vor dem Betriebsgebäude"
                     fill
                     sizes="(max-width: 640px) 92vw, 250px"
@@ -97,7 +83,7 @@ export default function BetriebB() {
 
               <Reveal delay={0.15} className="h-full">
                 <ol className="flex h-full flex-col justify-between gap-3 rounded-sm border border-frost-line bg-frost p-6">
-                  {timeline.map((t) => (
+                  {ueberUns.chronik.map((t) => (
                     <li key={t.year} className="flex gap-4">
                       <span className="w-12 shrink-0 font-mono text-[0.66rem] uppercase tracking-[0.08em] text-blue">
                         {t.year}
@@ -112,8 +98,8 @@ export default function BetriebB() {
         </div>
 
         <div className="mt-20 grid gap-px overflow-hidden rounded-sm border border-frost-line bg-frost-line md:grid-cols-3">
-          {trust.map((t, i) => {
-            const Icon = t.icon;
+          {ueberUns.vertrauen.map((t, i) => {
+            const Icon = symbole[i % symbole.length];
             return (
               <Reveal key={t.title} delay={i * 0.1}>
                 <div className="flex h-full flex-col bg-frost p-8">

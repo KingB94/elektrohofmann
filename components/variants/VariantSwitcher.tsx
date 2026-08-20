@@ -4,12 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 
-// Kleine Leiste zum Umschalten zwischen den drei Entwürfen. Reines
-// Vorschau-Werkzeug für die Abstimmung — vor dem Live-Schalten wird
-// diese Komponente aus den Layouts entfernt (siehe README).
+// Kleine Leiste zum Umschalten zwischen den drei Entwürfen. Liegt nur
+// auf den archivierten Entwürfen A und C, nicht auf der öffentlichen
+// Seite — Entwurf B ist inzwischen die Startseite.
 const versions = [
-  { href: "/", key: "a", label: "A", name: "Hell & Sachlich" },
-  { href: "/variante-b", key: "b", label: "B", name: "Hell & Premium" },
+  { href: "/variante-a", key: "a", label: "A", name: "Hell & Sachlich" },
+  { href: "/", key: "b", label: "B", name: "Hell & Premium" },
   { href: "/variante-c", key: "c", label: "C", name: "Warm & Handwerklich" },
 ];
 

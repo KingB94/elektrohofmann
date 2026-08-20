@@ -1,5 +1,14 @@
 // ---------------------------------------------------------------
-// Alle Inhalte der Website an einem Ort.
+// ACHTUNG: Diese Datei versorgt nur noch die archivierten Entwürfe
+// A (/variante-a) und C (/variante-c).
+//
+// Die öffentliche Website liegt unter "/" und bezieht ihre Inhalte
+// aus dem Redaktionssystem — siehe /content und lib/inhalte.ts.
+// Änderungen hier wirken sich NICHT auf die Live-Seite aus.
+// ---------------------------------------------------------------
+
+// ---------------------------------------------------------------
+// Alle Inhalte der Entwürfe A und C an einem Ort.
 // Ändern Sie Texte, Zahlen und Öffnungszeiten einfach hier —
 // der Rest der Seite aktualisiert sich automatisch.
 //
@@ -67,10 +76,10 @@ export const yearsInBusiness = (() => {
 export const yearsInTrade = new Date().getFullYear() - 1991;
 
 export const timeline = [
-  { year: "1991", label: "Beginn der Ausbildung zum Elektroinstallateur" },
-  { year: "2004", label: "Abschluss zum Elektromeister für Energie- und Gebäudetechnik" },
+  { year: "1991", label: "Ausbildung zum Elektroinstallateur bei Elektro Rehrl in Lauter" },
+  { year: "2004", label: "Meisterprüfung für Energie- und Gebäudetechnik" },
   { year: "2005", label: "Gründung der Firma Elektro Hofmann" },
-  { year: "2012", label: "Neubau des Betriebsgeländes in Wonneberg-Greinachtal" },
+  { year: "2012", label: "Neubau von Betriebsgelände und Büro in Greinachtal" },
   { year: "heute", label: "Familienbetrieb mit eingespieltem Team im Chiemgau" },
 ];
 
@@ -84,37 +93,37 @@ export const services: Service[] = [
   {
     title: "Elektroinstallation",
     description:
-      "Neubau, Sanierung und Erweiterung — vom Garagenanschluss bis zum Gewerbebau, kein Auftrag ist uns zu klein.",
+      "Neubau, Sanierung und Erweiterung — von der Garage über das Mehrfamilienhaus bis zum Gewerbebau. Kein Auftrag ist uns zu klein.",
     icon: "install",
   },
   {
     title: "Photovoltaik & Solartechnik",
     description:
-      "Planung und Montage moderner PV-Anlagen, inklusive Dacharbeiten mit eigenem Teleskoplader.",
+      "Planung und Montage moderner PV-Anlagen. Die Arbeiten am Dach übernehmen wir mit dem eigenen Teleskoplader — bis 10 Meter Hubhöhe, ohne fremde Hebebühne.",
     icon: "solar",
   },
   {
     title: "VDE-Prüfungen & E-Check",
     description:
-      "Sicherheitsprüfungen nach VDE 0701/0702 und BGV A3 inklusive Protokollierung und Fristenkontrolle.",
+      "E-Check mit Besichtigung, nötigen Reparaturen und Anlagenprüfung samt Protokoll. Geräteprüfungen nach VDE 0701/0702 und DGUV Vorschrift 3 — auf Wunsch mit Erinnerung an fällige Fristen.",
     icon: "check",
   },
   {
     title: "Geräteverkauf & Reparatur",
     description:
-      "Haushaltsgeräte namhafter Marken sowie Reparatur vom Kleingerät bis zur Waschmaschine in eigener Werkstatt.",
+      "Markengeräte aus dem Elektrogroßhandel, geliefert und auf Wunsch aufgestellt. Reparatur vom Kleingerät bis zur Waschmaschine in der eigenen Werkstatt — zum normalen Stundenlohn, nicht zum Kundendiensttarif.",
     icon: "repair",
   },
   {
     title: "TV-, SAT- & Telefonanlagen",
     description:
-      "Installation und Einmessung von Sat- und Kabelanlagen sowie Telefonanlagen von Agfeo und Auerswald.",
+      "Sat- und Kabelanlagen von Kathrein, Fuba und Hirschmann, exakt eingemessen — vom Einfamilienhaus bis zu 50 Teilnehmern. Dazu Telefonanlagen von Agfeo und Auerswald.",
     icon: "media",
   },
   {
     title: "LED- & Beleuchtungstechnik",
     description:
-      "Umrüstung auf energiesparende LED-Technik für Zuhause, Betrieb und Gewerbehalle.",
+      "Umrüstung alter Beleuchtung auf LED. In einer Montagehalle ersetzt heute eine 57-Watt-Leuchte die alte Wannenleuchte mit 2 × 58 Watt — mehr Licht am Boden bei halber Leistung.",
     icon: "led",
   },
 ];

@@ -4,34 +4,16 @@ import { useEffect, useRef } from "react";
 import { PhoneCall, PencilRuler, ClipboardCheck } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { Ablauf } from "@/lib/inhalte";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const steps = [
-  {
-    n: "01",
-    icon: PhoneCall,
-    title: "Anruf und Ortstermin",
-    body: "Sie schildern uns Ihr Anliegen am Telefon. Wo es sinnvoll ist, schauen wir uns die Sache vor Ort an — bei einer Störung so schnell wie möglich, bei einem geplanten Projekt in Ruhe.",
-    aside: "Anruf genügt",
-  },
-  {
-    n: "02",
-    icon: PencilRuler,
-    title: "Angebot und Planung",
-    body: "Sie bekommen ein Angebot mit nachvollziehbaren Positionen und einen Terminvorschlag. Bei größeren Vorhaben stimmen wir uns mit den anderen Gewerken ab, damit auf der Baustelle niemand aufeinander wartet.",
-    aside: "Feste Positionen",
-  },
-  {
-    n: "03",
-    icon: ClipboardCheck,
-    title: "Ausführung und Abnahme",
-    body: "Wir arbeiten sauber, räumen hinter uns auf und übergeben Ihnen zum Schluss die Anlage samt Prüfprotokoll. Fragen danach beantworten wir selbstverständlich auch noch in einem Jahr.",
-    aside: "Mit Protokoll",
-  },
-];
+// Die Symbole gehören zur Gestaltung, nicht zum Inhalt — sie werden
+// der Reihe nach vergeben. Legt der Kunde einen vierten Schritt an,
+// fängt die Reihe wieder von vorne an.
+const symbole = [PhoneCall, PencilRuler, ClipboardCheck];
 
-export default function ProtocolB() {
+export default function ProtocolB({ ablauf }: { ablauf: Ablauf }) {
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -68,25 +50,26 @@ export default function ProtocolB() {
     <section id="ablauf" className="scroll-mt-24 relative bg-frost-base pb-24 md:pb-32">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <span className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-blue">
-          Ablauf
+          {ablauf.kicker}
         </span>
         <h2 className="mt-5 max-w-2xl font-display text-3xl font-extrabold leading-tight tracking-[-0.025em] text-carbon sm:text-5xl">
-          Drei Schritte, keine Überraschungen.
+          {ablauf.headline}
         </h2>
       </div>
 
       <div ref={root} className="mx-auto max-w-6xl px-5 md:px-8">
         <div className="mt-16">
-          {steps.map((s) => {
-            const Icon = s.icon;
+          {ablauf.schritte.map((s, i) => {
+            const Icon = symbole[i % symbole.length];
+            const nummer = String(i + 1).padStart(2, "0");
             return (
-              <div key={s.n} className="protocol-card sticky top-28 mb-6 will-change-transform">
+              <div key={nummer} className="protocol-card sticky top-28 mb-6 will-change-transform">
                 {/* Schatten trägt auf hellem Grund die Staffelung — sonst
                     sähe die obenauf liegende Karte flach aus. */}
                 <div className="overflow-hidden rounded-sm border border-frost-line bg-frost shadow-xl shadow-carbon/8">
                   <div className="grid gap-8 p-8 md:grid-cols-[auto_1fr_auto] md:items-start md:gap-12 md:p-12">
                     <span className="font-mono text-5xl font-medium leading-none text-blue/25 md:text-7xl">
-                      {s.n}
+                      {nummer}
                     </span>
                     <div>
                       <div className="flex items-center gap-3">

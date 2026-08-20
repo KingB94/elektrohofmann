@@ -1,64 +1,72 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { business } from "@/data/business";
+import { getBetrieb } from "@/lib/inhalte";
+import { siteUrl } from "@/lib/site";
 import SmoothAnchors from "@/components/SmoothAnchors";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://elektro-hofmann.vercel.app"),
-  title: {
-    default: `${business.name} – ${business.legalSuffix}`,
-    template: `%s – ${business.name}`,
-  },
-  description:
-    "Elektro Hofmann: Elektroinstallation, Photovoltaik, VDE-Prüfungen und Gerätereparatur aus Wonneberg im Chiemgau — Meisterbetrieb seit 2005.",
-  keywords: [
-    "Elektriker Wonneberg",
-    "Elektroinstallation Chiemgau",
-    "Photovoltaik Traunstein",
-    "Elektromeister Wonneberg",
-    "VDE Prüfung Traunstein",
-    "Elektro Hofmann",
-  ],
-  openGraph: {
-    title: `${business.name} – ${business.legalSuffix}`,
-    description:
-      "Elektroinstallation, Photovoltaik, VDE-Prüfungen und Gerätereparatur — Meisterbetrieb seit 2005 in Wonneberg.",
-    url: "https://elektro-hofmann.vercel.app",
-    siteName: business.name,
-    locale: "de_DE",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const betrieb = await getBetrieb();
+  const beschreibung =
+    "Elektro Hofmann: Elektroinstallation, Photovoltaik, VDE-Prüfungen und Gerätereparatur aus Wonneberg im Chiemgau — Meisterbetrieb seit 2005.";
 
-export default function RootLayout({
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: `${betrieb.name} – ${betrieb.legalSuffix}`,
+      template: `%s – ${betrieb.name}`,
+    },
+    description: beschreibung,
+    keywords: [
+      "Elektriker Wonneberg",
+      "Elektroinstallation Chiemgau",
+      "Photovoltaik Traunstein",
+      "Elektromeister Wonneberg",
+      "VDE Prüfung Traunstein",
+      "Elektro Hofmann",
+    ],
+    openGraph: {
+      title: `${betrieb.name} – ${betrieb.legalSuffix}`,
+      description: beschreibung,
+      url: siteUrl,
+      siteName: betrieb.name,
+      locale: "de_DE",
+      type: "website",
+    },
+    robots: { index: true, follow: true },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const betrieb = await getBetrieb();
+
+  // Strukturierte Daten für Google — sorgen dafür, dass Adresse,
+  // Telefonnummer und Öffnungszeiten direkt in der Suche erscheinen.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Electrician",
-    name: business.name,
-    image: "https://elektro-hofmann.vercel.app/images/betriebsgelaende-luftbild.jpg",
-    telephone: business.phoneDisplay,
-    email: business.email,
+    name: betrieb.name,
+    image: `${siteUrl}/images/betriebsgelaende-luftbild.jpg`,
+    telephone: betrieb.phoneDisplay,
+    email: betrieb.email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: business.address.street,
-      postalCode: business.address.zip,
-      addressLocality: business.address.city,
+      streetAddress: betrieb.address.street,
+      postalCode: betrieb.address.zip,
+      addressLocality: betrieb.address.city,
       addressCountry: "DE",
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: business.geo.lat,
-      longitude: business.geo.lng,
+      latitude: betrieb.geo.lat,
+      longitude: betrieb.geo.lng,
     },
-    foundingDate: "2005-08-15",
+    foundingDate: betrieb.foundedISO,
+    // Feste Zeiten, weil Google hier ein maschinenlesbares Format
+    // erwartet. Ändern sich die Öffnungszeiten, bitte hier mitziehen.
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",

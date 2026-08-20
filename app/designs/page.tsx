@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 
 const variants = [
   {
-    href: "/",
+    href: "/variante-a",
     label: "A",
     name: "Hell & Sachlich",
-    tagline: "Die aktuelle Fassung",
+    tagline: "Entwurf",
     body: "Heller Hintergrund, Firmenblau aus dem Logo, klares Raster. Ruhig, gut lesbar und schnell erfassbar — die Version, die schon steht.",
     points: ["Blau/Grau aus dem Logo", "Leistungen als Kachelraster", "Kompakte Startseite"],
     swatches: ["#faf9f7", "#066eb5", "#0b1d2c"],
@@ -24,10 +24,10 @@ const variants = [
     accent: "text-blue-deep",
   },
   {
-    href: "/variante-b",
+    href: "/",
     label: "B",
     name: "Hell & Premium",
-    tagline: "Neuer Entwurf",
+    tagline: "Gewählt — jetzt die Website",
     body: "Hell und luftig, das Luftbild bildschirmfüllend, große Typografie und Bewegung beim Scrollen. Ausschließlich die Logofarben Blau, Grau und Schwarz auf Weiß — wirkt hochwertig, ohne technisch-kühl zu werden.",
     points: [
       "Vollbild-Hero mit Luftbild",
@@ -44,7 +44,7 @@ const variants = [
     href: "/variante-c",
     label: "C",
     name: "Warm & Handwerklich",
-    tagline: "Neuer Entwurf",
+    tagline: "Entwurf",
     body: "Warmes Papierweiß, Serifenschrift, Kupfer als Akzent. Erinnert eher an einen gedruckten Firmenprospekt als an eine Technikseite — bodenständig, persönlich, regional.",
     points: [
       "Zweigeteilter Einstieg mit Bild",

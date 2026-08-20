@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { business } from "@/data/business";
+import type { Betrieb } from "@/lib/inhalte";
 
 const links = [
   { href: "#leistungen", label: "Leistungen" },
@@ -9,7 +9,7 @@ const links = [
   { href: "#kontakt", label: "Kontakt" },
 ];
 
-export default function FooterB() {
+export default function FooterB({ betrieb }: { betrieb: Betrieb }) {
   const year = new Date().getFullYear();
 
   return (
@@ -26,13 +26,13 @@ export default function FooterB() {
           <div>
             <Image
               src="/images/logo.png"
-              alt={business.name}
+              alt={betrieb.name}
               width={130}
               height={80}
               className="h-7 w-auto object-contain"
             />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-carbon/55">
-              {business.legalSuffix} in {business.address.city}. Elektroinstallation,
+              {betrieb.legalSuffix} in {betrieb.address.city}. Elektroinstallation,
               Photovoltaik und Gerätereparatur im Chiemgau seit 2005.
             </p>
             <div className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-frost-line px-4 py-2">
@@ -61,18 +61,18 @@ export default function FooterB() {
               Kontakt
             </p>
             <div className="mt-5 flex flex-col gap-3 text-sm text-carbon/65">
-              <span>{business.address.full}</span>
-              <a href={business.phoneHref} className="transition-colors hover:text-blue">
-                {business.phoneDisplay}
+              <span>{betrieb.address.full}</span>
+              <a href={betrieb.phoneHref} className="transition-colors hover:text-blue">
+                {betrieb.phoneDisplay}
               </a>
-              <a href={business.mobileHref} className="transition-colors hover:text-blue">
-                {business.mobileDisplay}
+              <a href={betrieb.mobileHref} className="transition-colors hover:text-blue">
+                {betrieb.mobileDisplay}
               </a>
               <a
-                href={`mailto:${business.email}`}
+                href={`mailto:${betrieb.email}`}
                 className="break-all transition-colors hover:text-blue"
               >
-                {business.email}
+                {betrieb.email}
               </a>
             </div>
           </div>
@@ -80,7 +80,7 @@ export default function FooterB() {
 
         <div className="mt-14 flex flex-col gap-4 border-t border-frost-line pt-7 text-xs text-carbon/45 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} {business.name}. Alle Rechte vorbehalten.
+            © {year} {betrieb.name}. Alle Rechte vorbehalten.
           </p>
           <div className="flex gap-6">
             <Link href="/impressum" className="hover:text-blue">

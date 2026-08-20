@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { business } from "@/data/business";
+import { getBetrieb } from "@/lib/inhalte";
 
 export const metadata: Metadata = {
   title: "Datenschutz",
@@ -15,17 +15,21 @@ export const metadata: Metadata = {
 // sind).
 // ---------------------------------------------------------------
 
-export default function DatenschutzPage() {
+export default async function DatenschutzPage() {
+  const business = await getBetrieb();
+
   return (
-    <div className="mx-auto max-w-3xl px-5 py-20 md:px-8 md:py-28">
-      <span className="plate-badge text-blue-deep">Rechtliches</span>
-      <h1 className="mt-5 font-display text-4xl font-bold tracking-tight text-ink">
+    <div className="mx-auto max-w-3xl px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
+      <span className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-blue">
+        Rechtliches
+      </span>
+      <h1 className="mt-5 font-display text-4xl font-bold tracking-tight text-carbon">
         Datenschutzerklärung
       </h1>
 
-      <div className="prose prose-neutral mt-10 max-w-none space-y-8 text-[0.98rem] leading-relaxed text-ink/85">
+      <div className="mt-10 max-w-none space-y-8 text-[0.98rem] leading-relaxed text-carbon/80">
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">1. Verantwortlicher</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">1. Verantwortlicher</h2>
           <p className="mt-2">
             {business.owner}
             <br />
@@ -38,7 +42,7 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">2. Hosting</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">2. Hosting</h2>
           <p className="mt-2">
             Diese Website wird bei Vercel Inc. gehostet. Dabei können technisch bedingt
             Server-Logdaten (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene
@@ -49,7 +53,7 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">3. Schriftarten</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">3. Schriftarten</h2>
           <p className="mt-2">
             Alle Schriftarten sind lokal auf dem Server dieser Website eingebunden
             (Self-Hosting). Es findet keine Verbindung zu Google Fonts oder anderen
@@ -59,7 +63,7 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">4. Google Maps (Kartenausschnitt)</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">4. Google Maps (Kartenausschnitt)</h2>
           <p className="mt-2">
             Im Kontaktbereich bieten wir die Möglichkeit, einen Kartenausschnitt von Google
             Maps zu laden, um die Anfahrt zu unserem Betrieb zu erleichtern. Die Karte wird
@@ -71,7 +75,7 @@ export default function DatenschutzPage() {
               href="https://policies.google.com/privacy"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-deep underline"
+              className="text-blue underline"
             >
               policies.google.com/privacy
             </a>
@@ -80,7 +84,7 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">5. Kontaktformular</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">5. Kontaktformular</h2>
           <p className="mt-2">
             Unser Kontaktformular öffnet Ihr eigenes E-Mail-Programm mit einer
             vorausgefüllten Nachricht (sogenannter „mailto&rdquo;-Link). Die eingegebenen
@@ -93,7 +97,7 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">6. Cookies &amp; Tracking</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">6. Cookies &amp; Tracking</h2>
           <p className="mt-2">
             Diese Website verwendet aktuell keine Analyse-, Marketing- oder Tracking-Cookies
             und keine vergleichbaren Dienste (z. B. Google Analytics). Es werden nur
@@ -104,7 +108,7 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">7. Ihre Rechte</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">7. Ihre Rechte</h2>
           <p className="mt-2">
             Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung oder
             Einschränkung der Verarbeitung Ihrer personenbezogenen Daten sowie ein Recht auf

@@ -1,10 +1,15 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import VariantSwitcher from "@/components/variants/VariantSwitcher";
+import type { Metadata } from "next";
 
-// Rahmen (Kopf- und Fußzeile) für Variante A — die aktuelle Version.
-// Die Alternativentwürfe unter /variante-b und /variante-c bringen ihren
-// eigenen Rahmen mit und liegen deshalb außerhalb dieser Gruppe.
+export const metadata: Metadata = {
+  title: "Entwurf A – Hell & Sachlich",
+  robots: { index: false, follow: false },
+};
+
+// Rahmen für den archivierten Entwurf A. Nicht die öffentliche
+// Seite — die liegt unter "/" und nutzt Entwurf B.
 export default function VarianteALayout({
   children,
 }: Readonly<{
@@ -15,8 +20,6 @@ export default function VarianteALayout({
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
-      {/* Nur für die Abstimmung mit dem Kunden — vor dem Live-Schalten
-          diese Zeile löschen (siehe README). */}
       <VariantSwitcher current="a" />
     </div>
   );

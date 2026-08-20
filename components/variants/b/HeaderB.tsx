@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, Menu, X, ArrowUpRight } from "lucide-react";
-import { business } from "@/data/business";
+import type { Betrieb } from "@/lib/inhalte";
 
 const navLinks = [
   { href: "#leistungen", label: "Leistungen" },
@@ -13,7 +13,7 @@ const navLinks = [
   { href: "#kontakt", label: "Kontakt" },
 ];
 
-export default function HeaderB() {
+export default function HeaderB({ betrieb }: { betrieb: Betrieb }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -44,7 +44,7 @@ export default function HeaderB() {
           <Link href="/variante-b" className="flex items-center" onClick={() => setOpen(false)}>
             <Image
               src="/images/logo.png"
-              alt={business.name}
+              alt={betrieb.name}
               width={140}
               height={87}
               className="h-6 w-auto object-contain md:h-7"
@@ -66,11 +66,11 @@ export default function HeaderB() {
 
           <div className="flex items-center gap-2">
             <a
-              href={business.phoneHref}
+              href={betrieb.phoneHref}
               className="hidden items-center gap-2 rounded-full bg-blue px-5 py-2.5 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-white transition-transform duration-200 hover:scale-[1.04] md:inline-flex"
             >
               <Phone size={13} strokeWidth={2.4} />
-              {business.phoneDisplay}
+              {betrieb.phoneDisplay}
             </a>
             <button
               className="rounded-full border border-frost-line bg-white/80 p-2 text-carbon backdrop-blur md:hidden"
@@ -100,11 +100,11 @@ export default function HeaderB() {
             ))}
           </nav>
           <a
-            href={business.phoneHref}
+            href={betrieb.phoneHref}
             className="mt-8 flex items-center justify-center gap-2 rounded-full bg-blue px-6 py-4 font-mono text-xs uppercase tracking-[0.12em] text-white"
           >
             <Phone size={15} strokeWidth={2.4} />
-            {business.phoneDisplay}
+            {betrieb.phoneDisplay}
           </a>
         </div>
       )}

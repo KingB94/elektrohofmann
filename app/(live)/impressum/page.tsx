@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { business } from "@/data/business";
+import { getBetrieb } from "@/lib/inhalte";
 
 export const metadata: Metadata = {
   title: "Impressum",
@@ -16,18 +16,22 @@ export const metadata: Metadata = {
 // Anwalt prüfen lassen.
 // ---------------------------------------------------------------
 
-export default function ImpressumPage() {
+export default async function ImpressumPage() {
+  const business = await getBetrieb();
+
   return (
-    <div className="mx-auto max-w-3xl px-5 py-20 md:px-8 md:py-28">
-      <span className="plate-badge text-blue-deep">Rechtliches</span>
-      <h1 className="mt-5 font-display text-4xl font-bold tracking-tight text-ink">
+    <div className="mx-auto max-w-3xl px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
+      <span className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-blue">
+        Rechtliches
+      </span>
+      <h1 className="mt-5 font-display text-4xl font-bold tracking-tight text-carbon">
         Impressum
       </h1>
-      <p className="mt-3 text-sm text-ink/55">Angaben gemäß § 5 TMG</p>
+      <p className="mt-3 text-sm text-carbon/55">Angaben gemäß § 5 TMG</p>
 
-      <div className="prose prose-neutral mt-10 max-w-none space-y-8 text-[0.98rem] leading-relaxed text-ink/85">
+      <div className="mt-10 max-w-none space-y-8 text-[0.98rem] leading-relaxed text-carbon/80">
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">Verantwortlich für den Inhalt</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">Verantwortlich für den Inhalt</h2>
           <p className="mt-2">
             {business.owner}
             <br />
@@ -40,7 +44,7 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">Kontakt</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">Kontakt</h2>
           <p className="mt-2">
             Telefon: {business.phoneDisplay}
             <br />
@@ -51,7 +55,7 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">Rechtsform &amp; Berufsangaben</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">Rechtsform &amp; Berufsangaben</h2>
           <p className="mt-2">
             Rechtsform: {business.legalForm}
             <br />
@@ -64,14 +68,14 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">EU-Streitschlichtung</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">EU-Streitschlichtung</h2>
           <p className="mt-2">
             Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{" "}
             <a
               href="https://ec.europa.eu/consumers/odr/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-deep underline"
+              className="text-blue underline"
             >
               https://ec.europa.eu/consumers/odr/
             </a>
@@ -82,7 +86,7 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">Haftung für Inhalte</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">Haftung für Inhalte</h2>
           <p className="mt-2">
             Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach
             den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter
@@ -93,7 +97,7 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-bold text-ink">Haftung für Links</h2>
+          <h2 className="font-display text-lg font-bold text-carbon">Haftung für Links</h2>
           <p className="mt-2">
             Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen
             Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.
