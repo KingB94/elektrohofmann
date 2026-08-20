@@ -1,20 +1,21 @@
-# Fragen an Elektro Hofmann — Entwurf für die E-Mail
+# E-Mail an Elektro Hofmann
 
-Stand: 20.08.2026. Unten steht ein fertiger Text zum Kopieren, davor die
-Begründung je Frage für dich.
+Stand: 20.08.2026. Unten ein fertiger Text zum Kopieren — erst eine kurze
+Erklärung des Aufbaus in Alltagssprache, dann alle offenen Fragen.
+Davor die Priorisierung, nur für dich.
 
 ---
 
-## Warum welche Frage — nur für dich
+## Welche Frage wie dringend ist — nur für dich
 
-| # | Frage | Warum sie wichtig ist | Blockiert? |
+| # | Frage | Warum sie wichtig ist | Vor dem Termin? |
 | --- | --- | --- | --- |
 | 1 | Welche Domain? | Bestimmt DNS-Umstellung, `NEXT_PUBLIC_SITE_URL`, OAuth-Callback und ob die alte Seite automatisch verschwindet | **ja** |
 | 2 | Alte Seite abschalten | Unsichere Joomla-Installation darf nicht online bleiben | **ja** |
 | 3 | E-Mail-Postfächer bei Strato? | Falsch angefasste MX-Einträge legen die Firmen-Mail lahm | **ja** |
 | 4 | GitHub-Account | Ohne ihn kein Login ins Redaktionssystem | **ja** |
 | 5 | Impressumsangaben | Rechtlich relevant, Quelle ist von ~2014 | **ja** |
-| 6 | Öffnungszeiten | Stehen auf der Seite und in den Google-Daten | ja |
+| 6 | Öffnungszeiten | Stehen auf der Seite und im strukturierten Datensatz für Google | ja |
 | 7 | Kontakt-Adresse | Formular und alle Mail-Links hängen daran | ja |
 | 8 | Fotos | Alte Bilder sind lizenzrechtlich nicht übernehmbar | ja |
 | 9 | Teamgröße | Zahl von ~2014, aktuell bewusst weggelassen | nein |
@@ -22,54 +23,91 @@ Begründung je Frage für dich.
 | 11 | Link auf elektro-demel.de | Möglicherweise eingeschleuster SEO-Link | nein |
 | 12 | Google-Bewertungen | Zahl auf der Seite stammt aus einer Schätzung | nein |
 
-Punkte 1–5 sollten vor dem Termin beantwortet sein, sonst kommst du vor Ort
-nicht durch. Der Rest lässt sich auch beim Termin klären.
+Ohne Antwort auf 1–5 kommst du beim Termin nicht durch.
 
 ---
 
 ## Der E-Mail-Text
 
-**Betreff:** Ihre neue Website — ein paar Angaben brauche ich noch von Ihnen
+**Betreff:** Ihre neue Website — so läuft es, und was ich noch von Ihnen brauche
 
 Sehr geehrter Herr Hofmann,
 
-die neue Website steht so weit und das Redaktionssystem ist eingerichtet — Sie
-können damit später alle Texte und Bilder selbst ändern, ohne mich anrufen zu
-müssen. Ich habe dafür auch die Inhalte Ihrer bisherigen Seite gesichtet und die
-Texte übernommen, die weiterhin passen.
+die neue Website steht so weit. Bevor wir sie aufschalten, möchte ich Ihnen
+kurz erklären, wie das Ganze künftig funktioniert — und ein paar Dinge von
+Ihnen wissen.
 
-Bevor wir die Seite unter Ihrer Adresse aufschalten, brauche ich noch ein paar
-Angaben von Ihnen. Am wichtigsten sind die ersten fünf Punkte — die anderen
-können wir auch gerne beim Termin gemeinsam durchgehen.
+---
+
+### So wird es aufgebaut sein
+
+**Ihre Internetadresse bleibt, wo sie ist.**
+Die Adresse liegt weiter bei Strato, dort ändert sich für Sie nichts. Nur der
+Ort, an dem die Seite selbst gespeichert ist, wechselt. Das funktioniert
+ungefähr wie eine Rufumleitung: Die Nummer bleibt dieselbe, es klingelt nur an
+einem anderen Apparat.
+
+**Die Seite selbst liegt künftig bei einem Anbieter namens Netlify.**
+Für eine Website Ihrer Größe ist das kostenlos. Das Sicherheitszertifikat —
+also das, was aktuell bei Ihrer alten Seite fehlt und die Warnung im Browser
+auslöst — wird dort automatisch erstellt und von selbst erneuert. Darum müssen
+Sie sich nie kümmern.
+
+**Sie können Ihre Website selbst bearbeiten.**
+Sie rufen dafür eine eigene Adresse auf, melden sich an und sehen dann eine
+Übersicht: Kopfbereich, Leistungen, Der Betrieb, Kontakt und so weiter. Text
+anklicken, ändern, speichern — nach etwa einer Minute steht es auf der Seite.
+Bilder tauschen Sie genauso aus. Sie müssen dafür nichts installieren, es
+läuft im Browser und funktioniert auch am Tablet.
+
+**Die Anmeldung läuft über einen Dienst namens GitHub.**
+Dort wird der „Bauplan" Ihrer Website gespeichert. Sie brauchen dafür ein
+kostenloses Benutzerkonto — das ist sozusagen Ihr Schlüssel zum Bearbeiten.
+Der angenehme Nebeneffekt: Jede Änderung wird mitgeschrieben. Wenn Sie einmal
+versehentlich etwas löschen, lässt sich das zurückholen.
+
+**Anfragen über das Kontaktformular** kommen künftig als E-Mail bei Ihnen an,
+statt wie bisher das Mailprogramm des Besuchers zu öffnen. Das ist besonders
+am Handy zuverlässiger.
+
+**Was das laufend kostet:** nur Ihre Internetadresse bei Strato, also das, was
+Sie ohnehin schon zahlen. Der Speicherplatz für die Seite, das
+Bearbeitungssystem und das Sicherheitszertifikat kosten nichts.
+
+---
+
+### Was ich noch von Ihnen brauche
+
+Am wichtigsten sind die ersten fünf Punkte — die brauche ich möglichst vor
+unserem Termin. Den Rest können wir auch gerne gemeinsam durchgehen.
 
 **1. Ihre Internetadresse**
 Unter welcher Adresse soll die neue Seite laufen — weiterhin unter
-elektrohofmann.info, oder haben Sie noch eine weitere Adresse (zum Beispiel eine
-mit `.de` am Ende)? Falls es mehrere gibt, nennen Sie mir bitte alle, dann leite
-ich die übrigen auf die Hauptadresse weiter.
+elektrohofmann.info, oder haben Sie noch eine weitere (zum Beispiel eine mit
+`.de` am Ende)? Falls es mehrere gibt, nennen Sie mir bitte alle. Ich leite die
+übrigen dann auf die Hauptadresse weiter, damit niemand ins Leere läuft.
 
 **2. Ihre bisherige Seite**
-Die alte Seite läuft auf einer veralteten Technik und ist deshalb nicht
-verschlüsselt — das ist der Grund für die Sicherheitswarnung im Browser. Sie
-sollte abgeschaltet werden, sobald die neue Seite online ist. Wissen Sie, wer
-sie damals eingerichtet hat und wo sie liegt? Im Impressum steht die Firma
-jkv-onliner.de.
+Die alte Seite läuft auf einer Technik, die seit vielen Jahren nicht mehr
+aktualisiert wurde. Sie sollte abgeschaltet werden, sobald die neue online ist
+— sonst bleibt sie als Sicherheitslücke bestehen. Wissen Sie, wer sie damals
+eingerichtet hat und wo sie liegt? Im Impressum steht die Firma jkv-onliner.de.
 
 **3. Ihre E-Mail-Postfächer**
 Wo liegen Ihre Firmen-Postfächer — bei Strato, oder nutzen Sie ausschließlich
-die t-online-Adresse? Das ist wichtig, weil ich bei der Umstellung bestimmte
-Einstellungen unangetastet lassen muss, damit Ihre E-Mails weiter ankommen.
+die t-online-Adresse? Das muss ich wissen, weil ich bei der Umstellung
+bestimmte Einstellungen unangetastet lassen muss, damit Ihre E-Mails weiter
+ankommen.
 
-**4. Zugang zum Redaktionssystem**
-Damit Sie Ihre Website selbst bearbeiten können, brauchen Sie ein kostenloses
-Benutzerkonto bei GitHub — darüber läuft die Anmeldung. Das ist in fünf Minuten
-angelegt unter github.com. Wenn Sie mir danach den gewählten Benutzernamen
-schicken, schalte ich Sie frei. Falls Ihnen das lieber ist, machen wir das auch
+**4. Zugang zum Bearbeitungssystem**
+Bitte legen Sie sich ein kostenloses Konto unter github.com an — das dauert
+etwa fünf Minuten. Schicken Sie mir anschließend den gewählten Benutzernamen,
+dann schalte ich Sie frei. Falls Ihnen das lieber ist, machen wir das auch
 gemeinsam beim Termin.
 
 **5. Angaben fürs Impressum**
-Diese habe ich aus Ihrem alten Impressum übernommen. Bitte prüfen Sie, ob alles
-noch stimmt:
+Diese habe ich aus Ihrem alten Impressum übernommen. Bitte prüfen Sie, ob noch
+alles stimmt:
 
 - Rechtsform: Einzelunternehmen
 - Umsatzsteuer-ID: DE244185087
@@ -79,13 +117,13 @@ noch stimmt:
   Rede. Welche Bezeichnung ist die richtige?
 
 **6. Öffnungszeiten**
-Auf der neuen Seite steht derzeit Montag bis Freitag, 8 bis 18 Uhr. Stimmt das
-so, oder soll ich etwas anderes eintragen? Diese Zeiten erscheinen auch bei
-Google.
+Auf der neuen Seite steht derzeit Montag bis Freitag, 8 bis 18 Uhr. Stimmt das,
+oder soll ich etwas anderes eintragen? Diese Zeiten werden auch bei Google
+angezeigt.
 
 **7. E-Mail-Adresse für Anfragen**
 Anfragen über das Kontaktformular gehen aktuell an hofmanngreinach@t-online.de.
-Soll das so bleiben, oder möchten Sie lieber eine Adresse unter Ihrer eigenen
+Soll das so bleiben, oder hätten Sie lieber eine Adresse unter Ihrer eigenen
 Internetadresse, also zum Beispiel info@ihredomain.de?
 
 **8. Fotos**
@@ -99,22 +137,21 @@ wirken:
 - Der Teleskoplader im Einsatz
 - Ihre Werkstatt und das Betriebsgebäude
 
-Handyfotos genügen völlig, sofern es hell ist. Lieber zu viele als zu wenige —
-ich suche dann die passenden aus.
+Handyfotos genügen völlig, solange es hell ist. Lieber zu viele als zu wenige —
+ich suche die passenden dann aus.
 
 **9. Größe des Betriebs**
 Auf Ihrer alten Seite stand: ein Obermonteur, ein Monteur, ein Meister und drei
-Aushilfskräfte. Da diese Angabe schon älter ist, habe ich sie vorerst
-weggelassen. Wie sieht es heute aus, und möchten Sie das überhaupt auf der Seite
-stehen haben?
+Aushilfskräfte. Da die Angabe schon älter ist, habe ich sie vorerst
+weggelassen. Wie sieht es heute aus — und möchten Sie das überhaupt auf der
+Seite stehen haben?
 
-**10. Zwei Leistungen, die noch fehlen**
-Beim Lesen Ihrer alten Seite sind mir zwei Dinge aufgefallen, die Sie meiner
-Meinung nach zu bescheiden darstellen:
+**10. Zwei Leistungen, die Sie zu bescheiden darstellen**
+Beim Lesen Ihrer alten Seite sind mir zwei Dinge aufgefallen:
 
 - Ihr **Elektrohandel** — dass man bei Ihnen angebrochene Verpackungen
-  zurückgeben kann und der Großhändler direkt zum Kunden liefert, kann kein
-  Baumarkt und kein Internetshop.
+  zurückgeben kann und der Großhändler direkt zum Kunden liefert, bietet weder
+  der Baumarkt noch ein Internetshop.
 - Ihre **Teleskopladerarbeiten** als eigenständige Dienstleistung, auch für
   Dachdecker und Sanierungen.
 
@@ -122,19 +159,20 @@ Beides steht momentan nur nebenbei. Sollen die beiden einen eigenen Platz auf
 der Seite bekommen?
 
 **11. Eine Verlinkung auf Ihrer alten Seite**
-Im Begrüßungstext Ihrer bisherigen Startseite ist ein Wort mit der Website eines
-anderen Elektrobetriebs verlinkt (elektro-demel.de). Ist das eine gewollte
-Partnerschaft, oder war Ihnen das gar nicht bekannt? Falls Letzteres, wäre das
-ein weiteres Zeichen dafür, dass die alte Seite von außen verändert wurde.
+Im Begrüßungstext Ihrer bisherigen Startseite ist ein Wort mit der Website
+eines anderen Elektrobetriebs verlinkt (elektro-demel.de). Ist das eine
+gewollte Partnerschaft, oder war Ihnen das nicht bekannt? Falls Letzteres,
+wäre das ein weiteres Anzeichen dafür, dass an der alten Seite von außen etwas
+verändert wurde.
 
 **12. Google-Bewertungen**
 Auf der Seite wird Ihre Google-Bewertung angezeigt. Ich habe dort einen
 Schätzwert stehen — schauen Sie bitte kurz in Ihrem Google-Unternehmensprofil
 nach, wie viele Bewertungen Sie inzwischen haben.
 
-Die Punkte 1 bis 5 wären mir vor unserem Termin am wichtigsten, damit ich vor
-Ort direkt umstellen kann. Alles andere können wir auch gemeinsam durchgehen.
+---
 
-Bei Fragen melden Sie sich jederzeit.
+Wenn etwas unklar ist, rufen Sie mich einfach an — das meiste erklärt sich in
+zwei Minuten am Telefon leichter als per E-Mail.
 
 Viele Grüße
