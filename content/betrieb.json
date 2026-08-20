@@ -1,0 +1,31 @@
+{
+  "name": "Elektro Hofmann",
+  "legalSuffix": "Elektrotechnik – Meisterbetrieb",
+  "claim": "Elektrotechnik mit Energie",
+  "phoneDisplay": "08681 478397",
+  "mobileDisplay": "0170 3550919",
+  "faxDisplay": "08681 478398",
+  "email": "hofmanngreinach@t-online.de",
+  "strasse": "Greinachtal 7",
+  "plz": "83379",
+  "ort": "Wonneberg",
+  "owner": "Florian Hofmann",
+  "ownerRole": "Inhaber & Elektromeister",
+  "hours": [
+    {
+      "days": "Montag – Freitag",
+      "time": "08:00 – 18:00 Uhr"
+    },
+    {
+      "days": "Samstag / Sonntag",
+      "time": "geschlossen"
+    }
+  ],
+  "ratingValue": 5,
+  "ratingCount": "4",
+  "googleMapsUrl": "https://www.google.com/maps/place/Florian+Hofmann/@47.8994536,12.7325377,17z",
+  "legalForm": "Einzelunternehmen",
+  "vatId": "DE244185087",
+  "profession": "Elektrotechnikermeister für Energie- und Gebäudetechnik",
+  "chamber": "Handwerkskammer für München und Oberbayern"
+}

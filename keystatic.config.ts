@@ -1,0 +1,335 @@
+// ---------------------------------------------------------------
+// Keystatic — das Redaktionssystem der Website.
+//
+// Gespeichert wird als JSON unter /content, Bilder landen in
+// /public/images — beides ganz normal im Git-Repository.
+//
+// Lokal (npm run dev) schreibt der Editor direkt auf die Festplatte.
+// In der Live-Umgebung läuft er über GitHub: Jede Änderung des Kunden
+// wird zu einem Commit, der automatisch einen neuen Build auslöst.
+// ---------------------------------------------------------------
+
+import { config, fields, singleton, collection } from "@keystatic/core";
+
+// Bilder liegen alle im selben Ordner wie die bereits vorhandenen —
+// so vermischen sich Bestand und neue Uploads nicht.
+const bildFeld = (label: string, description: string) =>
+  fields.image({
+    label,
+    description,
+    directory: "public/images",
+    publicPath: "/images",
+    validation: { isRequired: true },
+  });
+
+const iconAuswahl = (defaultValue: "install" | "solar" | "check" | "repair" | "media" | "led") =>
+  fields.select({
+    label: "Symbol",
+    description: "Bestimmt das gezeichnete Icon über der Überschrift.",
+    options: [
+      { label: "Steckdose (Installation)", value: "install" },
+      { label: "Sonne (Photovoltaik)", value: "solar" },
+      { label: "Haken (Prüfung)", value: "check" },
+      { label: "Werkzeug (Reparatur)", value: "repair" },
+      { label: "Antenne (TV/SAT)", value: "media" },
+      { label: "Leuchte (LED)", value: "led" },
+    ],
+    defaultValue,
+  });
+
+const kicker = fields.text({
+  label: "Kleine Überschrift",
+  description: "Das kurze blaue Wort über der großen Überschrift.",
+});
+
+// Die GitHub-Anbindung schaltet sich ein, sobald die drei Zugangsdaten
+// hinterlegt sind (bei Netlify unter Environment variables). Fehlen sie,
+// läuft der Editor im lokalen Modus — praktisch beim Entwickeln, in der
+// Live-Umgebung aber ein Fehler. Deshalb der Hinweis beim Bauen.
+const githubBereit = Boolean(
+  process.env.KEYSTATIC_GITHUB_CLIENT_ID &&
+    process.env.KEYSTATIC_GITHUB_CLIENT_SECRET &&
+    process.env.KEYSTATIC_SECRET
+);
+
+if (process.env.NODE_ENV === "production" && !githubBereit) {
+  console.warn(
+    "\n[Keystatic] Achtung: KEYSTATIC_GITHUB_CLIENT_ID, " +
+      "KEYSTATIC_GITHUB_CLIENT_SECRET und KEYSTATIC_SECRET sind nicht " +
+      "gesetzt. Der Editor läuft im lokalen Modus und kann in der " +
+      "Live-Umgebung nichts speichern.\n"
+  );
+}
+
+export default config({
+  storage: githubBereit
+    ? { kind: "github", repo: { owner: "KingB94", name: "elektrohofmann" } }
+    : { kind: "local" },
+
+  ui: {
+    brand: { name: "Elektro Hofmann" },
+    // Gruppen in der linken Seitenleiste — hält die Oberfläche
+    // übersichtlich, auch wenn später mehr dazukommt.
+    navigation: {
+      Stammdaten: ["betrieb"],
+      Startseite: ["hero", "zahlen", "leistungen", "ablauf", "ueberUns", "kontakt"],
+      "Weitere Inhalte": ["referenzen"],
+    },
+  },
+
+  singletons: {
+    // ----------------------------------------------------------------
+    betrieb: singleton({
+      label: "Betriebsdaten",
+      path: "content/betrieb",
+      format: { data: "json" },
+      schema: {
+        name: fields.text({ label: "Firmenname" }),
+        legalSuffix: fields.text({ label: "Zusatz unter dem Namen" }),
+        claim: fields.text({ label: "Slogan" }),
+
+        phoneDisplay: fields.text({
+          label: "Telefon",
+          description: "So wie es auf der Seite steht, z. B. 08681 478397",
+        }),
+        mobileDisplay: fields.text({ label: "Mobil" }),
+        faxDisplay: fields.text({ label: "Fax" }),
+        email: fields.text({ label: "E-Mail-Adresse" }),
+
+        strasse: fields.text({ label: "Straße und Hausnummer" }),
+        plz: fields.text({ label: "Postleitzahl" }),
+        ort: fields.text({ label: "Ort" }),
+
+        owner: fields.text({ label: "Inhaber" }),
+        ownerRole: fields.text({ label: "Funktion des Inhabers" }),
+
+        hours: fields.array(
+          fields.object({
+            days: fields.text({ label: "Tage" }),
+            time: fields.text({ label: "Zeit" }),
+          }),
+          {
+            label: "Öffnungszeiten",
+            description: "Zeilen lassen sich per Anfasser links neu sortieren.",
+            itemLabel: (props) => props.fields.days.value || "Neue Zeile",
+          }
+        ),
+
+        ratingValue: fields.number({
+          label: "Google-Bewertung",
+          description: "Zahl zwischen 1 und 5, z. B. 5",
+          validation: { min: 1, max: 5 },
+        }),
+        ratingCount: fields.text({ label: "Anzahl der Bewertungen" }),
+        googleMapsUrl: fields.url({ label: "Link zu Google Maps" }),
+
+        // Diese vier Angaben stehen im Impressum und sind rechtlich
+        // relevant — deshalb hier pflegbar statt fest im Code.
+        legalForm: fields.text({ label: "Rechtsform" }),
+        vatId: fields.text({ label: "Umsatzsteuer-Identifikationsnummer" }),
+        profession: fields.text({
+          label: "Berufsbezeichnung",
+          description: "Gesetzlich geschützte Bezeichnung, wie im Impressum anzugeben.",
+        }),
+        chamber: fields.text({ label: "Zuständige Kammer" }),
+      },
+    }),
+
+    // ----------------------------------------------------------------
+    hero: singleton({
+      label: "Kopfbereich",
+      path: "content/startseite/hero",
+      format: { data: "json" },
+      schema: {
+        badge: fields.text({ label: "Kleiner Hinweis im Rahmen" }),
+        headlineZeile1: fields.text({ label: "Überschrift, Zeile 1" }),
+        headlineZeile2: fields.text({
+          label: "Überschrift, Zeile 2",
+          description: "Das letzte Wort dieser Zeile wird blau hervorgehoben.",
+        }),
+        text: fields.text({
+          label: "Einleitungstext",
+          multiline: true,
+        }),
+        bild: bildFeld(
+          "Hintergrundbild",
+          "Querformat, mindestens 2000 Pixel breit. Der untere Teil wird vom Text überdeckt."
+        ),
+        routenButton: fields.text({ label: "Beschriftung zweiter Knopf" }),
+      },
+    }),
+
+    // ----------------------------------------------------------------
+    zahlen: singleton({
+      label: "In Zahlen",
+      path: "content/startseite/zahlen",
+      format: { data: "json" },
+      schema: {
+        kicker,
+        headline: fields.text({ label: "Überschrift" }),
+        eintraege: fields.array(
+          fields.object({
+            // Jahreszahlen sollen nicht jedes Jahr von Hand nachgezogen
+            // werden müssen — deshalb lässt sich hier auswählen, ob die
+            // Zahl fest steht oder aus dem Datum berechnet wird.
+            quelle: fields.select({
+              label: "Woher kommt die Zahl?",
+              description:
+                "Automatisch berechnete Zahlen bleiben ohne Ihr Zutun aktuell.",
+              options: [
+                { label: "Fest eingetragen", value: "fest" },
+                { label: "Jahre im Handwerk (seit 1991)", value: "jahreHandwerk" },
+                { label: "Jahre eigener Betrieb (seit 2005)", value: "jahreBetrieb" },
+                { label: "Anzahl der Leistungen", value: "anzahlLeistungen" },
+              ],
+              defaultValue: "fest",
+            }),
+            wert: fields.number({
+              label: "Zahl",
+              description: "Wird nur verwendet, wenn oben „Fest eingetragen\u201c gewählt ist.",
+            }),
+            label: fields.text({ label: "Bezeichnung" }),
+            note: fields.text({ label: "Erläuterung darunter", multiline: true }),
+          }),
+          {
+            label: "Kennzahlen",
+            itemLabel: (props) => props.fields.label.value || "Neue Kennzahl",
+          }
+        ),
+        hinweis: fields.text({
+          label: "Text im Kasten rechts",
+          multiline: true,
+        }),
+      },
+    }),
+
+    // ----------------------------------------------------------------
+    leistungen: singleton({
+      label: "Leistungen",
+      path: "content/startseite/leistungen",
+      format: { data: "json" },
+      schema: {
+        kicker,
+        headline: fields.text({ label: "Überschrift" }),
+        intro: fields.text({ label: "Text rechts neben der Überschrift", multiline: true }),
+        eintraege: fields.array(
+          fields.object({
+            title: fields.text({ label: "Titel" }),
+            description: fields.text({ label: "Beschreibung", multiline: true }),
+            icon: iconAuswahl("install"),
+          }),
+          {
+            label: "Leistungen",
+            description: "Reihenfolge per Anfasser änderbar, neue Kacheln unten hinzufügen.",
+            itemLabel: (props) => props.fields.title.value || "Neue Leistung",
+          }
+        ),
+      },
+    }),
+
+    // ----------------------------------------------------------------
+    ablauf: singleton({
+      label: "Ablauf",
+      path: "content/startseite/ablauf",
+      format: { data: "json" },
+      schema: {
+        kicker,
+        headline: fields.text({ label: "Überschrift" }),
+        schritte: fields.array(
+          fields.object({
+            title: fields.text({ label: "Titel" }),
+            body: fields.text({ label: "Text", multiline: true }),
+            aside: fields.text({ label: "Kurzhinweis rechts" }),
+          }),
+          {
+            label: "Schritte",
+            description: "Die Nummerierung (01, 02, 03) entsteht automatisch.",
+            itemLabel: (props) => props.fields.title.value || "Neuer Schritt",
+          }
+        ),
+      },
+    }),
+
+    // ----------------------------------------------------------------
+    ueberUns: singleton({
+      label: "Der Betrieb",
+      path: "content/startseite/betrieb",
+      format: { data: "json" },
+      schema: {
+        kicker,
+        headline: fields.text({
+          label: "Überschrift",
+          description: "Zeilenumbruch mit Eingabetaste möglich.",
+          multiline: true,
+        }),
+        absatz1: fields.text({ label: "Erster Absatz", multiline: true }),
+        absatz2: fields.text({ label: "Zweiter Absatz", multiline: true }),
+        bildGross: bildFeld("Großes Bild", "Querformat, wird oben rechts angezeigt."),
+        bildKlein: bildFeld("Kleines Bild", "Hochformat oder quadratisch."),
+        chronik: fields.array(
+          fields.object({
+            year: fields.text({ label: "Jahr" }),
+            label: fields.text({ label: "Was war", multiline: true }),
+          }),
+          {
+            label: "Chronik",
+            itemLabel: (props) => props.fields.year.value || "Neuer Eintrag",
+          }
+        ),
+        vertrauen: fields.array(
+          fields.object({
+            title: fields.text({ label: "Titel" }),
+            body: fields.text({ label: "Text", multiline: true }),
+          }),
+          {
+            label: "Drei Kästen ganz unten",
+            itemLabel: (props) => props.fields.title.value || "Neuer Kasten",
+          }
+        ),
+      },
+    }),
+
+    // ----------------------------------------------------------------
+    kontakt: singleton({
+      label: "Kontakt",
+      path: "content/startseite/kontakt",
+      format: { data: "json" },
+      schema: {
+        kicker,
+        headline: fields.text({ label: "Überschrift" }),
+        formTitel: fields.text({ label: "Überschrift über dem Formular" }),
+        formText: fields.text({ label: "Text über dem Formular", multiline: true }),
+      },
+    }),
+  },
+
+  collections: {
+    // ----------------------------------------------------------------
+    // Beispiel für eine Sammlung: beliebig viele gleichartige Einträge,
+    // die der Kunde selbst anlegen und löschen kann. Aktuell nicht auf
+    // der Website eingebaut — dient zum Ausprobieren.
+    referenzen: collection({
+      label: "Referenzen",
+      slugField: "titel",
+      path: "content/referenzen/*",
+      format: { data: "json" },
+      columns: ["titel", "ort", "jahr"],
+      schema: {
+        titel: fields.slug({
+          name: {
+            label: "Titel",
+            description: "Zum Beispiel: Photovoltaikanlage Gewerbehalle",
+          },
+        }),
+        ort: fields.text({ label: "Ort" }),
+        jahr: fields.text({ label: "Jahr" }),
+        bild: fields.image({
+          label: "Projektbild",
+          directory: "public/images",
+          publicPath: "/images",
+        }),
+        beschreibung: fields.text({ label: "Kurzbeschreibung", multiline: true }),
+      },
+    }),
+  },
+});

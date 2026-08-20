@@ -1,0 +1,29 @@
+{
+  "kicker": "Der Betrieb",
+  "headline": "Ein Familienbetrieb,\nkein Callcenter.",
+  "absatz1": "Florian Hofmann gründete Elektro Hofmann am 15. August 2005 — nach der Ausbildung bei Elektro Rehrl in Lauter, Jahren als Geselle und Baustellenleiter im Wohnungsbau, einer Station als Betriebselektriker im Hofbräuhaus Traunstein und der Meisterschule für Energie- und Gebäudetechnik. Aus dem Ein-Mann-Betrieb wurde ein eingespieltes Team, das 2012 in ein neues Betriebsgelände samt Büro in Wonneberg-Greinachtal zog.",
+  "absatz2": "Wer bei uns anruft, spricht mit jemandem, der die Anlage später auch sieht. Verbaut wird ausschließlich Material, das den geforderten Normen entspricht. Pünktlichkeit, Sauberkeit und faire Preise sind dabei keine Werbeversprechen, sondern die Bedingung dafür, dass man im Chiemgau weiterempfohlen wird.",
+  "bildGross": "/images/gewerbehalle.jpg",
+  "bildKlein": "/images/teleskoplader.jpg",
+  "chronik": [
+    { "year": "1991", "label": "Ausbildung zum Elektroinstallateur bei Elektro Rehrl in Lauter" },
+    { "year": "2004", "label": "Meisterprüfung für Energie- und Gebäudetechnik" },
+    { "year": "2005", "label": "Gründung der Firma Elektro Hofmann" },
+    { "year": "2012", "label": "Neubau von Betriebsgelände und Büro in Greinachtal" },
+    { "year": "heute", "label": "Familienbetrieb mit eingespieltem Team im Chiemgau" }
+  ],
+  "vertrauen": [
+    {
+      "title": "Meisterbetrieb",
+      "body": "Elektrotechnikermeister für Energie- und Gebäudetechnik, eingetragen bei der Handwerkskammer für München und Oberbayern."
+    },
+    {
+      "title": "Geprüfte Sicherheit",
+      "body": "Prüfungen nach VDE 0701/0702 und DGUV Vorschrift 3 inklusive Protokoll und Fristenkontrolle."
+    },
+    {
+      "title": "Eigenes Gerät",
+      "body": "Teleskoplader im Betrieb — 10 Meter Hubhöhe, 3 Tonnen Traglast. Dach- und Hallenarbeiten ohne fremde Hebebühne."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "kicker": "Ablauf",
+  "headline": "Drei Schritte, keine Überraschungen.",
+  "schritte": [
+    {
+      "title": "Anruf und Ortstermin",
+      "body": "Sie schildern uns Ihr Anliegen am Telefon. Wo es sinnvoll ist, schauen wir uns die Sache vor Ort an — bei einer Störung so schnell wie möglich, bei einem geplanten Projekt in Ruhe.",
+      "aside": "Anruf genügt"
+    },
+    {
+      "title": "Angebot und Planung",
+      "body": "Sie bekommen ein Angebot mit nachvollziehbaren Positionen und einen Terminvorschlag. Bei größeren Vorhaben stimmen wir uns mit den anderen Gewerken ab, damit auf der Baustelle niemand aufeinander wartet.",
+      "aside": "Feste Positionen"
+    },
+    {
+      "title": "Ausführung und Abnahme",
+      "body": "Wir arbeiten sauber, räumen hinter uns auf und übergeben Ihnen zum Schluss die Anlage samt Prüfprotokoll. Fragen danach beantworten wir selbstverständlich auch noch in einem Jahr.",
+      "aside": "Mit Protokoll"
+    }
+  ]
+}

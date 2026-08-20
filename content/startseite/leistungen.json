@@ -1,0 +1,37 @@
+{
+  "kicker": "Leistungen",
+  "headline": "Alles aus einer Hand.",
+  "intro": "Privat oder gewerblich, Neubau oder Bestand: Kein Auftrag ist uns zu klein. Was wir zusagen, führen wir auch selbst aus.",
+  "eintraege": [
+    {
+      "title": "Elektroinstallation",
+      "description": "Neubau, Sanierung und Erweiterung — von der Garage über das Mehrfamilienhaus bis zum Gewerbebau. Kein Auftrag ist uns zu klein.",
+      "icon": "install"
+    },
+    {
+      "title": "Photovoltaik & Solartechnik",
+      "description": "Planung und Montage moderner PV-Anlagen. Die Arbeiten am Dach übernehmen wir mit dem eigenen Teleskoplader — bis 10 Meter Hubhöhe, ohne fremde Hebebühne.",
+      "icon": "solar"
+    },
+    {
+      "title": "VDE-Prüfungen & E-Check",
+      "description": "E-Check mit Besichtigung, nötigen Reparaturen und Anlagenprüfung samt Protokoll. Geräteprüfungen nach VDE 0701/0702 und DGUV Vorschrift 3 — auf Wunsch mit Erinnerung an fällige Fristen.",
+      "icon": "check"
+    },
+    {
+      "title": "Geräteverkauf & Reparatur",
+      "description": "Markengeräte aus dem Elektrogroßhandel, geliefert und auf Wunsch aufgestellt. Reparatur vom Kleingerät bis zur Waschmaschine in der eigenen Werkstatt — zum normalen Stundenlohn, nicht zum Kundendiensttarif.",
+      "icon": "repair"
+    },
+    {
+      "title": "TV-, SAT- & Telefonanlagen",
+      "description": "Sat- und Kabelanlagen von Kathrein, Fuba und Hirschmann, exakt eingemessen — vom Einfamilienhaus bis zu 50 Teilnehmern. Dazu Telefonanlagen von Agfeo und Auerswald.",
+      "icon": "media"
+    },
+    {
+      "title": "LED- & Beleuchtungstechnik",
+      "description": "Umrüstung alter Beleuchtung auf LED. In einer Montagehalle ersetzt heute eine 57-Watt-Leuchte die alte Wannenleuchte mit 2 × 58 Watt — mehr Licht am Boden bei halber Leistung.",
+      "icon": "led"
+    }
+  ]
+}
