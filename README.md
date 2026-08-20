@@ -1,66 +1,51 @@
-# Elektro Hofmann — Landingpage
+# Elektro Hofmann — Website
 
-Moderne Next.js-Landingpage für Elektro Hofmann (Florian Hofmann
-Elektrotechnik) in Wonneberg-Greinachtal.
+Website für Elektro Hofmann (Florian Hofmann Elektrotechnik) in
+Wonneberg-Greinachtal.
 
-Gebaut mit Next.js 16 (App Router), TypeScript, Tailwind CSS 4 und
-selbst gehosteten Schriftarten (kein Nachladen von Google Fonts o. ä.).
-CI-Farben (Blau/Grau/Schwarz) direkt aus dem bestehenden Firmenlogo
-übernommen.
+Next.js 16 (App Router), TypeScript, Tailwind CSS 4, Keystatic als
+Redaktionssystem. Schriften sind selbst gehostet (kein Nachladen von
+Google Fonts), CI-Farben stammen aus dem Firmenlogo.
 
-## Drei Entwürfe zur Auswahl
+## Aufbau
 
-Zur Abstimmung mit dem Kunden liegen drei Gestaltungsvarianten
-nebeneinander. Alle drei ziehen ihre Inhalte aus derselben Quelle
-(`data/business.ts`) und denselben Bildern — es gibt also keine
-Textdubletten zu pflegen.
+| Route | Was |
+| --- | --- |
+| `/` | **Die Website.** Gestaltungsentwurf B, Inhalte aus dem Redaktionssystem. |
+| `/impressum`, `/datenschutz` | Rechtsseiten, ebenfalls im Live-Design |
+| `/keystatic` | Redaktionssystem — hier pflegt der Kunde Texte und Bilder |
+| `/variante-a`, `/variante-c` | Archivierte Entwürfe, `noindex` |
+| `/designs` | Vergleichsseite der drei Entwürfe, `noindex` |
 
-| Route | Entwurf | Charakter |
-| --- | --- | --- |
-| `/` | **A — Hell & Sachlich** | Die bestehende Fassung. Heller Hintergrund, Firmenblau, Kachelraster. |
-| `/variante-b` | **B — Hell & Premium** | Vollbild-Hero, kühles Weiß, ausschließlich Logofarben (Blau `#066EB5`, Schwarz `#21201C`, Grau `#9C9C9C`), Scroll-Animationen (GSAP). |
-| `/variante-c` | **C — Warm & Handwerklich** | Warmes Papierweiß, Serifenschrift (Fraunces), Kupfer-Akzent, nummerierte Leistungsliste. |
-| `/designs` | Übersicht | Vergleichsseite mit allen drei Entwürfen — dieser Link geht an den Kunden. |
+Die Entwürfe A und C bleiben auf Kundenwunsch erhalten. Sie beziehen ihre
+Inhalte weiterhin aus `data/business.ts` und sind vom Redaktionssystem
+abgekoppelt — Änderungen im Editor wirken sich nur auf die Live-Seite aus.
 
-Unten auf jeder Seite liegt eine kleine Leiste zum Umschalten zwischen
-den Entwürfen.
+## Inhalte pflegen
 
-### Wenn die Entscheidung gefallen ist
+Alles unter `/keystatic`. Gespeichert wird als JSON unter `content/`,
+Bilder landen in `public/images/`.
 
-1. In `app/(variante-a)/layout.tsx` sowie in den Layouts der beiden
-   anderen Varianten die Zeile `<VariantSwitcher … />` entfernen.
-2. Den gewählten Entwurf zur Startseite machen (Inhalt der jeweiligen
-   `page.tsx` nach `app/(variante-a)/page.tsx` übernehmen bzw. die
-   Route umbenennen).
-3. Die nicht gewählten Ordner `app/variante-b`, `app/variante-c`,
-   `app/designs` und die zugehörigen Komponenten unter
-   `components/variants/` löschen.
-4. In `app/robots.ts` die `disallow`-Liste wieder entfernen.
+- **Lokal** (`npm run dev`): Der Editor schreibt direkt auf die Festplatte.
+- **Live**: Der Editor läuft über GitHub. Jede Änderung wird zu einem
+  Commit, der automatisch einen neuen Build auslöst — nach rund einer
+  Minute ist sie online.
 
-Die Entwurfsseiten sind bis dahin per `robots: noindex` und über
-`robots.txt` von Suchmaschinen ausgenommen.
+Die Umschaltung passiert automatisch, sobald die drei GitHub-Zugangsdaten
+als Umgebungsvariablen gesetzt sind (siehe `.env.example`). Fehlen sie in
+der Live-Umgebung, weist der Build in den Logs darauf hin.
 
-## ⚠️ Vor dem Live-Schalten unbedingt prüfen
+### Wo welcher Inhalt liegt
 
-Die Inhalte dieser Seite stammen größtenteils direkt von der alten,
-archivierten Firmenwebsite (elektrohofmann.info) sowie aus
-Branchenverzeichnissen — das ist deutlich zuverlässiger als reine
-Verzeichnis-Daten, aber die alte Seite ist von ca. 2014 und einiges
-kann sich seither geändert haben:
+| Editor | Datei |
+| --- | --- |
+| Betriebsdaten | `content/betrieb.json` |
+| Kopfbereich, In Zahlen, Leistungen, Ablauf, Der Betrieb, Kontakt | `content/startseite/*.json` |
+| Referenzen (angelegt, noch nicht eingebaut) | `content/referenzen/*` |
 
-- **`data/business.ts`**:
-  - Öffnungszeiten (aus einem Branchenverzeichnis, bitte bestätigen)
-  - Anzahl Google-Bewertungen (aktuell „4" — bitte prüfen)
-  - Team-/Betriebsgröße wird in der Über-uns-Sektion bewusst nicht mit
-    exakten Zahlen genannt, da die alte Quelle von ca. 2014 stammt
-- **`app/impressum/page.tsx`**: USt-ID, Berufsbezeichnung und
-  Handwerkskammer stammen aus dem alten Impressum — bitte gegenprüfen,
-  da sich Rechtsform oder Angaben seither geändert haben könnten. Dies
-  ist keine Rechtsberatung — im Zweifel bitte von einem Steuerberater
-  oder Anwalt prüfen lassen.
-- Das Bild `public/images/gewerbehalle.jpg` zeigt vermutlich ein
-  Referenzprojekt (nicht das eigene Betriebsgelände) — Bildunterschrift
-  in `components/About.tsx` bei Bedarf anpassen.
+Die Kennzahlen unter „In Zahlen" lassen sich im Editor wahlweise fest
+eintragen oder automatisch berechnen (Jahre seit 1991 bzw. 2005, Anzahl
+der Leistungen) — so veraltet die Seite nicht beim Jahreswechsel.
 
 ## Lokal starten
 
@@ -69,37 +54,31 @@ npm install
 npm run dev
 ```
 
-Seite öffnet sich unter http://localhost:3000
+Website: http://localhost:3000 · Editor: http://localhost:3000/keystatic
 
-## Inhalte bearbeiten
+## Betrieb
 
-Fast alle Texte, Zahlen und Links liegen zentral in **`data/business.ts`** —
-Adresse, Telefonnummern, Öffnungszeiten, Leistungen, Firmen-Zeitleiste.
-Änderungen dort wirken sich automatisch auf die ganze Seite aus.
+Gehostet bei **Netlify** (kostenloser Starter-Plan, kommerzielle Nutzung
+erlaubt). Die Domain liegt bei Strato und zeigt per DNS auf Netlify.
 
-Bilder liegen in **`public/images/`** — einfach eine Datei ersetzen (gleicher
-Dateiname) oder in den Komponenten auf einen neuen Dateinamen verweisen.
+Das Kontaktformular läuft über **Netlify Forms**. Damit Netlify die Felder
+erkennt, liegt in `public/__forms.html` eine schlichte Kopie des Formulars
+— Feldnamen dort und in `components/variants/VariantContactForm.tsx`
+müssen übereinstimmen.
 
-## Deployment (GitHub + Vercel)
-
-1. Neues Repository auf GitHub anlegen und dieses Projekt hochladen (`git push`)
-2. Auf [vercel.com](https://vercel.com) mit GitHub einloggen → „Add New Project" →
-   das Repository auswählen → „Deploy" (keine Konfiguration nötig, Vercel
-   erkennt Next.js automatisch)
-3. Nach dem Deploy erhalten Sie einen Link wie
-   `https://elektro-hofmann.vercel.app`, den Sie z. B. an Kundschaft
-   weitergeben können
+Vor dem Live-Schalten: **`LAUNCH.md` durchgehen.** Dort stehen die offenen
+Punkte, die Zugangsdaten und die inhaltlichen Angaben, die der Kunde noch
+bestätigen muss.
 
 ## Tech-Stack
 
 - [Next.js 16](https://nextjs.org) (App Router, React 19)
+- [Keystatic](https://keystatic.com) (Redaktionssystem, Git-basiert)
 - [Tailwind CSS 4](https://tailwindcss.com)
 - [Archivo](https://fonts.google.com/specimen/Archivo),
   [Source Sans 3](https://fonts.google.com/specimen/Source+Sans+3),
-  [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) via
-  [Fontsource](https://fontsource.org) (self-hosted, DSGVO-freundlich)
-- [Fraunces](https://fonts.google.com/specimen/Fraunces) (nur Variante C)
-  via [Fontsource](https://fontsource.org)
-- [lucide-react](https://lucide.dev) für UI-Icons
-- [GSAP](https://gsap.com) + ScrollTrigger (nur Variante B, für den
-  gestapelten Ablauf-Abschnitt)
+  [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono),
+  [Fraunces](https://fonts.google.com/specimen/Fraunces) (nur Entwurf C)
+  via [Fontsource](https://fontsource.org) — selbst gehostet, DSGVO-freundlich
+- [lucide-react](https://lucide.dev) für Symbole
+- [GSAP](https://gsap.com) + ScrollTrigger für den gestapelten Ablauf-Abschnitt
