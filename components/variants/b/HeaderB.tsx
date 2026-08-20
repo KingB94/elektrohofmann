@@ -41,7 +41,7 @@ export default function HeaderB({ betrieb }: { betrieb: Betrieb }) {
               : "border border-transparent bg-white/55 backdrop-blur-sm"
           }`}
         >
-          <Link href="/variante-b" className="flex items-center" onClick={() => setOpen(false)}>
+          <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
             <Image
               src="/images/logo.png"
               alt={betrieb.name}
