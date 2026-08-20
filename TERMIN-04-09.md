@@ -27,6 +27,10 @@ seine Fotos, seine Bestätigungen — und die Einweisung.
 - [ ] **Netlify-Konto anlegen** (erst mal auf deinen Namen) und das Repo
       verbinden. Läuft dann unter einer `*.netlify.app`-Adresse, ohne dass die
       Domain feststehen muss.
+      ⚠️ **Dem Testprojekt bewusst einen Wegwerfnamen geben** (z. B.
+      `hofmann-probe`). Netlify-Namen sind global eindeutig — belegst du hier
+      schon `elektro-hofmann`, ist der Name für sein Projekt blockiert. Siehe
+      Packliste am 02.09.
 
 ### Fr, 21.08. – Mo, 24.08. — Generalprobe
 
@@ -61,14 +65,37 @@ Klick, und am Termin dauert dasselbe fünfzehn Minuten statt einer Stunde.
 
 - [ ] Laptop, Ladegerät, **Handy als mobiler Hotspot** (verlass dich nicht auf
       das WLAN vor Ort)
-- [ ] `KURZANLEITUNG-KUNDE.md` — **vorher die Netlify-Adresse eintragen**
-      (Zeile 21, steht dort als `ihredomain.de/keystatic`), dann zweifach
-      ausdrucken. Beim Switch neu ausdrucken mit der echten Domain.
 - [ ] Kartenleser oder USB-Kabel für die Fotos
 - [ ] Diese Datei und `LAUNCH.md` offen im Browser
 - [ ] Strato-Zugangsdaten — am 4.9. **nicht** zwingend nötig, weil DNS nicht
       angefasst wird. Trotzdem erfragen: für das SSL-Zertifikat der alten Seite
       (siehe unten) und damit der Switch später nicht daran scheitert.
+
+#### ⚠️ Den Netlify-Namen vorher festlegen und freiräumen
+
+Netlify-Projektnamen sind **global eindeutig** — über alle Netlify-Kunden
+hinweg. Heißt dein Testprojekt aus der Generalprobe schon `elektro-hofmann`,
+ist der Name für sein Projekt blockiert, und seine Seite landet auf
+`elektro-hofmann-2`.
+
+- [ ] Gewünschten Namen festlegen (z. B. `elektro-hofmann`)
+- [ ] **Testprojekt umbenennen oder löschen**, damit der Name frei ist
+- [ ] Erst danach die Kurzanleitung drucken — die Adresse steht dort drin
+
+#### Kurzanleitung mit der endgültigen Adresse drucken
+
+- [ ] In `KURZANLEITUNG-KUNDE.md` Zeile 21 den Platzhalter
+      `ihredomain.de/keystatic` durch `<name>.netlify.app/keystatic` ersetzen
+- [ ] Zweifach ausdrucken. Beim Switch nochmal neu mit der echten Domain.
+
+#### Am Telefon vorab klären: kommt er vor Ort an seine E-Mail?
+
+GitHub, Netlify **und** die Repo-Übertragung schicken je eine Bestätigungsmail.
+Liegt seine `t-online`-Adresse nur auf dem Büro-PC und ihr sitzt in der
+Werkstatt, steht der ganze Termin.
+
+- [ ] Fragen, ob er die Firmen-Mail auf dem Handy hat. Falls nein: Termin am
+      Rechner mit Mailzugang einplanen.
 
 > **Der TTL-Punkt ist umgezogen.** Das Absenken der DNS-Zwischenspeicherung
 > gehört jetzt zur Vorbereitung des Switch-Termins, nicht des Setup-Termins.
@@ -81,12 +108,37 @@ Klick, und am Termin dauert dasselbe fünfzehn Minuten statt einer Stunde.
 Reihenfolge: erst die Technik, dann die Einweisung, Fotos zum Schluss, wenn
 die Stimmung locker ist.
 
+### 0. Auf deinem Laptop arbeiten — aber sauber getrennt
+
+Die Konten auf dem eigenen Rechner anzulegen ist sinnvoll: Claude Code ist da,
+der Editier-Schritt in Punkt 1 geht flüssig, und du kennst deine Umgebung.
+Vier Dinge musst du dabei bewusst trennen — sonst lieferst du am Ende ein
+Setup aus, das **nur auf deinem Laptop funktioniert**, und merkst es nicht.
+
+- [ ] **Zwei Browser-Sitzungen vorbereiten.** Keine Kosmetik, sondern
+      notwendig: Für die Repo-Übertragung musst du als `KingB94` eingeloggt
+      sein (Absender) **und er als er selbst** (Empfänger, der bestätigt) —
+      gleichzeitig. Dein normales Profil bleibt du, für ihn ein zweites
+      Browserprofil oder ein privates Fenster. Ohne das loggt ihr euch
+      gegenseitig aus und sucht den Fehler an der falschen Stelle.
+- [ ] 🔴 **Die Zwei-Faktor-App gehört auf SEIN Handy.** Der wichtigste Punkt
+      des Tages. Richtest du 2FA mit deinem Authenticator ein, weil es gerade
+      schneller geht, kommt er **nie** ohne dich an sein Konto. Am Termin fällt
+      das niemandem auf, in acht Monaten umso schmerzhafter.
+- [ ] **Passwörter, die er behalten kann.** Erzeugst du sie in deinem
+      Passwortmanager, hat er hinterher nichts. Für ihn ist Papier die richtige
+      Lösung — zusammen mit den Wiederherstellungscodes in den Ordner oder den
+      Tresor im Büro. Und **er tippt sie selbst ein**, nicht du.
+- [ ] **Nach dem Termin**: seine Sitzungen abmelden, seine Passwörter aus
+      deinem Browser löschen.
+
 ### 1. Konten anlegen — 25 Min
 
 - [ ] **GitHub-Konto** des Kunden, falls noch nicht geschehen
-- [ ] **Zwei-Faktor-Anmeldung einrichten.** Das ist die größte Hürde des ganzen
-      Tages. Wiederherstellungscodes **ausdrucken** und ihn wegheften lassen —
-      ohne die kommt er bei einem neuen Handy nicht mehr an seine Website.
+- [ ] **Zwei-Faktor-Anmeldung einrichten**, mit der App auf **seinem** Handy
+      (siehe Punkt 0). Das ist die größte Hürde des ganzen Tages.
+      Wiederherstellungscodes **ausdrucken** und ihn wegheften lassen — ohne
+      die kommt er bei einem neuen Handy nicht mehr an seine Website.
 - [ ] **Netlify-Konto** auf seinen Namen
 - [ ] Repository auf sein Konto übertragen, dich als Collaborator eintragen
 - [ ] ⚠️ **In `keystatic.config.ts` den Besitzer anpassen** — dort steht
@@ -118,7 +170,8 @@ die Stimmung locker ist.
 ### 3. Einweisung — 25 Min
 
 Am Bildschirm, er bedient, du schaust zu. Nicht umgekehrt — sonst kann er es
-hinterher nicht.
+hinterher nicht. **Ab hier fasst du die Tastatur nicht mehr an**, auch wenn es
+schneller ginge.
 
 - [ ] Anmelden
 - [ ] Einen Text ändern und speichern, gemeinsam warten bis es online ist
@@ -139,6 +192,15 @@ später welche kommen — erfahrungsgemäß kommen sie sonst nie.
 
 ### 5. Abschluss — 20 Min
 
+- [ ] 🔴 **Der Abnahmetest: Er meldet sich auf SEINEM eigenen Gerät an** —
+      Handy oder Büro-PC, nicht dein Laptop — und ändert eine Kleinigkeit.
+      Ohne deine Hilfe.
+
+      Das ist der einzige Test, der beweist, dass die Übergabe wirklich
+      stattgefunden hat. Alles davor prüft nur, dass es *bei dir* geht: dein
+      gespeichertes Passwort, deine Sitzung, dein Browser. Läuft dieser Test
+      durch, kannst du beruhigt fahren. Läuft er nicht, hast du es hier
+      gemerkt statt in acht Monaten am Telefon.
 - [ ] Seite auf seinem eigenen Handy über mobile Daten aufrufen (nicht im
       WLAN vor Ort), Schloss-Symbol kontrollieren
 - [ ] Kontaktformular gemeinsam einmal abschicken, Ankunft der Mail prüfen
@@ -255,7 +317,9 @@ Webspace:
 
 | Problem | Reaktion |
 | --- | --- |
-| Er bekommt die Zwei-Faktor-Anmeldung nicht hin | Fallback: du legst alles an, er ändert das Passwort selbst und übernimmt später. Nicht am Termin verbeißen. |
+| Er bekommt die Zwei-Faktor-Anmeldung nicht hin | Fallback: du legst alles an, er ändert das Passwort selbst und übernimmt später. Nicht am Termin verbeißen. **Aber:** dann steht der Abnahmetest aus, und das gehört schriftlich festgehalten samt Nachholtermin. |
+| Er kommt vor Ort nicht an seine E-Mail | Bestätigungsmails von GitHub, Netlify und der Repo-Übertragung hängen daran. Notfalls ans Bürotelefon/den Büro-PC verlagern. Lässt sich nicht überspringen. |
+| Der Abnahmetest scheitert auf seinem Gerät | Nicht wegdiskutieren — genau dafür ist er da. Meist ein fehlendes Passwort oder die 2FA-App am falschen Ort. Vor Ort lösen, nicht „schau ich mir daheim an". |
 | Keine Fotos vorhanden | Selbst welche machen. Zur Not funktioniert die Seite auch mit den vier vorhandenen Bildern. |
 | Impressumsangaben unklar | Kein Grund, irgendetwas zu verschieben — die Seite geht am 4.9. ohnehin nicht live. Schriftlich festhalten, dass es offen ist, und vor dem Switch nachziehen. |
 | Keystatic-Login geht nicht | Fast immer die Callback-URL oder eine fehlende Umgebungsvariable. Die vier Werte bei Netlify gegen `.env.example` prüfen. |
