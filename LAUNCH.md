@@ -10,6 +10,11 @@ Stand: 20.08.2026 · Kunde hat die Website gebucht.
   Texte und Bilder selbst unter `/keystatic`.
 - **Hosting:** **Netlify Starter (kostenlos)**.
 - **Domain:** bleibt bei Strato, nur die DNS-Einträge zeigen auf Netlify.
+- **Ablauf:** **zwei Termine.** Am 04.09. wird das Setup fertiggestellt — die
+  Seite läuft dann vollständig unter einer `*.netlify.app`-Adresse und der Kunde
+  kann sie pflegen. Den Wechsel auf seine Domain (DNS + Abschaltung der alten
+  Seite) terminiert er selbst; das ist ein eigener, kurzer Termin.
+  Ablaufplan für beide: `TERMIN-04-09.md`.
 
 ---
 
@@ -40,7 +45,24 @@ Also: eigene Arbeit abrechnen ja, Hosting weiterverkaufen nein. Passt.
 | --- | --- | --- |
 | Cloudflare Workers | 0 € | Geht (OpenNext-Adapter, Next 16 unterstützt), aber deutlich mehr Einrichtung: wrangler-Config, KV-Namespace. Lohnt erst bei viel Traffic. |
 | Vercel Pro | ~20 $/Monat | Hobby-Plan verbietet gewerbliche Nutzung. Pro ist für diese Seite rausgeworfenes Geld. |
-| Alles statisch auf Strato-Webspace | 0 € | **Geht nicht.** Keystatic braucht zwingend einen Server für den API-Handler (GitHub-OAuth-Login + Git-Schreiboperationen: `/api/keystatic/github/login`, `/oauth/callback`, `/branch/**`). Man müsste den Editor separat betreiben — zwei Deploy-Ziele, kein Vorteil. |
+| Alles statisch auf Strato-Webspace | 0 € | **Geht nicht — und keine Paketstufe ändert das.** Strato-Webhosting bietet über *alle* Tarife hinweg nur PHP 8.4, Perl, Python und Ruby, kein Node.js und keinen Root-Zugriff; auch Pro für 22 €/Mon. nicht. Ein größeres Paket kauft Speicherplatz und Domains, keine Laufzeitumgebung. Selbst als statischer Export scheitert es an Keystatic: der API-Handler braucht einen Server (GitHub-OAuth + Git-Schreiboperationen: `/api/keystatic/github/login`, `/oauth/callback`, `/branch/**`). Dazu käme `next/image` ohne Optimierung (13 Dateien nutzen es) und ein Ersatz fürs Kontaktformular. Man müsste den Editor separat betreiben — zwei Deploy-Ziele, kein Vorteil. Und zu sparen gäbe es nichts: Netlify kostet 0 €. |
+| Strato vServer | 8 €/Mon. + 9 € Setup | Node.js liefe, aber nacktes Linux: Prozess, nginx, certbot, Updates, Backups, Deploy-Pipeline — alles selbst. Für sechs Leistungskacheln absurd. |
+| Eigenes Hosting auf netcup | ~0 € marginal | **Später, nicht zum 04.09.** Siehe unten. |
+
+#### Eigenes netcup-Hosting — vertagt, nicht verworfen
+
+Wir hosten Kundenseiten selbst bei netcup. Für diese Seite ginge das — **aber nur auf
+VPS/Root-Server**. netcup-Webhosting scheidet aus demselben Grund aus wie Strato: Node.js
+ist über Plesk nominell da, hält aber keinen dauerhaften Prozess (Timeout killt ihn).
+
+Auf einem eigenen Server zu bauen wäre: GitHub Actions → SSH-Deploy, systemd/PM2, nginx +
+certbot, und **Ersatz für Netlify Forms** (`components/ContactForm.tsx` und
+`public/__forms.html` hängen daran). Das ist ein lohnendes eigenes Projekt — einmal gebaut
+trägt die Pipeline jede weitere Kundenseite. Nur nicht zwei Wochen vor diesem Termin.
+
+Reihenfolge: am 04.09. auf Netlify live, Umzug später als reine DNS-Änderung plus Deploy.
+Der Kunde merkt davon nichts. Für eine Wartungspauschale muss man ohnehin nicht selbst
+hosten — abgerechnet wird die Arbeit, nicht der Webspace.
 
 ### Laufende Kosten für den Kunden
 
@@ -110,18 +132,35 @@ Build und Linter laufen sauber durch.
       → als Collaborator ins private Repo einladen. **Ohne das kein CMS-Login.**
 - [ ] **Strato-Zugangsdaten** für die DNS-Umstellung
 
+### Ausgangslage — per DNS gemessen am 20.08.2026
+
+```
+NS:  docks11.rzone.de, shades17.rzone.de     → Strato
+A:   81.169.145.72                            → Strato
+MX:  5 smtpin.rzone.de                        → Strato-Mail
+```
+
+`rzone.de` ist durchgehend Strato: **Domain, Webspace und Mail** liegen beim
+selben Anbieter. Der MX-Eintrag ist der wichtige Teil — für die Domain *ist*
+Strato-Mail eingerichtet. Ob die Postfächer genutzt werden oder nur
+mitgeliefert wurden, sagt DNS nicht; die Frage an den Kunden lautet deshalb
+nicht mehr „gibt es dort Postfächer", sondern „welche sind in Gebrauch".
+
 ### DNS bei Strato umstellen
 
 1. Strato-Kundenbereich → Domainverwaltung → DNS
 2. A-/CNAME-Werte eintragen, **die Netlify im Projekt anzeigt**
-3. ⚠️ **MX-Einträge nicht anfassen** — sonst sind die E-Mail-Postfächer tot
+3. ⚠️ **MX-Einträge nicht anfassen** — sonst sind die E-Mail-Postfächer tot.
+   Kein theoretisches Risiko: der MX zeigt nachweislich auf Strato.
 4. Vorher klären:
    - [ ] Liegt auf der Domain aktuell schon eine Seite? Die geht beim Umstellen offline.
+         (Ja — die alte Joomla-Seite, siehe Abschnitt 4.)
    - [ ] Erlaubt der Strato-Tarif freie A-Einträge für die Root-Domain?
    - [ ] Kann der Kunde auf ein günstigeres reines Domain-Paket runterstufen?
-         **Vorsicht:** E-Mail-Postfächer hängen bei Strato meist am Hostingpaket.
-         Er nutzt aktuell `hofmanngreinach@t-online.de` — erst klären, ob überhaupt
-         Strato-Postfächer im Einsatz sind, bevor da etwas gekündigt wird.
+         **Erst nach Klärung der Postfächer.** Bei Strato hängen die meist am
+         Hostingpaket — ein Downgrade kann sie mitnehmen. Regulär: Webhosting
+         5 €/Mon. (Starter) bis 22 €/Mon. (Pro), reine Domain `.de` 1 €/Mon.,
+         `.info` 2,75 €/Mon. Am Termin die Rechnung zeigen lassen, statt zu raten.
 
 ### Inhalte prüfen (⚠️ vor dem Live-Schalten)
 
@@ -147,9 +186,72 @@ Der Editor ist bereits komplett auf Deutsch beschriftet.
 
 ## 4. Alte Website elektrohofmann.info
 
-Läuft noch (Joomla), erreichbar **nur über HTTP** — kein gültiges Zertifikat, der
-SSL-Handshake schlägt fehl. Das ist der „unsicher"-Hinweis, den der Kunde im Browser sieht.
-Struktur: Startseite, Leistungen, Über Uns, Kontakt & Anfahrt, Impressum.
+Läuft noch (Joomla), erreichbar **nur über HTTP**. Struktur: Startseite, Leistungen,
+Über Uns, Kontakt & Anfahrt, Impressum.
+
+### Was tatsächlich dort läuft — nachgemessen am 20.08.2026
+
+Die Joomla-Angabe war zunächst eine Vermutung. Sie ist bestätigt, und zwar
+deutlicher als erhofft — der Server gibt die Version selbst preis:
+
+```
+/administrator/manifests/files/joomla.xml
+  <version>2.5.22</version>
+  <creationDate>June 2014</creationDate>
+```
+
+Weitere Belege:
+
+```
+/administrator/                     → HTTP 200 (Joomla-Login, öffentlich erreichbar)
+/index.php?option=com_content       → HTTP 200 (Joomla-Adressschema aktiv)
+/media/com_uniterevolution/...      → com_* ist Joomla-Namenskonvention
+P3P: CP="NOI ADM DEV PSAi COM ..."  → Joomlas Standard-Header, wörtlich
+X-Powered-By: PHP/5.3.29            → PHP 5.3 ist seit August 2014 am Ende
+```
+
+**Joomla 2.5.22 (Juni 2014) auf PHP 5.3.29.** Joomla 2.5 hat sein Supportende am
+31.12.2014 erreicht, PHP 5.3 im August 2014 — beide seit über elf Jahren ohne
+Sicherheitsupdates. Aktuell ist Joomla 5.
+
+Für Software nach dem Supportende werden gefundene Lücken weiter veröffentlicht,
+nur ohne Fix. Für diese Version existieren also seit elf Jahren dokumentierte
+Schwachstellen, und weil sie damals weit verbreitet war, suchen automatisierte
+Scanner gezielt danach. Dass das Versions-Manifest frei abrufbar ist, macht es
+zusätzlich leicht: Ein Scanner muss nicht raten, welche Lücken passen.
+
+Was in solchen Fällen üblicherweise passiert, ist nicht Datendiebstahl — dort
+liegt nichts. Sondern die Seite wird zum Werkzeug: Spamversand, versteckte
+Weiterleitungen, oder eingeschleuste Links auf fremde Seiten. **Das passt zum
+Link auf `elektro-demel.de`** weiter unten. Beweisbar ist es nicht, aber bei
+einer elf Jahre ungepatchten Installation ist ein eingeschleuster SEO-Link die
+naheliegende Erklärung.
+
+### Kein Zertifikat
+
+```
+http://elektrohofmann.info   → 301 auf www, Apache/2.4.68, antwortet normal
+https://elektrohofmann.info  → sslv3 alert handshake failure
+```
+
+Der Handshake bricht ab, **bevor** ein Zertifikat übertragen wird. Es ist also kein
+abgelaufenes Zertifikat, sondern gar keins — für Port 443 ist nichts hinterlegt. Bei
+Strato heißt das praktisch immer: Let's Encrypt wurde im Kundenbereich nie
+eingeschaltet. Das ist der „unsicher"-Hinweis, den der Kunde im Browser sieht.
+
+**Falls er es vorab abgestellt haben will** (Kundenbereich → Domains → Domain wählen →
+SSL-Verwaltung → Let's Encrypt aktivieren; im Hosting-Paket enthalten, Ausstellung bis zu
+einige Stunden): Danach ist HTTPS *erreichbar*, aber nicht *erzwungen* — dafür braucht es
+`force_ssl` in der Joomla-`configuration.php` oder eine `.htaccess`-Regel. Und wenn das
+Template Assets hart mit `http://` verlinkt, bleibt eine Mixed-Content-Warnung.
+
+Da der Switch offen terminiert ist, läuft die alte Seite womöglich noch Monate. Damit ist
+das Einschalten des Zertifikats nicht mehr bloß eine Geste vor dem Termin, sondern sinnvoll.
+⚠️ Nur mit ausdrücklicher Zustimmung in seinem Konto klicken — fremdes Hosting-Konto,
+an dem auch seine Mail hängt.
+
+Die neue Seite braucht davon nichts: Netlify stellt das Zertifikat automatisch aus,
+sobald die DNS-Umstellung greift.
 
 ### Bereits übernommen (erledigt)
 
