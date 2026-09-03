@@ -39,8 +39,26 @@ Einmal die komplette Kette selbst durchspielen, **bevor** du beim Kunden sitzt.
 Das ist die wertvollste Vorbereitung überhaupt: Danach kennst du jeden
 Klick, und am Termin dauert dasselbe fünfzehn Minuten statt einer Stunde.
 
-- [ ] Auf der `*.netlify.app`-Adresse `/keystatic` aufrufen → der
-      Einrichtungsassistent führt durch das Anlegen der GitHub-App
+- [ ] 🔴 **Die GitHub-App lokal anlegen, nicht auf der Netlify-Adresse.**
+      Am 03.09.2026 im Quelltext von Keystatic nachgelesen und am
+      laufenden Server bestätigt: Fehlen die Zugangsdaten, zeigt Keystatic
+      den Einrichtungsassistenten **nur** in der Entwicklungsumgebung
+      (`process.env.NODE_ENV !== 'development'` → `throw`). Live antwortet
+      die Route stattdessen mit einem Fehler. Der ursprünglich geplante Weg
+      „Assistent auf der Netlify-Adresse durchlaufen" funktioniert also nicht.
+
+      So geht es:
+
+          NEXT_PUBLIC_KEYSTATIC_MODE=github npm run dev
+
+      Dann `http://localhost:3000/keystatic` → Weiterleitung auf
+      `/keystatic/setup` → der Assistent legt die App über
+      `github.com/settings/apps/new` an. Entscheidend ist, **welches
+      GitHub-Konto in diesem Browser angemeldet ist** — für den Kunden also
+      das zweite Browserprofil, in dem er eingeloggt ist.
+
+      Die App bekommt dabei eine `localhost`-Callback-URL. Die Adressen für
+      Netlify und die Domain kommen danach von Hand dazu (Punkt 2).
 - [ ] Die vier Werte bei Netlify unter *Environment variables* eintragen,
       neu bauen lassen
 - [ ] **Selbst einen Text ändern und speichern.** Prüfen: Kommt der Commit im
@@ -154,15 +172,18 @@ Setup aus, das **nur auf deinem Laptop funktioniert**, und merkst es nicht.
 - [ ] **Netlify-Konto** auf seinen Namen
 - [ ] Repository auf sein Konto übertragen, dich als Collaborator eintragen
 - [ ] ⚠️ **In `keystatic.config.ts` den Besitzer anpassen** — dort steht
-      `owner: "KingB94"` fest verdrahtet (Zeile 66). Wandert das Repository auf
+      `owner: "KingB94"` fest verdrahtet (Zeile 94). Wandert das Repository auf
       sein Konto, zeigt die Zeile ins Leere und der Editor speichert gegen ein
       Repo, das ihm nicht mehr gehört. Ändern, committen, pushen.
 
 ### 2. Redaktionssystem scharf schalten — 20 Min
 
-- [ ] `/keystatic` auf der **Netlify-Adresse** aufrufen und den
-      Einrichtungsassistenten durchlaufen
-- [ ] GitHub-App unter **seinem** Konto anlegen lassen, nicht unter deinem
+- [ ] GitHub-App unter **seinem** Konto anlegen — lokal über
+      `NEXT_PUBLIC_KEYSTATIC_MODE=github npm run dev` und
+      `localhost:3000/keystatic`. **Nicht** auf der Netlify-Adresse: dort
+      zeigt Keystatic den Assistenten ohne Zugangsdaten nicht an, sondern
+      meldet einen Fehler. Maßgeblich ist das im Browser angemeldete
+      GitHub-Konto — also sein Browserprofil.
 - [ ] ⚠️ **Beide Callback-URLs eintragen**, solange ihr zusammensitzt. Der
       Assistent trägt nur die Adresse ein, auf der er gerade läuft — ohne die
       zweite funktioniert der Login nach dem Switch nicht mehr, und er ruft dich
@@ -170,6 +191,9 @@ Setup aus, das **nur auf deinem Laptop funktioniert**, und merkst es nicht.
 
       https://websiteelektrohofmann.netlify.app/api/keystatic/github/oauth/callback
       https://www.elektrohofmann.info/api/keystatic/github/oauth/callback
+
+      Die dritte, vom Assistenten eingetragene `http://localhost:3000/...`
+      darf stehen bleiben oder weg — sie stört nicht.
 
       → GitHub → Settings → Developer settings → GitHub Apps → die App →
       *Callback URL*
@@ -342,8 +366,12 @@ Webspace:
 
 ## Vor dem Setup-Termin noch zu erledigen
 
-- [ ] **Vercel-Projekt löschen** — dort liegt noch dieselbe Seite. Solange sie
-      dort erreichbar ist, steht sie unter zwei Adressen im Netz.
+- [ ] 🔴 **Vercel-Projekt löschen** — es existiert noch und baut bei jedem
+      Push auf `main` automatisch mit (bestätigt am 03.09.2026 durch eine
+      Fehlermeldung von Vercel zu Commit `09586a2`). Zwei Gründe: dieselbe
+      Seite stünde unter zwei Adressen im Netz, und du bekommst Fehlermails
+      zu einem Projekt, das niemand mehr pflegt — morgen der denkbar
+      schlechteste Zeitpunkt für eine Fehlalarm-Mail.
 - [ ] 301-Weiterleitungen in `netlify.toml` eintragen (greifen erst mit dem
       Switch, lassen sich aber auf der Netlify-Adresse schon testen)
 

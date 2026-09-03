@@ -53,7 +53,16 @@ const kicker = fields.text({
 // Modus, ohne Anmeldeknopf, während der Server GitHub erwartet.
 // NODE_ENV dagegen wird beim Bauen fest in das Browser-Bündel
 // eingesetzt und stimmt auf beiden Seiten überein.
-const lokalerEditor = process.env.NODE_ENV === "development";
+//
+// NEXT_PUBLIC_KEYSTATIC_MODE=github erzwingt den GitHub-Modus auch beim
+// Entwickeln. Einmalig nötig zum Anlegen der GitHub-App: Keystatic zeigt
+// den Einrichtungsassistenten nur im GitHub-Modus, und ohne Zugangsdaten
+// läuft dieser Assistent ausschließlich in der Entwicklungsumgebung.
+// Live wirft Keystatic in derselben Lage einen Fehler — auf der
+// Netlify-Adresse ist der Assistent also nicht erreichbar.
+const githubModus =
+  process.env.NODE_ENV !== "development" ||
+  process.env.NEXT_PUBLIC_KEYSTATIC_MODE === "github";
 
 // Nur ein früher Hinweis beim Bauen. Fehlen die Werte tatsächlich,
 // meldet sich Keystatic beim Anmelden ohnehin selbst mit einem Fehler.
@@ -63,7 +72,7 @@ const lokalerEditor = process.env.NODE_ENV === "development";
 // Warnung ein Fehlalarm in der Konsole des Kunden.
 if (
   typeof window === "undefined" &&
-  !lokalerEditor &&
+  githubModus &&
   !(
     process.env.KEYSTATIC_GITHUB_CLIENT_ID &&
     process.env.KEYSTATIC_GITHUB_CLIENT_SECRET &&
@@ -78,12 +87,12 @@ if (
 }
 
 export default config({
-  storage: lokalerEditor
-    ? { kind: "local" }
-    : // ⚠️ Nach der Übertragung des Repositorys auf das Konto des Kunden
+  storage: githubModus
+    ? // ⚠️ Nach der Übertragung des Repositorys auf das Konto des Kunden
       // muss hier sein GitHub-Benutzername stehen. Bleibt der alte drin,
       // speichert der Editor gegen ein Repository, das ihm nicht gehört.
-      { kind: "github", repo: { owner: "KingB94", name: "elektrohofmann" } },
+      { kind: "github", repo: { owner: "KingB94", name: "elektrohofmann" } }
+    : { kind: "local" },
 
   ui: {
     brand: { name: "Elektro Hofmann" },
