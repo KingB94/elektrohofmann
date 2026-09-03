@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { getBetrieb } from "@/lib/inhalte";
+import { getBetrieb, getHero } from "@/lib/inhalte";
 import { siteUrl } from "@/lib/site";
 import SmoothAnchors from "@/components/SmoothAnchors";
 
@@ -42,6 +42,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const betrieb = await getBetrieb();
+  const hero = await getHero();
 
   // Strukturierte Daten für Google — sorgen dafür, dass Adresse,
   // Telefonnummer und Öffnungszeiten direkt in der Suche erscheinen.
@@ -49,7 +50,10 @@ export default async function RootLayout({
     "@context": "https://schema.org",
     "@type": "Electrician",
     name: betrieb.name,
-    image: `${siteUrl}/images/betriebsgelaende-luftbild.jpg`,
+    // Das Titelbild aus dem Redaktionssystem, nicht fest verdrahtet:
+    // Tauscht der Kunde es im Editor, wird die alte Datei dabei gelöscht.
+    // Stünde der Dateiname hier fest, zeigte Google danach still ins Leere.
+    image: `${siteUrl}${hero.bild}`,
     telephone: betrieb.phoneDisplay,
     email: betrieb.email,
     address: {
