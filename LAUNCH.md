@@ -282,13 +282,17 @@ Geändert in `content/startseite/leistungen.json`, `content/startseite/betrieb.j
 
 ### Beim Kunden klären
 
-- [ ] **Ist elektrohofmann.info die Strato-Domain**, auf die wir umstellen, oder kommt eine
-      andere (z. B. `.de`)? Falls es dieselbe ist, geht die alte Seite mit der DNS-Umstellung
-      automatisch offline — sonst muss die Joomla-Installation separat abgeschaltet werden.
+- [x] **`elektrohofmann.info` ist die Domain** — vom Kunden am 03.09.2026 bestätigt,
+      eine zweite gibt es nicht. (`elektrohofmann.de` ist vergeben und leitet auf
+      `e-hofmann.de`, einen fremden Betrieb in Blaustein bei Ulm.) Weil die Domain
+      dieselbe bleibt, ist die alte Seite mit der DNS-Umstellung unter dem Firmennamen
+      nicht mehr erreichbar. Der Webspace bleibt davon unberührt — die Installation
+      muss trotzdem gesichert und gelöscht werden, siehe `TERMIN-04-09.md`.
       **Die unsichere Installation darf nicht online bleiben.**
-- [ ] **301-Weiterleitungen** einrichten, falls die Domain gleich bleibt:
-      `/leistungen`, `/ueber-uns`, `/kontakt-anfahrt`, `/impressum` → neue Startseite bzw.
-      die passenden Abschnitte. Sonst laufen bestehende Google-Treffer ins Leere.
+- [x] **301-Weiterleitungen** stehen in `netlify.toml`: `/leistungen` → `/#leistungen`,
+      `/ueber-uns` → `/#betrieb`, `/kontakt-anfahrt` → `/#kontakt`. `/impressum` heißt
+      auf der neuen Seite genauso und braucht keine Regel. Wirksam mit dem Switch,
+      testbar schon auf der Netlify-Adresse.
 - [ ] **Link auf `elektro-demel.de`**: Im Begrüßungstext der alten Startseite ist das Wort
       „allen" mit einem anderen Elektrobetrieb verlinkt — für einen redaktionellen Link
       ungewöhnlich platziert. Entweder eine Partner-Verlinkung oder ein eingeschleuster

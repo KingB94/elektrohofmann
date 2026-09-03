@@ -27,10 +27,11 @@ seine Fotos, seine Bestätigungen — und die Einweisung.
 - [ ] **Netlify-Konto anlegen** (erst mal auf deinen Namen) und das Repo
       verbinden. Läuft dann unter einer `*.netlify.app`-Adresse, ohne dass die
       Domain feststehen muss.
-      ⚠️ **Dem Testprojekt bewusst einen Wegwerfnamen geben** (z. B.
-      `hofmann-probe`). Netlify-Namen sind global eindeutig — belegst du hier
-      schon `elektro-hofmann`, ist der Name für sein Projekt blockiert. Siehe
-      Packliste am 02.09.
+      ⚠️ **Für die Generalprobe zwingend einen Wegwerfnamen nehmen**, z. B.
+      `hofmann-probe`. Netlify-Namen sind global eindeutig über alle Kunden
+      hinweg — testest du unter `websiteelektrohofmann`, ist der Name morgen
+      für sein Konto blockiert und seine Seite landet auf
+      `websiteelektrohofmann-2`. Am 03.09.2026 geprüft: der Name ist frei.
 
 ### Fr, 21.08. – Mo, 24.08. — Generalprobe
 
@@ -52,9 +53,15 @@ Klick, und am Termin dauert dasselbe fünfzehn Minuten statt einer Stunde.
 
 ### Sobald die Antworten des Kunden da sind
 
-- [ ] **Domain steht fest** → wird für den Switch gebraucht, und für die
-      zweite Callback-URL (siehe Setup-Termin, Punkt 2). `NEXT_PUBLIC_SITE_URL`
-      zeigt bis zum Switch auf die Netlify-Adresse.
+- [x] **Domain steht fest: `elektrohofmann.info`** — vom Kunden am
+      03.09.2026 bestätigt, es kommt keine weitere dazu. `elektrohofmann.de`
+      ist vergeben und leitet auf `e-hofmann.de` (Elektro Hofmann GmbH,
+      Blaustein bei Ulm) — ein fremder Betrieb, die Adresse ist nicht zu haben.
+      Daraus folgt dreierlei: die zweite Callback-URL steht fest (Setup-Termin,
+      Punkt 2), die 301-Weiterleitungen in `netlify.toml` greifen wie geplant,
+      und die alte Joomla-Seite ist mit dem Switch unter der Domain nicht mehr
+      erreichbar. `NEXT_PUBLIC_SITE_URL` zeigt bis dahin auf die
+      Netlify-Adresse, danach auf `https://www.elektrohofmann.info`.
 - [ ] **Impressumsangaben bestätigt** → in `content/betrieb.json` einpflegen
 - [ ] **Öffnungszeiten bestätigt** → ebenda, zusätzlich in `app/layout.tsx`
       (dort stehen sie fest, weil Google ein maschinenlesbares Format braucht)
@@ -74,19 +81,24 @@ Klick, und am Termin dauert dasselbe fünfzehn Minuten statt einer Stunde.
 #### ⚠️ Den Netlify-Namen vorher festlegen und freiräumen
 
 Netlify-Projektnamen sind **global eindeutig** — über alle Netlify-Kunden
-hinweg. Heißt dein Testprojekt aus der Generalprobe schon `elektro-hofmann`,
-ist der Name für sein Projekt blockiert, und seine Seite landet auf
-`elektro-hofmann-2`.
+hinweg. Heißt dein Testprojekt aus der Generalprobe schon
+`websiteelektrohofmann`, ist der Name für sein Projekt blockiert, und seine
+Seite landet auf `websiteelektrohofmann-2`.
 
-- [ ] Gewünschten Namen festlegen (z. B. `elektro-hofmann`)
-- [ ] **Testprojekt umbenennen oder löschen**, damit der Name frei ist
-- [ ] Erst danach die Kurzanleitung drucken — die Adresse steht dort drin
+- [x] Name festgelegt: **`websiteelektrohofmann`** → die Adresse lautet damit
+      `https://websiteelektrohofmann.netlify.app`.
+      (Netlify schreibt Projektnamen klein und ohne Leerzeichen — aus
+      „WebsiteElektroHofmann" wird `websiteelektrohofmann`.)
+- [ ] **Testprojekt der Generalprobe umbenennen oder löschen**, damit der
+      Name frei ist — vor dem Termin, nicht während
 
-#### Kurzanleitung mit der endgültigen Adresse drucken
+#### Kurzanleitung ausdrucken
 
-- [ ] In `KURZANLEITUNG-KUNDE.md` Zeile 21 den Platzhalter
-      `ihredomain.de/keystatic` durch `<name>.netlify.app/keystatic` ersetzen
-- [ ] Zweifach ausdrucken. Beim Switch nochmal neu mit der echten Domain.
+- [x] Adresse in `KURZANLEITUNG-KUNDE.md` eingetragen:
+      `websiteelektrohofmann.netlify.app/keystatic`
+- [ ] **Zweifach ausdrucken.** Die Zeile mit dem GitHub-Benutzernamen bleibt
+      leer und wird am Termin mit der Hand ausgefüllt.
+- [ ] Beim Switch nochmal neu drucken, dann mit `www.elektrohofmann.info`.
 
 #### Am Telefon vorab klären: kommt er vor Ort an seine E-Mail?
 
@@ -156,8 +168,8 @@ Setup aus, das **nur auf deinem Laptop funktioniert**, und merkst es nicht.
       zweite funktioniert der Login nach dem Switch nicht mehr, und er ruft dich
       an, weil „das Ding kaputt ist". GitHub-Apps erlauben mehrere:
 
-      https://<projekt>.netlify.app/api/keystatic/github/oauth/callback
-      https://www.<seine-domain>/api/keystatic/github/oauth/callback
+      https://websiteelektrohofmann.netlify.app/api/keystatic/github/oauth/callback
+      https://www.elektrohofmann.info/api/keystatic/github/oauth/callback
 
       → GitHub → Settings → Developer settings → GitHub Apps → die App →
       *Callback URL*
@@ -251,7 +263,7 @@ Geht per Telefon mit Bildschirmfreigabe, es muss niemand hinfahren.
 | Eintrag | Jetzt | Nachher |
 | --- | --- | --- |
 | `elektrohofmann.info` (A) | `81.169.145.72` (Strato) | `75.2.60.5` (Netlify) |
-| `www` (CNAME) | → `elektrohofmann.info` | → `<projekt>.netlify.app` |
+| `www` (CNAME) | → `elektrohofmann.info` | → `websiteelektrohofmann.netlify.app` |
 | `MX` | `smtpin.rzone.de` | **unverändert** |
 
 - [ ] Strato-Kundenbereich → Domainverwaltung → DNS

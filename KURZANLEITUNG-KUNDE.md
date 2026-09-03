@@ -18,7 +18,7 @@ jede Änderung wird mitgeschrieben und lässt sich zurückholen.
 
 ## Anmelden
 
-1. Im Browser aufrufen: **▸ ihredomain.de/keystatic**
+1. Im Browser aufrufen: **▸ websiteelektrohofmann.netlify.app/keystatic**
 2. Auf **„Sign in with GitHub"** klicken
 3. Mit Ihrem GitHub-Konto anmelden
    (Benutzername: ▸ ________________________)

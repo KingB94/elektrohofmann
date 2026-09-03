@@ -10,7 +10,7 @@ Davor die Priorisierung, nur für dich.
 
 | # | Frage | Warum sie wichtig ist | Vor dem Termin? |
 | --- | --- | --- | --- |
-| 1 | Welche Domain? | Bestimmt DNS-Umstellung, `NEXT_PUBLIC_SITE_URL`, OAuth-Callback und ob die alte Seite automatisch verschwindet | **ja** |
+| 1 | ~~Welche Domain?~~ | **Beantwortet 03.09.2026: `elektrohofmann.info`, keine weitere.** `elektrohofmann.de` gehört einem fremden Betrieb (leitet auf `e-hofmann.de`, Blaustein bei Ulm) | erledigt |
 | 2 | Alte Seite abschalten | Joomla 2.5.22 (2014) auf PHP 5.3.29, beide seit 2014 ohne Sicherheitsupdates, `/administrator/` öffentlich erreichbar — nachgemessen, siehe `LAUNCH.md` | **ja** |
 | 3 | Welche E-Mail-Postfächer bei Strato? | Der MX-Eintrag zeigt auf Strato — es *gibt* dort Mail. Falsch angefasst liegt die Firmen-Mail lahm | **ja** |
 | 4 | GitHub-Account | Ohne ihn kein Login ins Redaktionssystem | **ja** |

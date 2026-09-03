@@ -42,29 +42,48 @@ const kicker = fields.text({
   description: "Das kurze blaue Wort über der großen Überschrift.",
 });
 
-// Die GitHub-Anbindung schaltet sich ein, sobald die drei Zugangsdaten
-// hinterlegt sind (bei Netlify unter Environment variables). Fehlen sie,
-// läuft der Editor im lokalen Modus — praktisch beim Entwickeln, in der
-// Live-Umgebung aber ein Fehler. Deshalb der Hinweis beim Bauen.
-const githubBereit = Boolean(
-  process.env.KEYSTATIC_GITHUB_CLIENT_ID &&
+// Lokal (npm run dev) schreibt der Editor direkt auf die Festplatte,
+// live läuft er über GitHub.
+//
+// ⚠️ Diese Entscheidung MUSS an NODE_ENV hängen und darf NICHT an den
+// GitHub-Zugangsdaten hängen. Die Editor-Oberfläche wird im Browser
+// ausgeführt, und in den Browser gelangen ausschließlich Variablen mit
+// dem Präfix NEXT_PUBLIC_. Eine Bedingung über CLIENT_ID/SECRET ist im
+// Browser deshalb immer unwahr — der Editor liefe live im lokalen
+// Modus, ohne Anmeldeknopf, während der Server GitHub erwartet.
+// NODE_ENV dagegen wird beim Bauen fest in das Browser-Bündel
+// eingesetzt und stimmt auf beiden Seiten überein.
+const lokalerEditor = process.env.NODE_ENV === "development";
+
+// Nur ein früher Hinweis beim Bauen. Fehlen die Werte tatsächlich,
+// meldet sich Keystatic beim Anmelden ohnehin selbst mit einem Fehler.
+//
+// Die Prüfung läuft bewusst nur auf dem Server (typeof window):
+// im Browser sind diese drei Variablen immer leer, dort wäre die
+// Warnung ein Fehlalarm in der Konsole des Kunden.
+if (
+  typeof window === "undefined" &&
+  !lokalerEditor &&
+  !(
+    process.env.KEYSTATIC_GITHUB_CLIENT_ID &&
     process.env.KEYSTATIC_GITHUB_CLIENT_SECRET &&
     process.env.KEYSTATIC_SECRET
-);
-
-if (process.env.NODE_ENV === "production" && !githubBereit) {
+  )
+) {
   console.warn(
     "\n[Keystatic] Achtung: KEYSTATIC_GITHUB_CLIENT_ID, " +
       "KEYSTATIC_GITHUB_CLIENT_SECRET und KEYSTATIC_SECRET sind nicht " +
-      "gesetzt. Der Editor läuft im lokalen Modus und kann in der " +
-      "Live-Umgebung nichts speichern.\n"
+      "gesetzt. Die Anmeldung am Editor wird fehlschlagen.\n"
   );
 }
 
 export default config({
-  storage: githubBereit
-    ? { kind: "github", repo: { owner: "KingB94", name: "elektrohofmann" } }
-    : { kind: "local" },
+  storage: lokalerEditor
+    ? { kind: "local" }
+    : // ⚠️ Nach der Übertragung des Repositorys auf das Konto des Kunden
+      // muss hier sein GitHub-Benutzername stehen. Bleibt der alte drin,
+      // speichert der Editor gegen ein Repository, das ihm nicht gehört.
+      { kind: "github", repo: { owner: "KingB94", name: "elektrohofmann" } },
 
   ui: {
     brand: { name: "Elektro Hofmann" },
