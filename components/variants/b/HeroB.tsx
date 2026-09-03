@@ -92,7 +92,7 @@ export default function HeroB({ betrieb, hero }: { betrieb: Betrieb; hero: Hero 
             {betrieb.phoneDisplay}
           </a>
           <a
-            href={betrieb.googleMapsUrl}
+            href={betrieb.routeUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2.5 rounded-full border border-carbon/20 bg-white/70 px-7 py-4 font-mono text-[0.75rem] uppercase tracking-[0.12em] text-carbon backdrop-blur transition-colors hover:border-blue hover:text-blue-deep"

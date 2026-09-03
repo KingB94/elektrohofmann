@@ -80,7 +80,7 @@ export default function ContactB({
                 <div>
                   <p className="font-medium text-carbon">{betrieb.address.full}</p>
                   <a
-                    href={betrieb.googleMapsUrl}
+                    href={betrieb.routeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-1.5 inline-block font-mono text-[0.68rem] uppercase tracking-[0.12em] text-blue hover:underline"
@@ -94,6 +94,7 @@ export default function ContactB({
                 <VariantMap
                   lat={betrieb.geo.lat}
                   lng={betrieb.geo.lng}
+                  query={`${betrieb.name}, ${betrieb.address.full}`}
                   title={`Karte: ${betrieb.name}, ${betrieb.address.full}`}
                   tone="light"
                 />

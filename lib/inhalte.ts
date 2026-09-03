@@ -52,6 +52,12 @@ export async function getBetrieb() {
     googleMapsUrl:
       b.googleMapsUrl ??
       `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(anschrift)}`,
+    // Öffnet die Routenplanung mit der Anschrift als Ziel. Ein Link auf
+    // einen Google-Maps-Ort taugt dafür nicht: Zeigt er auf einen Eintrag
+    // ohne hinterlegte Adresse, öffnet sich der Routenplaner leer.
+    routeUrl: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+      anschrift
+    )}`,
     geo,
     founded: "15. August 2005",
     foundedISO: "2005-08-15",

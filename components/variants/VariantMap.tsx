@@ -22,16 +22,25 @@ export default function VariantMap({
   lat,
   lng,
   title,
+  query,
   tone = "light",
 }: {
   lat: number;
   lng: number;
   title: string;
+  /**
+   * Firmenname und Anschrift. Google beschriftet den Pin damit und zeigt
+   * den Kasten mit der Adresse. Fehlt die Angabe, bleibt es bei den
+   * Koordinaten — dann setzt Google nur eine namenlose Nadel.
+   */
+  query?: string;
   tone?: keyof typeof tones;
 }) {
   const t = tones[tone];
   const [loaded, setLoaded] = useState(false);
-  const mapSrc = `https://www.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
+  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
+    query ?? `${lat},${lng}`
+  )}&z=15&output=embed`;
 
   if (loaded) {
     return (
