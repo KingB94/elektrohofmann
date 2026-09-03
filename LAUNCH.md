@@ -173,8 +173,28 @@ Branchenverzeichnissen. Beim Termin gegenprüfen:
 - [ ] Telefon-, Mobil- und Faxnummer
 - [ ] Zeigt `public/images/gewerbehalle.jpg` das eigene Gelände oder ein Referenzprojekt?
 - [ ] Kontakt-E-Mail: bleibt es bei der t-online-Adresse oder eine neue unter eigener Domain?
-- [ ] **Eigene Fotos einsammeln** — aktuell liegen nur vier Bilder im Projekt
-      (`betriebsgelaende-luftbild.jpg`, `gewerbehalle.jpg`, `teleskoplader.jpg`, `logo.png`)
+- [ ] **Eigene Fotos einsammeln.** Stand 03.09.2026 liegen `bild.jpg`, `bildGross.jpg`,
+      `bildKlein.jpg` und `logo.png` im Projekt — die alten Platzhalter wurden im Editor
+      bereits ersetzt.
+
+### Rechtstexte (⚠️ vor dem Switch, nicht vor dem Setup-Termin)
+
+Am 03.09.2026 durchgesehen und korrigiert: Die Datenschutzerklärung nannte noch Vercel
+als Hoster und beschrieb das Kontaktformular als `mailto`-Link, obwohl es längst an
+Netlify Forms sendet. Beides steht jetzt richtig drin, ebenso sind drei sichtbare
+Bearbeitungsnotizen in eckigen Klammern aus dem Fließtext entfernt.
+
+Was noch eine Entscheidung des Betriebs braucht:
+
+- [ ] **Auftragsverarbeitungsvertrag mit Netlify** annehmen und ablegen. Betrifft
+      Hosting *und* Kontaktformular — in beiden Fällen verarbeitet Netlify Daten.
+- [ ] **Datenschutzerklärung und Impressum anwaltlich prüfen lassen.** Beide Seiten sind
+      Vorlagen und tragen den Hinweis im Dateikopf. Das ist keine Rechtsberatung.
+- [ ] **Verbraucherschlichtung**: Die Aussage im Impressum, nicht an Streitbeilegungs-
+      verfahren teilzunehmen, ist die übliche — bestätigen lassen.
+- [ ] **Bewertungsangabe „5,0 auf Google"** im Kopfbereich: Es gibt kein
+      Google-Unternehmensprofil (Stand 03.09.2026, Kartenabruf), also auch keine
+      Bewertungen. Ohne Beleg muss die Angabe raus.
 
 ### Einweisung (15–20 Minuten)
 

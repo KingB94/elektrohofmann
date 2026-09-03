@@ -13,6 +13,21 @@ export const metadata: Metadata = {
 // aktuellen technischen Stand dieser Website (kein Cookie-Banner
 // nötig, da aktuell keine Analyse- oder Tracking-Tools eingebunden
 // sind).
+//
+// Offene Punkte, die eine Entscheidung des Betriebs brauchen —
+// bewusst hier als Kommentar und nicht als sichtbarer Text auf der
+// Seite. Siehe auch LAUNCH.md, „Vor dem Switch":
+//
+//   1. Auftragsverarbeitungsvertrag mit Netlify. Netlify stellt
+//      einen an; er muss angenommen und aufbewahrt werden. Betrifft
+//      Abschnitt 2 (Hosting) und 5 (Kontaktformular), weil dort in
+//      beiden Fällen Daten bei Netlify verarbeitet werden.
+//   2. Werden später Analyse- oder Marketing-Werkzeuge eingebunden,
+//      ist Abschnitt 6 anzupassen und in aller Regel ein
+//      Einwilligungsbanner nötig.
+//   3. Abschnitt „Verbraucherschlichtung" im Impressum: Die Aussage,
+//      nicht an Streitbeilegungsverfahren teilzunehmen, ist die
+//      übliche, aber sie sollte bestätigt werden.
 // ---------------------------------------------------------------
 
 export default async function DatenschutzPage() {
@@ -44,11 +59,13 @@ export default async function DatenschutzPage() {
         <section>
           <h2 className="font-display text-lg font-bold text-carbon">2. Hosting</h2>
           <p className="mt-2">
-            Diese Website wird bei Vercel Inc. gehostet. Dabei können technisch bedingt
-            Server-Logdaten (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene
-            Seite, Browsertyp) verarbeitet werden, um die Website sicher und stabil
-            auszuliefern. [Bitte prüfen, ob mit Vercel ein Auftragsverarbeitungsvertrag (DPA)
-            abgeschlossen wurde bzw. werden muss, und diesen Abschnitt entsprechend ergänzen.]
+            Diese Website wird bei Netlify gehostet (Netlify, Inc., 512 2nd Street, Suite
+            200, San Francisco, CA 94107, USA). Dabei werden technisch bedingt Server-Logdaten
+            verarbeitet — etwa IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite
+            und Browsertyp —, um die Website sicher und stabil auszuliefern. Rechtsgrundlage
+            ist unser berechtigtes Interesse am sicheren Betrieb der Website (Art. 6 Abs. 1
+            lit. f DSGVO). Da der Anbieter seinen Sitz in den USA hat, kann dabei eine
+            Übermittlung personenbezogener Daten in ein Drittland stattfinden.
           </p>
         </section>
 
@@ -86,13 +103,16 @@ export default async function DatenschutzPage() {
         <section>
           <h2 className="font-display text-lg font-bold text-carbon">5. Kontaktformular</h2>
           <p className="mt-2">
-            Unser Kontaktformular öffnet Ihr eigenes E-Mail-Programm mit einer
-            vorausgefüllten Nachricht (sogenannter „mailto&rdquo;-Link). Die eingegebenen
-            Daten werden dabei nicht an einen Server dieser Website übertragen, sondern erst
-            versendet, wenn Sie die E-Mail in Ihrem E-Mail-Programm tatsächlich abschicken.
-            Ihre Angaben verarbeiten wir dann ausschließlich, um Ihre Anfrage zu beantworten.
-            [Falls stattdessen ein serverseitiges Formular eingebunden wird, muss dieser
-            Abschnitt entsprechend angepasst werden.]
+            Wenn Sie unser Kontaktformular abschicken, werden die von Ihnen eingegebenen
+            Angaben — Name, Ihre Kontaktmöglichkeit und Ihre Nachricht — an unseren Hoster
+            Netlify übertragen, dort gespeichert und uns per E-Mail zugestellt. Netlify
+            handelt dabei als Auftragsverarbeiter für uns. Wir verwenden Ihre Angaben
+            ausschließlich, um Ihre Anfrage zu bearbeiten und zu beantworten.
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit Ihre Anfrage der
+            Anbahnung oder Durchführung eines Vertrages dient, sonst unser berechtigtes
+            Interesse an der Beantwortung von Anfragen (Art. 6 Abs. 1 lit. f DSGVO). Zum
+            Schutz vor automatisierten Zusendungen enthält das Formular ein für Sie
+            unsichtbares Feld, das von Menschen nicht ausgefüllt wird.
           </p>
         </section>
 
@@ -101,9 +121,8 @@ export default async function DatenschutzPage() {
           <p className="mt-2">
             Diese Website verwendet aktuell keine Analyse-, Marketing- oder Tracking-Cookies
             und keine vergleichbaren Dienste (z. B. Google Analytics). Es werden nur
-            technisch notwendige Funktionen des Browsers genutzt. [Bitte ergänzen, falls
-            zukünftig Analyse- oder Marketing-Tools eingebunden werden — in diesem Fall ist
-            in der Regel ein Cookie-Consent-Banner erforderlich.]
+            technisch notwendige Funktionen des Browsers genutzt. Ein Einwilligungsbanner
+            ist deshalb nicht erforderlich.
           </p>
         </section>
 

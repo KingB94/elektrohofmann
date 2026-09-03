@@ -81,7 +81,7 @@ export default async function ImpressumPage() {
             </a>
             . Unsere E-Mail-Adresse finden Sie oben in diesem Impressum. Wir sind nicht verpflichtet
             und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
-            teilzunehmen. [Bitte prüfen und ggf. anpassen.]
+            teilzunehmen.
           </p>
         </section>
 
