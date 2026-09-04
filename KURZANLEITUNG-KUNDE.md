@@ -39,10 +39,10 @@ Website — von oben nach unten in derselben Reihenfolge wie auf der Seite:
 | --- | --- |
 | **Betriebsdaten** | Adresse, Telefon, E-Mail, Öffnungszeiten, Impressumsangaben |
 | **Kopfbereich** | Das Große ganz oben mit dem Luftbild |
-| **In Zahlen** | Die drei großen Zahlen |
+| **In Zahlen** | Die drei großen Zahlen und die Chronik daneben |
 | **Leistungen** | Die sechs Kacheln |
 | **Ablauf** | Die drei Schritte |
-| **Der Betrieb** | Ihr Werdegang, die Bilder, die Chronik |
+| **Der Betrieb** | Ihr Werdegang und die Bilder |
 | **Kontakt** | Die Überschriften über dem Kontaktformular |
 
 ---

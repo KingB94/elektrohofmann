@@ -286,8 +286,9 @@ Texte aus der alten Seite in die bestehenden Slots eingearbeitet — **ohne Layo
 - **Der Betrieb**: Werdegang präzisiert (Elektro Rehrl in Lauter, Baustellenleiter im
   Wohnungsbau, Betriebselektriker im Hofbräuhaus Traunstein); Normen-Zusage aus dem
   alten Begrüßungstext ergänzt
-- **Chronik**: Beschriftungen konkretisiert (Anzahl der Einträge bewusst bei 5 belassen —
-  die Liste ist im Layout an die Bildhöhe daneben gekoppelt)
+- **Chronik**: Beschriftungen konkretisiert. Seit 04.09.2026 steht die Liste im Abschnitt
+  „In Zahlen“ (Kasten rechts) und wird auch dort gepflegt — die frühere Kopplung an die
+  Bildhöhe im Abschnitt „Der Betrieb“ gibt es nicht mehr, die Länge ist jetzt frei.
 - **`BGV A3` → `DGUV Vorschrift 3`**: die alte Bezeichnung wurde 2014 abgelöst und stand
   noch an vier Stellen im Projekt. Korrigiert.
 

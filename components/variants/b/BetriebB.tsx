@@ -68,34 +68,37 @@ export default function BetriebB({
               </div>
             </Reveal>
 
-            <div className="grid gap-6 sm:grid-cols-2">
-              <Reveal delay={0.1} className="h-full">
-                <div className="relative h-full min-h-[190px] w-full overflow-hidden rounded-sm border border-frost-line">
+            <Reveal delay={0.1}>
+              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-sm border border-frost-line">
+                <Image
+                  src={ueberUns.bildKlein}
+                  alt="Teleskoplader von Elektro Hofmann im Einsatz vor dem Betriebsgebäude"
+                  fill
+                  sizes="(max-width: 1024px) 92vw, 520px"
+                  className="object-cover"
+                />
+              </div>
+            </Reveal>
+          </div>
+        </div>
+
+        {ueberUns.galerie.length > 0 && (
+          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {ueberUns.galerie.map((b, i) => (
+              <Reveal key={`${b.bild}-${i}`} delay={i * 0.08}>
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-frost-line">
                   <Image
-                    src={ueberUns.bildKlein}
-                    alt="Teleskoplader von Elektro Hofmann im Einsatz vor dem Betriebsgebäude"
+                    src={b.bild}
+                    alt={b.alt}
                     fill
-                    sizes="(max-width: 640px) 92vw, 250px"
+                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 340px"
                     className="object-cover"
                   />
                 </div>
               </Reveal>
-
-              <Reveal delay={0.15} className="h-full">
-                <ol className="flex h-full flex-col justify-between gap-3 rounded-sm border border-frost-line bg-frost p-6">
-                  {ueberUns.chronik.map((t) => (
-                    <li key={t.year} className="flex gap-4">
-                      <span className="w-12 shrink-0 font-mono text-[0.66rem] uppercase tracking-[0.08em] text-blue">
-                        {t.year}
-                      </span>
-                      <span className="text-[0.78rem] leading-snug text-carbon/60">{t.label}</span>
-                    </li>
-                  ))}
-                </ol>
-              </Reveal>
-            </div>
+            ))}
           </div>
-        </div>
+        )}
 
         <div className="mt-20 grid gap-px overflow-hidden rounded-sm border border-frost-line bg-frost-line md:grid-cols-3">
           {ueberUns.vertrauen.map((t, i) => {

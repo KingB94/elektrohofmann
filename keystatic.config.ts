@@ -224,8 +224,20 @@ export default config({
             itemLabel: (props) => props.fields.label.value || "Neue Kennzahl",
           }
         ),
+        chronik: fields.array(
+          fields.object({
+            year: fields.text({ label: "Jahr" }),
+            label: fields.text({ label: "Was war", multiline: true }),
+          }),
+          {
+            label: "Chronik",
+            description: "Steht im Kasten rechts neben den Kennzahlen.",
+            itemLabel: (props) => props.fields.year.value || "Neuer Eintrag",
+          }
+        ),
         hinweis: fields.text({
           label: "Text im Kasten rechts",
+          description: "Steht unter der Chronik.",
           multiline: true,
         }),
       },
@@ -293,15 +305,21 @@ export default config({
         absatz1: fields.text({ label: "Erster Absatz", multiline: true }),
         absatz2: fields.text({ label: "Zweiter Absatz", multiline: true }),
         bildGross: bildFeld("Großes Bild", "Querformat, wird oben rechts angezeigt."),
-        bildKlein: bildFeld("Kleines Bild", "Hochformat oder quadratisch."),
-        chronik: fields.array(
+        bildKlein: bildFeld("Zweites Bild", "Querformat, steht unter dem großen Bild."),
+        galerie: fields.array(
           fields.object({
-            year: fields.text({ label: "Jahr" }),
-            label: fields.text({ label: "Was war", multiline: true }),
+            bild: bildFeld("Bild", "Querformat, mindestens 1200 Pixel breit."),
+            alt: fields.text({
+              label: "Bildbeschreibung",
+              description:
+                "Was ist zu sehen? Wird Blinden vorgelesen und steht da, wenn das Bild nicht lädt.",
+            }),
           }),
           {
-            label: "Chronik",
-            itemLabel: (props) => props.fields.year.value || "Neuer Eintrag",
+            label: "Weitere Bilder",
+            description:
+              "Eine Reihe zusätzlicher Fotos unter dem Werdegang. Drei Bilder ergeben eine volle Reihe. Ohne Einträge bleibt die Reihe aus.",
+            itemLabel: (props) => props.fields.alt.value || "Neues Bild",
           }
         ),
         vertrauen: fields.array(

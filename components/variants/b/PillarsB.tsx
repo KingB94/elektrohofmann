@@ -1,6 +1,5 @@
 import type { Zahlen } from "@/lib/inhalte";
 import CountUp from "@/components/variants/CountUp";
-import CircuitSignature from "@/components/variants/CircuitSignature";
 import Reveal from "@/components/variants/Reveal";
 
 export default function PillarsB({ zahlen }: { zahlen: Zahlen }) {
@@ -40,10 +39,29 @@ export default function PillarsB({ zahlen }: { zahlen: Zahlen }) {
           </dl>
         </div>
 
+        {/* Die Chronik als senkrechte Zeitleiste — die Linie läuft hinter
+            den Punkten durch und endet mit dem letzten Eintrag. */}
         <Reveal delay={0.15}>
-          <div className="rounded-sm border border-frost-line bg-frost p-5 shadow-sm shadow-carbon/5">
-            <CircuitSignature tone="light" />
-            <p className="mt-5 text-sm leading-relaxed text-carbon/60">
+          <div className="rounded-sm border border-frost-line bg-frost p-7 shadow-sm shadow-carbon/5">
+            <ol className="relative">
+              <span
+                aria-hidden
+                className="absolute left-[3px] top-2 bottom-2 w-px bg-frost-line"
+              />
+              {zahlen.chronik.map((t) => (
+                <li key={t.year} className="relative flex gap-4 pb-6 last:pb-0">
+                  <span className="relative z-10 mt-[7px] h-[7px] w-[7px] shrink-0 rounded-full bg-blue ring-4 ring-frost" />
+                  <div>
+                    <span className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-blue">
+                      {t.year}
+                    </span>
+                    <p className="mt-1 text-[0.84rem] leading-snug text-carbon/60">{t.label}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <p className="mt-7 border-t border-frost-line pt-6 text-sm leading-relaxed text-carbon/60">
               {zahlen.hinweis}
             </p>
           </div>

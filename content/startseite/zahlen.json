@@ -21,5 +21,27 @@
       "note": "Installation, Photovoltaik, Prüfung, Reparatur, Medientechnik, Licht."
     }
   ],
+  "chronik": [
+    {
+      "year": "1991",
+      "label": "Ausbildung zum Elektroinstallateur bei Elektro Rehrl in Lauter"
+    },
+    {
+      "year": "2004",
+      "label": "Meisterprüfung für Energie- und Gebäudetechnik"
+    },
+    {
+      "year": "2005",
+      "label": "Gründung der Firma Elektro Hofmann"
+    },
+    {
+      "year": "2012",
+      "label": "Neubau von Betriebsgelände und Büro in Greinachtal"
+    },
+    {
+      "year": "heute",
+      "label": "Familienbetrieb mit eingespieltem Team im Chiemgau"
+    }
+  ],
   "hinweis": "Ob Störung im Haus oder geplante Erweiterung: Sie rufen an, wir schauen es uns an und bringen die Anlage wieder auf einen Stand, der den geltenden Normen entspricht."
 }
