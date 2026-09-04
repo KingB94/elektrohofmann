@@ -45,10 +45,7 @@ export default function ServicesB({ leistungen }: { leistungen: Leistungen }) {
             return (
               <Reveal key={s.title} delay={(i % 3) * 0.08}>
                 <article className="group relative flex h-full flex-col bg-frost p-8 transition-colors duration-300 hover:bg-frost-base md:p-10">
-                  <span className="font-mono text-[0.62rem] tracking-[0.14em] text-carbon/25">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <Icon className="mt-7 h-10 w-10 text-blue transition-transform duration-300 group-hover:-translate-y-1" />
+                  <Icon className="h-10 w-10 text-blue transition-transform duration-300 group-hover:-translate-y-1" />
                   <h3 className="mt-7 font-display text-xl font-bold leading-snug text-carbon">
                     {s.title}
                   </h3>
