@@ -172,7 +172,9 @@ Branchenverzeichnissen. Beim Termin gegenprüfen:
 - [ ] Anzahl der Google-Bewertungen
 - [ ] Telefon-, Mobil- und Faxnummer
 - [ ] Zeigt `public/images/gewerbehalle.jpg` das eigene Gelände oder ein Referenzprojekt?
-- [ ] Kontakt-E-Mail: bleibt es bei der t-online-Adresse oder eine neue unter eigener Domain?
+- [x] Kontakt-E-Mail: `info@hofmann-wonneberg.de` (am 04.09.2026 vom Kunden bestätigt,
+      löst die alte t-online-Adresse ab). ⚠️ Das Postfach muss existieren, bevor die
+      Seite live geht — und die Netlify-Benachrichtigung für das Formular muss darauf zeigen.
 - [ ] **Eigene Fotos einsammeln.** Stand 03.09.2026 liegen `bild.jpg`, `bildGross.jpg`,
       `bildKlein.jpg` und `logo.png` im Projekt — die alten Platzhalter wurden im Editor
       bereits ersetzt.

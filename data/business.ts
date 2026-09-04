@@ -29,7 +29,7 @@ export const business = {
   mobileDisplay: "0170 3550919",
   mobileHref: "tel:+491703550919",
   faxDisplay: "08681 478398",
-  email: "hofmanngreinach@t-online.de",
+  email: "info@hofmann-wonneberg.de",
   address: {
     street: "Greinachtal 7",
     zip: "83379",
