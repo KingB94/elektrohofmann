@@ -35,36 +35,6 @@
   [headers.values]
     X-Robots-Tag = "noindex"
 
-# ---------------------------------------------------------------
-# 🔴 NUR BIS ZUM SWITCH AUF DIE ECHTE DOMAIN.
-#
-# Solange die Seite ausschließlich unter *.netlify.app läuft, darf
-# sie nicht in den Suchindex — sonst stehen später dieselben
-# Inhalte unter zwei Adressen.
-#
-# BEIM SWITCH ERSATZLOS ENTFERNEN. Bleibt der Block drin, ist die
-# fertige Seite für Google unsichtbar. Steht auch auf der Liste in
-# TERMIN-04-09.md, Abschnitt „Direkt nach dem Switch".
-# ---------------------------------------------------------------
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Robots-Tag = "noindex"
-
-# ---------------------------------------------------------------
-# Weiterleitungen von der alten Joomla-Seite.
-#
-# Die vier alten Adressen (per Abruf der Seite am 20.08.2026
-# bestätigt) waren:
-#   /leistungen  /ueber-uns  /kontakt-anfahrt  /impressum
-#
-# /impressum heißt auf der neuen Seite genauso und braucht keine
-# Regel. Die übrigen drei zeigen auf die passenden Abschnitte der
-# Startseite.
-#
-# Wirksam werden sie erst, wenn die Domain auf Netlify zeigt —
-# vorher lassen sie sich aber auf der *.netlify.app-Adresse testen.
-# ---------------------------------------------------------------
 [[redirects]]
   from = "/leistungen"
   to = "/#leistungen"
