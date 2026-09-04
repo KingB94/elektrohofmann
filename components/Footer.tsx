@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
           <div>
             <div className="inline-flex items-center rounded-sm bg-white px-2 py-1.5">
-              <Image src="/images/logo.png" alt={business.name} width={130} height={80} className="h-7 w-auto object-contain" />
+              <Image src="/images/logo.png" alt={business.name} width={260} height={80} className="h-10 w-auto object-contain" />
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-paper/60">
               {business.legalSuffix} in {business.address.city} — Elektroinstallation,

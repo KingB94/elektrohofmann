@@ -42,9 +42,9 @@ export default function HeaderC() {
           <Image
             src="/images/logo.png"
             alt={business.name}
-            width={150}
-            height={93}
-            className="h-9 w-auto object-contain"
+            width={260}
+            height={80}
+            className="h-11 w-auto object-contain"
             priority
           />
           <span className="hidden border-l border-bone-line pl-4 font-serif text-sm italic text-soot/60 lg:block">

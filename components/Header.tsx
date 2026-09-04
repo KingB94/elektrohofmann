@@ -35,9 +35,9 @@ export default function Header() {
             <Image
               src="/images/logo.png"
               alt={business.name}
-              width={140}
-              height={87}
-              className="h-7 w-auto object-contain md:h-8"
+              width={260}
+              height={80}
+              className="h-8 w-auto object-contain md:h-10"
               priority
             />
           </div>

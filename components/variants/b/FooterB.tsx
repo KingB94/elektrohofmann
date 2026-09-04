@@ -27,9 +27,9 @@ export default function FooterB({ betrieb }: { betrieb: Betrieb }) {
             <Image
               src="/images/logo.png"
               alt={betrieb.name}
-              width={130}
+              width={260}
               height={80}
-              className="h-7 w-auto object-contain"
+              className="h-10 w-auto object-contain"
             />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-carbon/55">
               {betrieb.legalSuffix} in {betrieb.address.city}. Elektroinstallation,

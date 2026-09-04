@@ -45,9 +45,9 @@ export default function HeaderB({ betrieb }: { betrieb: Betrieb }) {
             <Image
               src="/images/logo.png"
               alt={betrieb.name}
-              width={140}
-              height={87}
-              className="h-6 w-auto object-contain md:h-7"
+              width={260}
+              height={80}
+              className="h-8 w-auto object-contain md:h-10"
               priority
             />
           </Link>

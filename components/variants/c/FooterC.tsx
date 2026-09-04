@@ -20,9 +20,9 @@ export default function FooterC() {
             <Image
               src="/images/logo.png"
               alt={business.name}
-              width={150}
-              height={93}
-              className="h-9 w-auto object-contain"
+              width={260}
+              height={80}
+              className="h-11 w-auto object-contain"
             />
             <p className="mt-6 max-w-xs font-serif text-lg italic leading-relaxed text-soot/70">
               {business.claim}
