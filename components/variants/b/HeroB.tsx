@@ -106,12 +106,17 @@ export default function HeroB({ betrieb, hero }: { betrieb: Betrieb; hero: Hero 
           className="hero-in mt-14 flex flex-wrap items-center gap-x-10 gap-y-5 border-t border-carbon/12 pt-7"
           style={{ animationDelay: "0.5s" }}
         >
-          <div className="flex items-center gap-2.5">
-            <StarRating value={betrieb.ratingValue ?? 5} />
-            <span className="font-mono text-[0.7rem] text-carbon/65">
-              {(betrieb.ratingValue ?? 5).toFixed(1)} auf Google
-            </span>
-          </div>
+          {/* Nur zeigen, wenn im Editor wirklich eine Bewertung hinterlegt
+              ist. Ohne Google-Unternehmensprofil waere die Angabe eine
+              Falschaussage — der fruehere Ersatzwert 5 stand immer da. */}
+          {betrieb.ratingValue != null && (
+            <div className="flex items-center gap-2.5">
+              <StarRating value={betrieb.ratingValue} />
+              <span className="font-mono text-[0.7rem] text-carbon/65">
+                {betrieb.ratingValue.toFixed(1)} auf Google
+              </span>
+            </div>
+          )}
           <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-carbon/50">
             {betrieb.address.full}
           </span>
