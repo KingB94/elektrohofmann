@@ -14,11 +14,6 @@
       "icon": "solar"
     },
     {
-      "title": "VDE-Prüfungen & E-Check",
-      "description": "E-Check mit Besichtigung, nötigen Reparaturen und Anlagenprüfung samt Protokoll. Geräteprüfungen nach VDE 0701/0702 und DGUV Vorschrift 3 — auf Wunsch mit Erinnerung an fällige Fristen.",
-      "icon": "check"
-    },
-    {
       "title": "Geräteverkauf & Reparatur",
       "description": "Markengeräte aus dem Elektrogroßhandel, geliefert und auf Wunsch aufgestellt. Reparatur vom Kleingerät bis zur Waschmaschine in der eigenen Werkstatt — zum normalen Stundenlohn, nicht zum Kundendiensttarif.",
       "icon": "repair"
@@ -32,6 +27,11 @@
       "title": "LED- & Beleuchtungstechnik",
       "description": "Umrüstung alter Beleuchtung auf LED. In einer Montagehalle ersetzt heute eine 57-Watt-Leuchte die alte Wannenleuchte mit 2 × 58 Watt — mehr Licht am Boden bei halber Leistung.",
       "icon": "led"
+    },
+    {
+      "title": "VDE-Prüfungen & E-Check",
+      "description": "E-Check mit Besichtigung, nötigen Reparaturen und Anlagenprüfung samt Protokoll. Geräteprüfungen nach VDE 0701/0702 und DGUV Vorschrift 3 — auf Wunsch mit Erinnerung an fällige Fristen.",
+      "icon": "check"
     }
   ]
 }
