@@ -47,7 +47,7 @@ export default function ProtocolB({ ablauf }: { ablauf: Ablauf }) {
   }, []);
 
   return (
-    <section id="ablauf" className="scroll-mt-24 relative bg-frost-base pb-24 md:pb-32">
+    <section id="ablauf" className="scroll-mt-24 relative bg-frost-base pb-14 md:pb-20">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <span className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-blue">
           {ablauf.kicker}
@@ -91,8 +91,13 @@ export default function ProtocolB({ ablauf }: { ablauf: Ablauf }) {
             );
           })}
         </div>
-        {/* Scrollstrecke, damit die Karten übereinander stapeln können. */}
-        <div className="h-[40vh] md:h-[70vh]" />
+        {/* Scrollstrecke, damit die Karten übereinander stapeln können.
+            Knapp bemessen: Sie muss nur reichen, bis die vorletzte Karte
+            ihren Rückzug beendet hat. Weil dieser Weg in Pixeln festgelegt
+            ist (520 ab dem Andocken), ist es auch die Strecke hier — eine
+            Angabe in vh wäre auf großen Schirmen bloß eine leere Fläche
+            unter der letzten Karte. */}
+        <div className="h-[220px] md:h-[300px]" />
       </div>
     </section>
   );
