@@ -2,9 +2,8 @@
 
 Kurzanleitung für Elektro Hofmann · Stand September 2026
 
-> **Vor dem Ausdrucken:** Nur noch die mit ▸ markierte Stelle ganz unten
-> ausfüllen (Rückfragen-Kontakt). Die Website-Adresse funktioniert erst,
-> sobald die Domain umgestellt ist.
+> **Vor dem Ausdrucken:** Die Website-Adresse funktioniert erst, sobald die
+> Domain umgestellt ist — vorher ausgedruckt führt sie ins Leere.
 
 ---
 
@@ -133,4 +132,4 @@ sich einfach:
 
 ---
 
-**Bei Fragen:** ▸ ________________________
+**Bei Fragen:** Benedikt Holzner · 0160 6363998 · b@siq.company

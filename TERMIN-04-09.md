@@ -204,18 +204,24 @@ Setup aus, das **nur auf deinem Laptop funktioniert**, und merkst es nicht.
 
 ### 2. Redaktionssystem scharf schalten — 20 Min
 
-- [ ] GitHub-App unter **seinem** Konto anlegen — lokal über
-      `NEXT_PUBLIC_KEYSTATIC_MODE=github npm run dev` und
-      `localhost:3000/keystatic`. **Nicht** auf der Netlify-Adresse: dort
-      zeigt Keystatic den Assistenten ohne Zugangsdaten nicht an, sondern
-      meldet einen Fehler. Maßgeblich ist das im Browser angemeldete
-      GitHub-Konto — also sein Browserprofil.
+- [ ] ⚠️ **Korrigiert am 05.09.2026: Die GitHub-App gehört unter *unser*
+      Konto (`KingB94`), nicht unter seines.** Der ursprüngliche Plan ging
+      davon aus, dass das Repository auf ihn übergeht — das ist nicht
+      passiert. Die App wird auf `KingB94/elektrohofmann` installiert, und
+      dort haben nur wir Administrationsrechte. Läge sie unter seinem Konto,
+      bräuchte es ihn für jede Änderung an den Callback-URLs.
+
+      Anlegen lokal über `NEXT_PUBLIC_KEYSTATIC_MODE=github npm run dev` und
+      `localhost:3000/keystatic`. **Nicht** auf der Live-Adresse: dort zeigt
+      Keystatic den Assistenten ohne Zugangsdaten nicht an, sondern meldet
+      einen Fehler. Maßgeblich ist das im Browser angemeldete GitHub-Konto —
+      also unseres.
 - [ ] ⚠️ **Beide Callback-URLs eintragen**, solange ihr zusammensitzt. Der
       Assistent trägt nur die Adresse ein, auf der er gerade läuft — ohne die
       zweite funktioniert der Login nach dem Switch nicht mehr, und er ruft dich
       an, weil „das Ding kaputt ist". GitHub-Apps erlauben mehrere:
 
-      https://websiteelektrohofmann.netlify.app/api/keystatic/github/oauth/callback
+      https://<projektname>.workers.dev/api/keystatic/github/oauth/callback
       https://www.elektrohofmann.info/api/keystatic/github/oauth/callback
 
       Die dritte, vom Assistenten eingetragene `http://localhost:3000/...`
@@ -223,10 +229,12 @@ Setup aus, das **nur auf deinem Laptop funktioniert**, und merkst es nicht.
 
       → GitHub → Settings → Developer settings → GitHub Apps → die App →
       *Callback URL*
-- [ ] Die vier Werte bei Netlify unter *Environment variables* eintragen,
-      neu bauen lassen
-- [ ] **Formular-Benachrichtigung**: Netlify → Forms → Notifications auf seine
-      E-Mail-Adresse. Sonst liegen Anfragen nur im Dashboard und niemand sieht sie.
+- [ ] Die vier Werte bei Cloudflare unter *Settings → Variables* eintragen,
+      neu bauen lassen. ⚠️ Die beiden `NEXT_PUBLIC_`-Werte müssen als
+      **Build**-Variablen gesetzt sein — sie werden beim Bauen fest eingebaut.
+- [ ] **Kontaktformular**: `RESEND_API_KEY` als Secret hinterlegen und einmal
+      echt absenden. Es gibt kein Dashboard, in dem Anfragen sonst liegen —
+      sie gehen direkt als E-Mail raus oder gar nicht.
 - [ ] Gemeinsam einmal anmelden und eine Kleinigkeit ändern
 
 ### 3. Einweisung — 25 Min
