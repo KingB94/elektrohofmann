@@ -2,8 +2,9 @@
 
 Kurzanleitung für Elektro Hofmann · Stand September 2026
 
-> **Vor dem Ausdrucken:** Die mit ▸ markierten Stellen noch durch die echten
-> Angaben ersetzen (Adresse der Website, Benutzername, Telefonnummer).
+> **Vor dem Ausdrucken:** Nur noch die mit ▸ markierte Stelle ganz unten
+> ausfüllen (Rückfragen-Kontakt). Die Website-Adresse funktioniert erst,
+> sobald die Domain umgestellt ist.
 
 ---
 
@@ -18,10 +19,10 @@ jede Änderung wird mitgeschrieben und lässt sich zurückholen.
 
 ## Anmelden
 
-1. Im Browser aufrufen: **▸ www.elektrohofmann.info/keystatic**
+1. Im Browser aufrufen: **www.elektrohofmann.info/keystatic**
 2. Auf **„Sign in with GitHub"** klicken
 3. Mit Ihrem GitHub-Konto anmelden
-   (Benutzername: ▸ ________________________)
+   (Benutzername: **ElektroHofmann**)
 
 Beim ersten Mal fragt GitHub, ob der Zugriff erlaubt ist — bestätigen. Danach
 bleiben Sie in der Regel angemeldet.

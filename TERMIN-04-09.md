@@ -4,8 +4,9 @@
 >
 > **Was am 04.09. erledigt wurde:**
 >
-> - **GitHub-Konto des Kunden angelegt** und als **Collaborator** im privaten
->   Repository `KingB94/elektrohofmann` eingetragen. Damit kann er sich später
+> - **GitHub-Konto des Kunden angelegt** — Benutzername **`ElektroHofmann`** —
+>   und als **Collaborator** im privaten Repository `KingB94/elektrohofmann`
+>   eingetragen. Damit kann er sich später
 >   unter `/keystatic` anmelden.
 >   ⚠️ **Das Repository bleibt bei `KingB94`** — es wurde *nicht* auf sein Konto
 >   übertragen. Damit ist `owner: "KingB94"` in `keystatic.config.ts` richtig
@@ -135,8 +136,9 @@ Seite landet auf `websiteelektrohofmann-2`.
 
 - [x] Adresse in `KURZANLEITUNG-KUNDE.md` eingetragen:
       `websiteelektrohofmann.netlify.app/keystatic`
-- [ ] **Zweifach ausdrucken.** Die Zeile mit dem GitHub-Benutzernamen bleibt
-      leer und wird am Termin mit der Hand ausgefüllt.
+- [x] Der GitHub-Benutzername steht inzwischen drin (`ElektroHofmann`).
+- [ ] **Beim Switch neu ausdrucken** — vorher führt die genannte Adresse
+      ins Leere. Offen bleibt nur noch der Rückfragen-Kontakt ganz unten.
 - [ ] Beim Switch nochmal neu drucken, dann mit `www.elektrohofmann.info`.
 
 #### Am Telefon vorab klären: kommt er vor Ort an seine E-Mail?

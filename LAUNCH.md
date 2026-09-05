@@ -160,9 +160,9 @@ Build und Linter laufen sauber durch.
 
 ### Zugänge
 
-- [x] **GitHub-Konto des Kunden** — am 04.09.2026 beim Termin gemeinsam angelegt
-      und als **Collaborator** im privaten Repository `KingB94/elektrohofmann`
-      eingetragen. Das ist die Voraussetzung für den CMS-Login.
+- [x] **GitHub-Konto des Kunden**: **`ElektroHofmann`** — am 04.09.2026 beim
+      Termin gemeinsam angelegt und als **Collaborator** im privaten Repository
+      `KingB94/elektrohofmann` eingetragen. Das ist die Voraussetzung für den CMS-Login.
 
       ⚠️ **Das Repository bleibt bei `KingB94`.** Ursprünglich war geplant, es
       auf sein Konto zu übertragen und uns dort als Collaborator einzutragen —
