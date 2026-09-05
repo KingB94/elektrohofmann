@@ -174,24 +174,13 @@ Setup aus, das **nur auf deinem Laptop funktioniert**, und merkst es nicht.
       gleichzeitig. Dein normales Profil bleibt du, für ihn ein zweites
       Browserprofil oder ein privates Fenster. Ohne das loggt ihr euch
       gegenseitig aus und sucht den Fehler an der falschen Stelle.
-- [ ] 🔴 **Die Zwei-Faktor-App gehört auf SEIN Handy.** Der wichtigste Punkt
-      des Tages. Richtest du 2FA mit deinem Authenticator ein, weil es gerade
-      schneller geht, kommt er **nie** ohne dich an sein Konto. Am Termin fällt
-      das niemandem auf, in acht Monaten umso schmerzhafter.
-- [ ] **Passwörter, die er behalten kann.** Erzeugst du sie in deinem
+- [ ] **Passwörter, die er behalten kann.** Erzeugst du sie nur in deinem
       Passwortmanager, hat er hinterher nichts. Für ihn ist Papier die richtige
-      Lösung — zusammen mit den Wiederherstellungscodes in den Ordner oder den
-      Tresor im Büro. Und **er tippt sie selbst ein**, nicht du.
-- [ ] **Nach dem Termin**: seine Sitzungen abmelden, seine Passwörter aus
-      deinem Browser löschen.
+      Lösung — in den Ordner oder den Tresor im Büro.
 
 ### 1. Konten anlegen — 25 Min
 
-- [ ] **GitHub-Konto** des Kunden, falls noch nicht geschehen
-- [ ] **Zwei-Faktor-Anmeldung einrichten**, mit der App auf **seinem** Handy
-      (siehe Punkt 0). Das ist die größte Hürde des ganzen Tages.
-      Wiederherstellungscodes **ausdrucken** und ihn wegheften lassen — ohne
-      die kommt er bei einem neuen Handy nicht mehr an seine Website.
+- [x] **GitHub-Konto** des Kunden angelegt (`ElektroHofmann`).
 - [x] ~~Netlify-Konto auf seinen Namen~~ — hinfällig, gehostet wird auf unserem
       Cloudflare. Der Kunde braucht dort kein eigenes Konto.
 - [x] **Kunde als Collaborator** im Repository `KingB94/elektrohofmann`.
@@ -413,9 +402,8 @@ Webspace:
 
 | Problem | Reaktion |
 | --- | --- |
-| Er bekommt die Zwei-Faktor-Anmeldung nicht hin | Fallback: du legst alles an, er ändert das Passwort selbst und übernimmt später. Nicht am Termin verbeißen. **Aber:** dann steht der Abnahmetest aus, und das gehört schriftlich festgehalten samt Nachholtermin. |
 | Er kommt vor Ort nicht an seine E-Mail | Bestätigungsmails von GitHub, Netlify und der Repo-Übertragung hängen daran. Notfalls ans Bürotelefon/den Büro-PC verlagern. Lässt sich nicht überspringen. |
-| Der Abnahmetest scheitert auf seinem Gerät | Nicht wegdiskutieren — genau dafür ist er da. Meist ein fehlendes Passwort oder die 2FA-App am falschen Ort. Vor Ort lösen, nicht „schau ich mir daheim an". |
+| Der Abnahmetest scheitert auf seinem Gerät | Nicht wegdiskutieren — genau dafür ist er da. Meist ein fehlendes Passwort oder das falsche GitHub-Konto im Browser. Vor Ort lösen, nicht „schau ich mir daheim an". |
 | Keine Fotos vorhanden | Selbst welche machen. Zur Not funktioniert die Seite auch mit den vier vorhandenen Bildern. |
 | Impressumsangaben unklar | Kein Grund, irgendetwas zu verschieben — die Seite geht am 4.9. ohnehin nicht live. Schriftlich festhalten, dass es offen ist, und vor dem Switch nachziehen. |
 | Keystatic-Login geht nicht | Fast immer die Callback-URL oder eine fehlende Umgebungsvariable. Die vier Werte bei Netlify gegen `.env.example` prüfen. |

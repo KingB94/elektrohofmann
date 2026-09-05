@@ -109,9 +109,9 @@ Warten Sie zwei Minuten und laden Sie die Seite neu (F5 oder Strg+F5). Wenn es
 dann immer noch nicht da ist: Haben Sie auf „Save" geklickt?
 
 **Ich komme nicht mehr rein.**
-Meist liegt es an der Zwei-Faktor-Anmeldung bei GitHub — etwa nach einem neuen
-Handy. Dafür haben Sie beim Einrichten die Wiederherstellungscodes bekommen.
-Falls die nicht auffindbar sind, rufen Sie mich an.
+Prüfen Sie, ob Sie im Browser mit dem richtigen GitHub-Konto angemeldet sind —
+mit einem zweiten Konto sieht es aus, als hätten Sie keinen Zugriff. Hilft das
+nicht, rufen Sie mich an.
 
 **Ich traue mich nicht.**
 Probieren Sie es ruhig aus. Das Schlimmste, was passieren kann, ist ein
