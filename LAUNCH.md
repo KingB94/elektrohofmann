@@ -1,22 +1,29 @@
 # Live-Schaltung Elektro Hofmann — Plan & Checkliste
 
-Stand: 05.09.2026 · Setup-Termin beim Kunden am 04.09.2026 stattgefunden.
-**Die Seite läuft auf Cloudflare**, das Redaktionssystem ist scharf geschaltet.
-Offen ist nur noch die Domain (Etappe 2) und das Kontaktformular.
+Stand: 05.09.2026 · **Die Website ist live unter der eigenen Domain.**
 
-**Live-Adresse bis zum Domain-Umzug:**
-`https://elektrohofmann.landingpage-next.workers.dev`
+# 🟢 https://www.elektrohofmann.info
+
+Gehostet auf unserem Cloudflare, Zertifikat automatisch, das Redaktionssystem
+läuft und wurde vom Kunden selbst benutzt. Was noch offen ist, betrifft
+Verwaltung, nicht den Betrieb: der Registrar-Transfer, die Sicherung der alten
+Joomla-Installation und ein paar Aufräumarbeiten.
+
+Die Adresse `elektrohofmann.landingpage-next.workers.dev` funktioniert weiter
+und ist der Rückfallweg, falls es an der Domain je klemmt.
 
 ## Das Ziel
 
 Drei Sätze, an denen sich alles messen lässt:
 
-1. `elektrohofmann.info` liegt bei **unserem Cloudflare** — Registrierung, DNS
-   und Hosting an einem Ort.
-2. Die neue Website ist **unter dieser Domain** erreichbar, mit gültigem
-   Zertifikat.
-3. Der Kunde meldet sich unter **`elektrohofmann.info/keystatic` mit seinem
-   GitHub-Konto** an und kann Texte und Bilder selbst ändern.
+1. ✅ **DNS und Hosting liegen bei unserem Cloudflare.** Die Registrierung
+   selbst noch bei Strato — der Transfer ist beantragt, siehe unten.
+2. ✅ **Die Website ist unter der Domain erreichbar**, mit gültigem Zertifikat.
+   Seit 05.09.2026, geprüft: alle Seiten, 404, die drei Weiterleitungen der
+   alten Joomla-Adressen, `robots.txt` und `sitemap.xml`.
+3. ✅ **Der Kunde ändert selbst.** Am 05.09.2026 mit **seinem** Konto
+   (`ElektroHofmann`) angemeldet, zwei Änderungen gespeichert (`ef330cf`,
+   `0a020cb`), beide gingen automatisch live.
 
 Alles andere in diesem Dokument dient nur dazu.
 
@@ -174,6 +181,21 @@ Build und Linter laufen sauber durch.
       die E-Mail-Adresse direkt darunter zum Anklicken und Abschreiben steht.
       Häufen sich Rückmeldungen wie „ich habe geschrieben, Sie haben nie
       geantwortet", ist das der Grund — dann braucht es doch einen Versanddienst.
+- [x] **Nackte Domain leitet auf `www`** (301) und jede Seite trägt ein
+      Canonical. Beides in `next.config.ts` bzw. `app/layout.tsx`, damit es
+      versioniert im Projekt liegt statt in einer Cloudflare-Oberfläche.
+
+      🔴 **Beim ersten Versuch lief die Seite in eine Endlosschleife**, rund
+      zehn Minuten Ausfall. Zwei Ursachen, beide stehen als Kommentar über der
+      Regel: Der Host-Wert in `has:` ist **nicht verankert** und trifft damit
+      auch `www.…` (die www-Adresse leitete auf sich selbst), und `/:pfad*`
+      wird bei der Startseite nicht ersetzt. **Lehre:** Solche Regeln vorher
+      lokal gegen den Worker prüfen — `opennextjs-cloudflare preview`, dann
+      `curl -H "Host: …"`. Das kostet zwei Minuten und hätte den Ausfall
+      verhindert.
+- [x] **Kundenanleitung als Word-Datei** erstellt (vier Seiten, zum Verschicken
+      per E-Mail). Inhalt entspricht `KURZANLEITUNG-KUNDE.md`, ergänzt um
+      Erklärungen zum Ablauf und zum Kontaktformular.
 - [x] **Auto-Deploy über GitHub Actions** eingerichtet
       (`.github/workflows/deploy.yml`) — statt das Repo im Cloudflare-Dashboard
       zu verbinden. Gleicher Effekt, aber im Repo nachvollziehbar und änderbar:
@@ -191,6 +213,10 @@ Build und Linter laufen sauber durch.
       Umgebung ohne Terminal speichert es kommentarlos einen **leeren** Wert,
       und der Workflow scheitert, obwohl das Secret zu existieren scheint.
       Sicherer Weg auf dem Mac: `pbpaste | tr -d '\n\r' | gh secret set NAME`.
+- [ ] **Vercel-Projekt löschen.** Netlify ist am 05.09.2026 gelöscht, Vercel
+      läuft noch: Es baut bei jedem Commit mit — auch bei denen des Kunden —
+      und ist eine zweite öffentliche Kopie der Seite, deren Startseite kein
+      `noindex` trägt.
 - [ ] **Öffnungszeiten im strukturierten Datensatz**: In `app/layout.tsx` stehen Mo–Fr
       08:00–18:00 fest, weil Google ein maschinenlesbares Format braucht. Bestätigt der
       Kunde andere Zeiten, hier mitziehen.
@@ -255,11 +281,17 @@ reicht nicht.
    | `elektrohofmann.info` | Worker `elektrohofmann` |
    | `www.elektrohofmann.info` | Worker `elektrohofmann` |
    | TXT `@` | `v=spf1 -all` |
-   | TXT `_dmarc` | `v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;` |
+   | TXT `_dmarc` | `v=DMARC1; p=reject; rua=mailto:b@siq.company` |
 
    Die `AAAA`-Einträge auf `100::` sind kein Versehen: So bindet Cloudflare
    einen Worker an eine Domain. Der Worker greift, bevor die Adresse je
    verwendet wird. Kein MX — siehe Punkt 5.
+
+   ⚠️ **DMARC bewusst ohne strikte Ausrichtung** (`adkim=s; aspf=s` wieder
+   entfernt). Strikt hätte jeden Versanddienst zerlegt, der über eine
+   Subdomain signiert. Für die Berichtsadresse auf `siq.company` liegt dort
+   die nötige Freigabe `elektrohofmann.info._report._dmarc` — ohne die
+   ignorieren die meisten Empfänger ein `rua` auf eine fremde Domain.
 
    ⚠️ Cloudflare hat beim Anlegen **nichts** von Strato übernommen; die Zone
    war leer. Ein Nameserver-Wechsel vor dem Bestücken hätte die Domain ins
@@ -271,17 +303,49 @@ reicht nicht.
    Registry-Abfrage bestätigt (Status `active`, kein `clientTransferProhibited`).
    **Nicht nachbuchen** — es würde genau die zwei Dinge einschalten, die wir
    für den Umzug wieder abschalten müssten.
-3. [ ] **Nameserver bei Strato umstellen** → Domainverwaltung → Tab *DNS*:
+3. [x] **Nameserver umgestellt** am 05.09.2026, 09:23 — Domainverwaltung →
+   Tab *DNS* → *Eigene Nameserver*:
 
        laila.ns.cloudflare.com
        sterling.ns.cloudflare.com
 
-   ⚠️ **Das ist der Umschaltmoment**, nicht der Transfer. Ab hier ist die neue
-   Seite unter der Domain erreichbar und die alte Joomla-Seite verschwindet.
-   Der Kunde wollte diesen Zeitpunkt selbst bestimmen.
-4. [ ] **Auth-Code bei Strato anfordern, Transfer bei Cloudflare starten** (~5 Tage).
+   ⏱️ **Strato hat 353 Minuten gebraucht**, bis die Änderung bei der Registry
+   ankam. Üblich sind Minuten bis eine Stunde. In dieser Zeit war die Domain
+   **nicht erreichbar** — und zwar nicht wegen der Umstellung selbst, sondern
+   weil Strato mit dem Wechsel auf eigene Nameserver sofort die interne
+   Zuordnung Domain → Webspace löst. Der Apache antwortete noch, hatte aber
+   nichts mehr auszuliefern: HTTP 500, 0 Bytes.
+
+   **Fürs nächste Mal:** Mit diesem Loch rechnen und den Kunden vorwarnen. Die
+   Annahme „die alte Seite bleibt erreichbar, bis die Delegierung greift" ist
+   bei Strato falsch.
+4. [ ] **Auth-Code besorgen, Transfer bei Cloudflare starten** (~5 Tage).
    Gestartet wird beim **aufnehmenden** Anbieter, also bei Cloudflare — Strato
    gibt nur den Code heraus und lässt los.
+
+   Stand 05.09.2026, drei Hürden, alle bei Strato:
+
+   - **Strato rückt den Code erst nach Kündigung heraus.** Ist erledigt:
+     gekündigt zum **19.08.2027**. Damit ist auch die Frage der Verlängerung
+     zum 15.09.2026 beantwortet — der Vertrag läuft darüber hinaus, Strato
+     verlängert regulär. **Kein Zeitdruck.**
+   - 🔴 **Der Code geht an die Domaininhaber-Adresse `…@aol.com`, auf die der
+     Kunde keinen Zugriff hat.** Nicht zu verwechseln mit der Adresse in den
+     Kundendaten (`…@t-online.de`), die erreichbar ist. Maßgeblich ist der
+     Inhaber-Eintrag. Support kontaktiert, Änderung läuft per Formular.
+   - 🔴 **Bei der Inhaberänderung ausdrücklich auf die 60-Tage-Sperre
+     verzichten lassen.** Eine Änderung von Name, Organisation oder E-Mail
+     gilt nach ICANN als *Change of Registrant* und sperrt den Providerwechsel
+     standardmäßig für 60 Tage. Der Satz für den Support: „Bitte verzichten
+     Sie ausdrücklich auf die 60-tägige Transfersperre (Opt-out nach ICANN
+     Transfer Policy)."
+     Strato weist zudem selbst darauf hin: Eine nachträgliche Inhaberänderung
+     **entwertet einen bereits versendeten Auth-Code**. Also erst ändern, dann
+     anfordern.
+
+   Als neue Inhaber-Adresse `info@hofmann-wonneberg.de` eintragen — die nutzt
+   der Betrieb dauerhaft und sie steht auch auf der Website.
+
    ⚠️ Nicht über den Menüpunkt *Verträge → Domainumzug* bei Strato gehen: Der
    ist für Umzüge **innerhalb** von Strato und kostenpflichtig.
 5. ✅ **MX-Einträge sind hier unkritisch** — anders als ursprünglich angenommen.
