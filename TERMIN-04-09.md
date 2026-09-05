@@ -46,14 +46,10 @@ seine Fotos, seine Bestätigungen — und die Einweisung.
 - [ ] **E-Mail an den Kunden raus** (Text in `FRAGEN-AN-KUNDEN.md`).
       Je früher, desto mehr Puffer für Rückfragen. Die Fotos aus Frage 8 sind
       der Punkt mit der längsten Vorlaufzeit — die sammelt niemand an einem Tag.
-- [ ] **Netlify-Konto anlegen** (erst mal auf deinen Namen) und das Repo
-      verbinden. Läuft dann unter einer `*.netlify.app`-Adresse, ohne dass die
-      Domain feststehen muss.
-      ⚠️ **Für die Generalprobe zwingend einen Wegwerfnamen nehmen**, z. B.
-      `hofmann-probe`. Netlify-Namen sind global eindeutig über alle Kunden
-      hinweg — testest du unter `websiteelektrohofmann`, ist der Name morgen
-      für sein Konto blockiert und seine Seite landet auf
-      `websiteelektrohofmann-2`. Am 03.09.2026 geprüft: der Name ist frei.
+- [x] ~~Netlify-Konto anlegen und das Repo verbinden~~ — **hinfällig.**
+      Gehostet wird auf unserem Cloudflare, das Netlify-Projekt ist am
+      05.09.2026 gelöscht. Die Zwischenadresse heißt
+      `elektrohofmann.landingpage-next.workers.dev`.
 
 ### Fr, 21.08. – Mo, 24.08. — Generalprobe
 
@@ -61,13 +57,14 @@ Einmal die komplette Kette selbst durchspielen, **bevor** du beim Kunden sitzt.
 Das ist die wertvollste Vorbereitung überhaupt: Danach kennst du jeden
 Klick, und am Termin dauert dasselbe fünfzehn Minuten statt einer Stunde.
 
-- [ ] 🔴 **Die GitHub-App lokal anlegen, nicht auf der Netlify-Adresse.**
+- [x] 🔴 **Die GitHub-App lokal anlegen, nicht auf der Live-Adresse.**
+      *Erledigt am 05.09.2026 — die Erklärung darunter hat sich bestätigt.*
       Am 03.09.2026 im Quelltext von Keystatic nachgelesen und am
       laufenden Server bestätigt: Fehlen die Zugangsdaten, zeigt Keystatic
       den Einrichtungsassistenten **nur** in der Entwicklungsumgebung
       (`process.env.NODE_ENV !== 'development'` → `throw`). Live antwortet
       die Route stattdessen mit einem Fehler. Der ursprünglich geplante Weg
-      „Assistent auf der Netlify-Adresse durchlaufen" funktioniert also nicht.
+      „Assistent auf der Live-Adresse durchlaufen" funktioniert also nicht.
 
       So geht es:
 
@@ -76,20 +73,21 @@ Klick, und am Termin dauert dasselbe fünfzehn Minuten statt einer Stunde.
       Dann `http://localhost:3000/keystatic` → Weiterleitung auf
       `/keystatic/setup` → der Assistent legt die App über
       `github.com/settings/apps/new` an. Entscheidend ist, **welches
-      GitHub-Konto in diesem Browser angemeldet ist** — für den Kunden also
-      das zweite Browserprofil, in dem er eingeloggt ist.
+      GitHub-Konto in diesem Browser angemeldet ist** — hier war es `KingB94`,
+      denn die App gehört unter unser Konto (das Repository bleibt bei uns).
 
       Die App bekommt dabei eine `localhost`-Callback-URL. Die Adressen für
-      Netlify und die Domain kommen danach von Hand dazu (Punkt 2).
-- [ ] Die vier Werte bei Netlify unter *Environment variables* eintragen,
-      neu bauen lassen
-- [ ] **Selbst einen Text ändern und speichern.** Prüfen: Kommt der Commit im
-      Repository an? Baut Netlify automatisch? Steht die Änderung danach auf
-      der Seite? Wie lange dauert es wirklich?
+      die Worker-Adresse und die Domain kommen danach von Hand dazu (Punkt 2).
+- [x] Die vier Werte hinterlegen: die drei geheimen als Secrets beim Worker,
+      den App-Slug als Repository-Variable. Erledigt am 05.09.2026.
+- [x] **Selbst einen Text ändern und speichern.** Geprüft: Commit `508e089`
+      kam an, der Workflow lief von allein, nach rund anderthalb Minuten stand
+      es auf der Seite. Später mit dem Konto des Kunden wiederholt
+      (`ef330cf`, `0a020cb` von `ElektroHofmann`) — funktioniert ebenso.
 - [ ] Ein Bild austauschen — der Weg ist für den Kunden der wichtigere
-- [ ] Kontaktformular abschicken und prüfen, ob die Anfrage ankommt.
-      Bei Netlify unter *Forms → Notifications* die Benachrichtigung an eine
-      E-Mail-Adresse einschalten, sonst landet alles nur im Dashboard.
+- [x] ~~Kontaktformular abschicken und Benachrichtigung einschalten~~ —
+      hinfällig. Das Formular öffnet das E-Mail-Programm des Besuchers, es
+      gibt kein Dashboard und keine Benachrichtigung einzustellen.
 
 ### Sobald die Antworten des Kunden da sind
 
@@ -257,9 +255,10 @@ schneller ginge.
 - [ ] Eine Leistung umsortieren
 - [ ] Zeigen, wo die Kurzanleitung liegt, und dass nichts kaputtgehen kann:
       jede Änderung ist gespeichert und lässt sich zurückholen
-- [ ] **Erklären, warum die Adresse noch `netlify.app` heißt** und dass sich
+- [ ] **Erklären, warum die Adresse noch `workers.dev` heißt** und dass sich
       daran beim Switch nichts für ihn ändert — außer dem Namen in der
-      Adresszeile. Er soll die Netlify-Adresse als Lesezeichen speichern.
+      Adresszeile. Das Lesezeichen erst **nach** der Domain-Umstellung
+      anlegen lassen, sonst hat er dauerhaft den Zwischenlink im Browser.
 
 ### 4. Fotos — 30 Min
 
@@ -433,24 +432,17 @@ Webspace:
 
 ## Vor dem Setup-Termin noch zu erledigen
 
-- [x] ~~Vercel-Projekt löschen~~ — **bewusst stehen gelassen.** Es baut bei
-      jedem Push auf `main` mit, und genau das wird gebraucht: Der Kunde
-      schaut sich über diesen Link das Design an und gibt Rückmeldung.
+- [x] **Netlify-Projekt gelöscht** (05.09.2026). Es hing nichts mehr daran:
+      `netlify.toml` und `public/__forms.html` sind aus dem Projekt entfernt,
+      gehostet wird auf Cloudflare, das Formular ist `mailto`.
+- [ ] **Vercel-Projekt löschen.** Es blieb stehen, damit der Kunde das Design
+      ansehen konnte — das ist hinfällig: Er arbeitet inzwischen selbst im CMS
+      unter der Worker-Adresse.
 
-      **Löschen, sobald die Cloudflare-Adresse steht** und er sie kennt. Bis
-      dahin drei Dinge im Blick behalten:
-
-      - Das **Kontaktformular funktioniert dort nicht**, solange
-        `RESEND_API_KEY` in den Vercel-Variablen fehlt. Es zeigt dann seine
-        Fehlermeldung. Entweder den Schlüssel dort ebenfalls hinterlegen oder
-        dem Kunden sagen, dass er das Formular auf dieser Adresse nicht testen
-        soll.
-      - Die Startseite trägt **kein `noindex`** (nur die Entwurfsseiten). Die
-        Vercel-Adresse ist damit grundsätzlich indexierbar — bei einer
-        `*.vercel.app`-Adresse ohne eingehende Links ein kleines Risiko, aber
-        ein Grund, sie nach der Freigabe zügig abzuschalten.
-      - Vercels Hobby-Plan untersagt gewerbliche Nutzung. Als kurzlebiger
-        Abstimmungslink vertretbar, als Dauerzustand nicht.
+      Zwei Gründe, es nicht liegen zu lassen: Es baut bei jedem Commit mit
+      (auch bei denen des Kunden) und erzeugt Fehlermails zu einem Projekt,
+      das niemand pflegt. Und es ist eine zweite öffentliche Kopie der Seite,
+      deren Startseite kein `noindex` trägt.
 - [x] ~~301-Weiterleitungen in `netlify.toml`~~ — stehen in `next.config.ts`.
 
 ## Nach dem Switch

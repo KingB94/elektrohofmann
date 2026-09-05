@@ -69,7 +69,7 @@ Netlify-Umwege entfallen.
 
 | Option | Kosten | Warum nicht |
 | --- | --- | --- |
-| Netlify Starter | 0 € | War der Plan bis 04.09.2026. Funktioniert, aber sobald die Domain ohnehin zu uns zieht, ist ein zweiter Anbieter nur ein zweiter Ort zum Nachsehen. Netlify Forms wäre der einzige echte Vorteil gewesen. |
+| Netlify Starter | 0 € | War der Plan bis 04.09.2026, Projekt am 05.09.2026 gelöscht. Funktioniert, aber sobald die Domain ohnehin zu uns zieht, ist ein zweiter Anbieter nur ein zweiter Ort zum Nachsehen. Netlify Forms wäre der einzige echte Vorteil gewesen. |
 | Vercel Pro | ~20 $/Monat | Hobby-Plan verbietet gewerbliche Nutzung. Pro ist für diese Seite rausgeworfenes Geld. |
 | Alles statisch auf Strato-Webspace | 0 € | **Geht nicht — und keine Paketstufe ändert das.** Strato-Webhosting bietet über *alle* Tarife hinweg nur PHP 8.4, Perl, Python und Ruby, kein Node.js und keinen Root-Zugriff; auch Pro für 22 €/Mon. nicht. Ein größeres Paket kauft Speicherplatz und Domains, keine Laufzeitumgebung. Selbst als statischer Export scheitert es an Keystatic: der API-Handler braucht einen Server (GitHub-OAuth + Git-Schreiboperationen). |
 | Strato vServer | 8 €/Mon. + 9 € Setup | Node.js liefe, aber nacktes Linux: Prozess, nginx, certbot, Updates, Backups, Deploy-Pipeline — alles selbst. Für sechs Leistungskacheln absurd. |
