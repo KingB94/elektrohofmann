@@ -20,15 +20,6 @@ const nextConfig: NextConfig = {
   // Umzug still zu ändern.
   async redirects() {
     return [
-      // Die Seite hat genau eine richtige Adresse: die mit www. Ohne diese
-      // Regel liefert auch die nackte Domain dieselben Seiten aus — für
-      // Suchmaschinen wäre das derselbe Inhalt unter zwei Adressen.
-      {
-        source: "/:pfad*",
-        has: [{ type: "host", value: "elektrohofmann.info" }],
-        destination: "https://www.elektrohofmann.info/:pfad*",
-        statusCode: 301,
-      },
       { source: "/leistungen", destination: "/#leistungen", statusCode: 301 },
       { source: "/ueber-uns", destination: "/#betrieb", statusCode: 301 },
       { source: "/kontakt-anfahrt", destination: "/#kontakt", statusCode: 301 },
