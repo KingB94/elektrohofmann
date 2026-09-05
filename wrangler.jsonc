@@ -1,0 +1,30 @@
+{
+  // ---------------------------------------------------------------
+  // Cloudflare-Konfiguration.
+  //
+  // Gebaut wird nicht direkt aus dem Next.js-Ordner: `opennextjs-cloudflare
+  // build` übersetzt die fertige Next-Ausgabe nach .open-next/ — dort liegen
+  // der Worker und die statischen Dateien, auf die es hier zeigt.
+  // ---------------------------------------------------------------
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "elektrohofmann",
+  "main": ".open-next/worker.js",
+
+  // nodejs_compat ist für Next.js Pflicht. Das Datum ist bewusst gewählt:
+  // Ab dem 01.09.2025 bringt Cloudflare node:fs mit — das braucht der
+  // Keystatic-Handler beim Laden, auch wenn er im GitHub-Modus nie darauf
+  // schreibt. Mit einem früheren Datum bricht /api/keystatic beim Start ab.
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Alle vorgerenderten Seiten, Bilder und Schriften werden direkt vom
+  // CDN ausgeliefert, ohne den Worker überhaupt zu starten.
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}
