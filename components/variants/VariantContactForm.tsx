@@ -1,66 +1,63 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Send, Check, Loader2, AlertCircle } from "lucide-react";
+import { Send } from "lucide-react";
 
 type Tone = "light" | "warm";
-type Status = "idle" | "sending" | "sent" | "error";
 
-// Die Anfrage geht an /api/anfrage. Dort wird sie geprüft und per
-// E-Mail an den Betrieb geschickt — siehe app/api/anfrage/route.ts.
+// Das Formular verschickt nichts selbst. Es sammelt die Angaben und
+// öffnet damit das E-Mail-Programm des Besuchers, vorausgefüllt.
+//
+// Bewusst so gewählt: kein Server, kein Dienstleister, keine
+// Zugangsdaten, nichts das ausfallen kann. Der Preis steht darunter
+// als Hinweis — wer im Browser Webmail nutzt und kein Mailprogramm
+// eingerichtet hat, bei dem passiert beim Klick nichts. Deshalb steht
+// die Adresse zusätzlich zum Anklicken und Abschreiben darunter.
 const tones: Record<
   Tone,
-  { label: string; input: string; button: string; hint: string; sent: string }
+  { label: string; input: string; button: string; hint: string; link: string }
 > = {
   light: {
     label: "text-carbon/55",
     input:
       "w-full rounded-sm border border-frost-line bg-frost-base px-4 py-3.5 text-sm text-carbon placeholder:text-carbon/35 transition-colors focus:border-blue focus:outline-none",
     button:
-      "mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-blue px-7 py-4 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-white transition-transform duration-200 hover:scale-[1.02] disabled:scale-100 disabled:opacity-70",
+      "mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-blue px-7 py-4 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-white transition-transform duration-200 hover:scale-[1.02]",
     hint: "text-carbon/45",
-    sent: "text-blue",
+    link: "text-blue underline underline-offset-2",
   },
   warm: {
     label: "text-soot/55",
     input:
       "w-full border-b border-bone-line bg-transparent px-0 py-3 text-base text-soot placeholder:text-soot/30 transition-colors focus:border-copper focus:outline-none",
     button:
-      "mt-4 inline-flex items-center justify-center gap-2 rounded-sm bg-soot px-7 py-4 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-bone transition-colors hover:bg-copper disabled:opacity-70",
+      "mt-4 inline-flex items-center justify-center gap-2 rounded-sm bg-soot px-7 py-4 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-bone transition-colors hover:bg-copper",
     hint: "text-soot/50",
-    sent: "text-copper",
+    link: "text-copper underline underline-offset-2",
   },
 };
 
-export default function VariantContactForm({ tone = "light" }: { tone?: Tone }) {
+export default function VariantContactForm({
+  tone = "light",
+  email,
+}: {
+  tone?: Tone;
+  email: string;
+}) {
   const t = tones[tone];
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<Status>("idle");
-  // Honigtopf: für Menschen unsichtbar. Füllt ihn etwas aus, war es ein Bot.
-  const [firmenname, setFirmenname] = useState("");
 
-  async function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setStatus("sending");
-
-    try {
-      const antwort = await fetch("/api/anfrage", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          kontakt: contact,
-          nachricht: message,
-          firmenname,
-        }),
-      });
-      if (!antwort.ok) throw new Error(String(antwort.status));
-      setStatus("sent");
-    } catch {
-      setStatus("error");
-    }
+    const betreff = encodeURIComponent(
+      `Anfrage über die Website${name ? ` von ${name}` : ""}`
+    );
+    const text = encodeURIComponent(
+      `Name: ${name}\nTelefon/E-Mail: ${contact}\n\nAnliegen:\n${message}`
+    );
+    window.location.href = `mailto:${email}?subject=${betreff}&body=${text}`;
   }
 
   const labelClass = `mb-2 block font-mono text-[0.66rem] uppercase tracking-[0.12em] ${t.label}`;
@@ -109,52 +106,17 @@ export default function VariantContactForm({ tone = "light" }: { tone?: Tone }) 
         />
       </div>
 
-      {/* Für Menschen unsichtbar, für Bots verlockend. */}
-      <p className="hidden" aria-hidden="true">
-        <label>
-          Firmenname
-          <input
-            tabIndex={-1}
-            autoComplete="off"
-            value={firmenname}
-            onChange={(e) => setFirmenname(e.target.value)}
-          />
-        </label>
-      </p>
-
-      <button
-        type="submit"
-        disabled={status === "sending" || status === "sent"}
-        className={t.button}
-      >
-        {(status === "idle" || status === "error") && (
-          <>
-            Anfrage senden <Send size={14} />
-          </>
-        )}
-        {status === "sending" && (
-          <>
-            Wird gesendet <Loader2 size={14} className="animate-spin" />
-          </>
-        )}
-        {status === "sent" && (
-          <>
-            Anfrage ist angekommen <Check size={14} />
-          </>
-        )}
+      <button type="submit" className={t.button}>
+        Anfrage senden <Send size={14} />
       </button>
 
-      {status === "error" && (
-        <p className="flex items-start gap-2 text-xs leading-relaxed text-red-600">
-          <AlertCircle size={14} className="mt-0.5 shrink-0" />
-          Das hat leider nicht geklappt. Bitte rufen Sie uns kurz an — oder
-          versuchen Sie es in ein paar Minuten noch einmal.
-        </p>
-      )}
-
       <p className={`text-xs leading-relaxed ${t.hint}`}>
-        Ihre Angaben werden nur verwendet, um Ihre Anfrage zu beantworten. Für
-        dringende Anliegen rufen Sie am besten direkt an.
+        Der Knopf öffnet Ihr E-Mail-Programm mit vorausgefüllter Nachricht.
+        Öffnet sich nichts, schreiben Sie uns direkt an{" "}
+        <a href={`mailto:${email}`} className={t.link}>
+          {email}
+        </a>{" "}
+        — oder rufen Sie einfach an.
       </p>
     </form>
   );

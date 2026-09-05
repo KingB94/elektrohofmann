@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 // bewusst hier als Kommentar und nicht als sichtbarer Text auf der
 // Seite. Siehe auch LAUNCH.md, „Vor dem Switch":
 //
-//   1. Zwei Auftragsverarbeitungsverträge. Cloudflare (Hosting,
-//      Abschnitt 2) und Resend (E-Mail-Versand des Kontaktformulars,
-//      Abschnitt 5) stellen beide einen bereit; beide müssen
-//      angenommen und aufbewahrt werden.
+//   1. Auftragsverarbeitungsvertrag mit Cloudflare (Hosting,
+//      Abschnitt 2) annehmen und aufbewahren. Für das Kontaktformular
+//      wird keiner gebraucht: Es überträgt nichts an uns, sondern
+//      öffnet nur das E-Mail-Programm des Besuchers (Abschnitt 5).
 //   2. Werden später Analyse- oder Marketing-Werkzeuge eingebunden,
 //      ist Abschnitt 6 anzupassen und in aller Regel ein
 //      Einwilligungsbanner nötig.
@@ -105,20 +105,20 @@ export default async function DatenschutzPage() {
         <section>
           <h2 className="font-display text-lg font-bold text-carbon">5. Kontaktformular</h2>
           <p className="mt-2">
-            Wenn Sie unser Kontaktformular abschicken, werden die von Ihnen eingegebenen
-            Angaben — Name, Ihre Kontaktmöglichkeit und Ihre Nachricht — an unseren Server
-            übertragen und uns unmittelbar per E-Mail zugestellt. Für den Versand dieser
-            E-Mail nutzen wir den Dienst Resend (Resend, Inc., 2261 Market Street, San
-            Francisco, CA 94114, USA), der dabei als Auftragsverarbeiter für uns handelt;
-            auch hier kann eine Übermittlung in ein Drittland stattfinden. Eine dauerhafte
-            Speicherung Ihrer Angaben auf der Website findet nicht statt — sie liegen
-            danach nur noch in unserem E-Mail-Postfach. Wir verwenden Ihre Angaben
-            ausschließlich, um Ihre Anfrage zu bearbeiten und zu beantworten.
-            Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit Ihre Anfrage der
-            Anbahnung oder Durchführung eines Vertrages dient, sonst unser berechtigtes
-            Interesse an der Beantwortung von Anfragen (Art. 6 Abs. 1 lit. f DSGVO). Zum
-            Schutz vor automatisierten Zusendungen enthält das Formular ein für Sie
-            unsichtbares Feld, das von Menschen nicht ausgefüllt wird.
+            Das Kontaktformular auf dieser Website überträgt Ihre Eingaben <strong>nicht</strong>
+            an uns. Wenn Sie auf &bdquo;Anfrage senden&ldquo; klicken, öffnet Ihr Browser lediglich Ihr
+            eigenes E-Mail-Programm mit einer vorausgefüllten Nachricht. Ob und wann Sie
+            diese absenden, entscheiden Sie. Bis dahin bleiben Ihre Angaben ausschließlich
+            auf Ihrem Gerät — es findet keine Übertragung an unseren Server und keine
+            Verarbeitung durch Dritte statt.
+          </p>
+          <p className="mt-2">
+            Senden Sie die E-Mail ab, erhalten wir sie wie jede andere Nachricht in unserem
+            Postfach. Wir verwenden Ihre Angaben ausschließlich, um Ihre Anfrage zu
+            bearbeiten und zu beantworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO,
+            soweit Ihre Anfrage der Anbahnung oder Durchführung eines Vertrages dient,
+            sonst unser berechtigtes Interesse an der Beantwortung von Anfragen
+            (Art. 6 Abs. 1 lit. f DSGVO).
           </p>
         </section>
 

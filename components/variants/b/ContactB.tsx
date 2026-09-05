@@ -111,7 +111,7 @@ export default function ContactB({
                 {kontakt.formText}
               </p>
               <div className="mt-8">
-                <VariantContactForm tone="light" />
+                <VariantContactForm tone="light" email={betrieb.email} />
               </div>
             </div>
           </Reveal>

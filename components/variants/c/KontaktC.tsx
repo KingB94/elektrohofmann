@@ -103,7 +103,7 @@ export default function KontaktC() {
                 zurück und sagen Ihnen, was der nächste sinnvolle Schritt ist.
               </p>
               <div className="mt-9">
-                <VariantContactForm tone="warm" />
+                <VariantContactForm tone="warm" email={business.email} />
               </div>
             </div>
           </Reveal>

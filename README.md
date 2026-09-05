@@ -82,10 +82,11 @@ Nötig sind dafür zwei Repository-Secrets (`CLOUDFLARE_API_TOKEN`,
 `opennextjs-cloudflare preview` baut **nicht** — es startet nur das zuletzt
 Gebaute. Beides gehört zusammen; die Skripte oben tun das bereits.
 
-Das Kontaktformular läuft über eine eigene Route (`app/api/anfrage/route.ts`),
-die per **Resend** an die Adresse aus den Betriebsdaten schickt. Nötig dafür:
-`RESEND_API_KEY` in den Umgebungsvariablen und die Absenderdomain bei Resend
-verifiziert. Siehe `.env.example`.
+Das Kontaktformular verschickt nichts selbst: Es sammelt die Angaben und öffnet
+damit per `mailto` das E-Mail-Programm des Besuchers. Kein Dienstleister, kein
+Schlüssel, keine Verarbeitung auf unserer Seite — dafür funktioniert es nicht,
+wenn kein Mailprogramm eingerichtet ist. Deshalb steht die Adresse zusätzlich
+sichtbar unter dem Formular.
 
 Das Redaktionssystem läuft über **GitHub-Storage**: Das Repository bleibt bei
 `KingB94`, der Kunde ist seit dem 04.09.2026 als **Collaborator** eingetragen

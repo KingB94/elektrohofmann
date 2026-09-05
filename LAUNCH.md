@@ -57,8 +57,8 @@ Netlify-Umwege entfallen.
 
 **Was der Wechsel gekostet hat** (alles erledigt, siehe Git-Verlauf):
 
-- Kontaktformular neu gebaut. Netlify Forms gibt es hier nicht; die Anfrage geht
-  jetzt über eine eigene Route per Resend raus.
+- Kontaktformular umgebaut. Netlify Forms gibt es hier nicht; das Formular
+  öffnet jetzt das E-Mail-Programm des Besuchers (`mailto`).
 - `lib/inhalte.ts` liest die Inhalte beim Bauen statt zur Laufzeit — im Worker
   gibt es kein Dateisystem.
 - Weiterleitungen und `noindex` aus `netlify.toml` nach `next.config.ts` bzw. in
@@ -92,6 +92,7 @@ in unserer Hand. Der Kunde merkt davon nichts.
 | --- | --- |
 | Domain bei Strato | zahlt er ohnehin schon |
 | Hosting (Cloudflare) | 0 € |
+| Kontaktformular | 0 € (kein Dienst nötig) |
 | GitHub (privates Repo) | 0 € |
 | CMS (Keystatic, Open Source) | 0 € |
 
@@ -119,11 +120,10 @@ wäre jederzeit in Minuten möglich.
 - [x] **Keystatic-Speicherung**: schaltet automatisch auf GitHub, sobald die drei
       Zugangsdaten gesetzt sind — sonst lokaler Modus. Fehlen sie im Livebetrieb,
       warnt der Build in den Logs.
-- [x] **Kontaktformular** über eine eigene Route mit Resend (vorher nur ein
-      `mailto:`-Link, der auf Handys ohne Mailprogramm ins Leere lief; dazwischen
-      kurz Netlify Forms). Mit Honigtopf gegen Bots und verständlicher
-      Fehlermeldung, falls der Versand scheitert. Die Empfängeradresse kommt aus
-      den Betriebsdaten im Editor.
+- [x] **Kontaktformular** als `mailto` (Kundenentscheidung vom 05.09.2026;
+      zwischenzeitlich Netlify Forms, dann kurz Resend). Die Adresse kommt aus
+      den Betriebsdaten im Editor und steht zusätzlich sichtbar unter dem
+      Formular, falls sich kein Mailprogramm öffnet.
 - [x] **Kennzahlen** lassen sich im Editor wahlweise fest eintragen oder automatisch
       berechnen — die Seite veraltet nicht mehr beim Jahreswechsel.
 - [x] **Cloudflare-Aufbau**: `wrangler.jsonc` und `open-next.config.ts` angelegt,
@@ -163,11 +163,17 @@ Build und Linter laufen sauber durch.
       als Repository-Variable, und danach **neu bauen**. Der Wert wird beim Bauen
       fest eingebaut; ohne neuen Build stehen in Metadaten, `robots.txt` und
       `sitemap.xml` weiter die Worker-Adresse.
-- [ ] **Resend einrichten**: Konto anlegen, `elektrohofmann.info` als Absenderdomain
-      verifizieren (Resend nennt DNS-Einträge, die in die Cloudflare-Zone gehören),
-      `RESEND_API_KEY` als Secret hinterlegen.
-      ⚠️ **Danach einmal echt absenden.** Alles andere am Formular ist geprüft, der
-      tatsächliche Versand naturgemäß nicht — dafür braucht es den echten Schlüssel.
+- [x] **Kontaktformular: `mailto`** — am 05.09.2026 auf Kundenwunsch so entschieden.
+      Das Formular sammelt die Angaben und öffnet damit das E-Mail-Programm des
+      Besuchers. Kein Server, kein Dienstleister, kein Schlüssel, nichts das
+      ausfallen kann.
+
+      ⚠️ **Der bekannte Preis:** Wer kein Mailprogramm eingerichtet hat — viele
+      Handynutzer mit Webmail im Browser —, bei dem passiert beim Klick nichts.
+      Die Anfrage entsteht nie, und niemand merkt es. Abgemildert dadurch, dass
+      die E-Mail-Adresse direkt darunter zum Anklicken und Abschreiben steht.
+      Häufen sich Rückmeldungen wie „ich habe geschrieben, Sie haben nie
+      geantwortet", ist das der Grund — dann braucht es doch einen Versanddienst.
 - [x] **Auto-Deploy über GitHub Actions** eingerichtet
       (`.github/workflows/deploy.yml`) — statt das Repo im Cloudflare-Dashboard
       zu verbinden. Gleicher Effekt, aber im Repo nachvollziehbar und änderbar:
@@ -331,8 +337,9 @@ in der Erklärung, samt Hinweis auf die Drittlandsübermittlung.
 
 Was noch eine Entscheidung des Betriebs braucht:
 
-- [ ] **Zwei Auftragsverarbeitungsverträge** annehmen und ablegen:
-      **Cloudflare** (Hosting) und **Resend** (Versand des Kontaktformulars).
+- [ ] **Auftragsverarbeitungsvertrag mit Cloudflare** (Hosting) annehmen und ablegen.
+      Für das Kontaktformular wird keiner gebraucht: Es überträgt nichts an uns,
+      sondern öffnet nur das E-Mail-Programm des Besuchers.
 - [ ] **Datenschutzerklärung und Impressum anwaltlich prüfen lassen.** Beide Seiten sind
       Vorlagen und tragen den Hinweis im Dateikopf. Das ist keine Rechtsberatung.
 - [ ] **Verbraucherschlichtung**: Die Aussage im Impressum, nicht an Streitbeilegungs-
