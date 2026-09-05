@@ -8,5 +8,5 @@
 // 03.09.2026 bestätigt) — ohne Schrägstrich am Ende.
 // ---------------------------------------------------------------
 export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://elektrohofmann.workers.dev"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://elektrohofmann.landingpage-next.workers.dev"
 ).replace(/\/$/, "");
