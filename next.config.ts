@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Nur für die Entwicklung: Next liefert seine Dev-Ressourcen (HMR)
+  // sonst ausschließlich an die Adresse aus, unter der der Server
+  // gestartet wurde. Ruft man ihn stattdessen über 127.0.0.1 oder die
+  // Adresse im Heimnetz auf, blockiert er sie — die Seite bleibt weiß,
+  // ohne dass im Browser ein Fehler zu sehen wäre.
+  // Die Angabe hat auf den fertigen Build keinen Einfluss.
+  allowedDevOrigins: ["localhost", "127.0.0.1", "192.168.2.201"],
+
   // Die alte Joomla-Seite hatte eigene Unterseiten. Deren Adressen sind
   // seit Jahren in Suchmaschinen und womöglich auf Drucksachen — sie
   // führen jetzt auf den passenden Abschnitt der einen Startseite.
