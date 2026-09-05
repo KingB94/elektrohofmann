@@ -148,11 +148,17 @@ Build und Linter laufen sauber durch.
       `508e089` im Repository → Workflow lief von allein → Änderung nach rund
       anderthalb Minuten auf der Seite. Der Weg, den der Kunde täglich geht,
       funktioniert nachweislich.
-- [ ] 🔴 **Vor dem Nameserver-Wechsel: vierte Callback-URL nachtragen** in der GitHub-App:
-      `https://www.elektrohofmann.info/api/keystatic/github/oauth/callback`
-      Keystatic hat beim Anlegen nur localhost, 127.0.0.1 und die Worker-Adresse
-      eingetragen. Ohne diese Zeile kommt der Kunde **nach dem Domain-Umzug nicht
-      mehr in sein CMS**. → https://github.com/apps/kingb94-keystatic
+- [x] **Vierte Callback-URL eingetragen** (05.09.2026). Die GitHub-App
+      `kingb94-keystatic` führt jetzt vier Redirect URIs: zweimal lokal, die
+      Worker-Adresse und
+      `https://www.elektrohofmann.info/api/keystatic/github/oauth/callback`.
+      Geprüft durch Neuladen der Einstellungsseite — alle vier bleiben stehen.
+
+      ℹ️ Von außen lässt sich das **nicht** verifizieren: GitHub prüft die
+      `redirect_uri` erst nach der Anmeldung. Ruft man den Autorisierungs-Endpunkt
+      ohne Sitzung auf, landet **jede** Adresse auf der Login-Seite — auch eine
+      frei erfundene. Ein solcher Test sagt nichts aus. Die echte Probe ist der
+      Login unter der Domain nach dem Umschalten.
 - [ ] **`NEXT_PUBLIC_SITE_URL`** auf die echte Domain setzen, sobald sie steht —
       als Repository-Variable, und danach **neu bauen**. Der Wert wird beim Bauen
       fest eingebaut; ohne neuen Build stehen in Metadaten, `robots.txt` und
