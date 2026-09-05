@@ -1,0 +1,115 @@
+# ---------------------------------------------------------------
+# Baut die Website und veröffentlicht sie auf Cloudflare Workers.
+#
+# Läuft bei jedem Push auf main — also auch dann, wenn der Kunde im
+# Redaktionssystem auf „Save" klickt: Keystatic schreibt die Änderung
+# als Commit, dieser Workflow baut daraus die neue Seite. Vom Klick
+# bis zur fertigen Seite vergehen ein bis zwei Minuten.
+#
+# Reine Dokumentations-Commits lösen bewusst nichts aus (paths-ignore).
+# Die Inhalte des Editors liegen als .json unter content/ und sind
+# davon nicht betroffen.
+#
+# ---------------------------------------------------------------
+# Was im Repository hinterlegt sein muss
+# (Settings → Secrets and variables → Actions):
+#
+#   Secrets — geheim:
+#     CLOUDFLARE_API_TOKEN    Token mit Rechten für Workers
+#     CLOUDFLARE_ACCOUNT_ID   Konto-Kennung aus dem Cloudflare-Dashboard
+#
+#   Variables — nicht geheim, stehen später ohnehin in der Seite:
+#     NEXT_PUBLIC_SITE_URL                   z. B. https://www.elektrohofmann.info
+#     NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG  Kennung der GitHub-App
+#
+# ⚠️ Die beiden NEXT_PUBLIC_-Werte werden beim Bauen fest in die Seiten
+#    eingebaut. Ändert sich einer, genügt kein Neustart — es muss neu
+#    gebaut werden. Dafür gibt es unten „Run workflow" von Hand.
+#
+# Die Zugangsdaten des Redaktionssystems (KEYSTATIC_*) und der
+# Schlüssel für den Mailversand (RESEND_API_KEY) gehören NICHT hierher.
+# Die liegen als Secrets direkt beim Worker und werden zur Laufzeit
+# gebraucht, nicht beim Bauen. Ein Deploy überschreibt sie nicht.
+# ---------------------------------------------------------------
+
+name: Auf Cloudflare veröffentlichen
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**/*.md"
+  workflow_dispatch:
+
+# Zwei schnell aufeinanderfolgende Änderungen im Editor sollen sich
+# nicht überholen. Der zweite Lauf wartet, statt den ersten mitten im
+# Hochladen abzubrechen.
+concurrency:
+  group: deploy-cloudflare
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Bauen und veröffentlichen
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v7
+
+      # Wrangler verlangt mindestens Node 22.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      # Lieber hier mit einer klaren Meldung stehen bleiben als später
+      # mit einer Website, in der die falsche Adresse eingebaut ist.
+      - name: Voraussetzungen prüfen
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+        run: |
+          fehlt=""
+          [ -n "$CLOUDFLARE_API_TOKEN" ]  || fehlt="$fehlt\n  - Secret CLOUDFLARE_API_TOKEN"
+          [ -n "$CLOUDFLARE_ACCOUNT_ID" ] || fehlt="$fehlt\n  - Secret CLOUDFLARE_ACCOUNT_ID"
+          [ -n "$NEXT_PUBLIC_SITE_URL" ]  || fehlt="$fehlt\n  - Variable NEXT_PUBLIC_SITE_URL"
+          if [ -n "$fehlt" ]; then
+            printf 'Es fehlen Angaben im Repository:%b\n\n' "$fehlt"
+            echo 'Nachzutragen unter Settings → Secrets and variables → Actions.'
+            exit 1
+          fi
+          echo "Alles da. Adresse: $NEXT_PUBLIC_SITE_URL"
+
+      - name: Pakete installieren
+        run: npm ci
+
+      - name: Website und Worker bauen
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG: ${{ vars.NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG }}
+        run: npx opennextjs-cloudflare build
+
+      # Lädt den Worker, die statischen Dateien und die vorgerenderten
+      # Seiten hoch. Nicht durch `wrangler deploy` ersetzen — das lässt
+      # die vorgerenderten Seiten weg, und dann antwortet jede Seite
+      # mit 500.
+      - name: Auf Cloudflare veröffentlichen
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx opennextjs-cloudflare deploy
+
+      - name: Erreichbarkeit prüfen
+        if: vars.NEXT_PUBLIC_SITE_URL != ''
+        run: |
+          adresse="${{ vars.NEXT_PUBLIC_SITE_URL }}"
+          echo "Warte kurz, bis die neue Fassung ausgerollt ist …"
+          sleep 15
+          status=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$adresse/")
+          echo "Startseite unter $adresse antwortet mit $status"
+          # Nur ein Hinweis: Direkt nach dem Umstellen der Domain kann
+          # hier noch die alte Antwort stehen. Das ist kein Grund, den
+          # Lauf rot zu färben.
+          [ "$status" = "200" ] || echo "::warning::Noch kein 200 — bitte von Hand nachsehen."

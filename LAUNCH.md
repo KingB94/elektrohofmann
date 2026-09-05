@@ -146,12 +146,17 @@ Build und Linter laufen sauber durch.
       `RESEND_API_KEY` als Secret hinterlegen.
       ⚠️ **Danach einmal echt absenden.** Alles andere am Formular ist geprüft, der
       tatsächliche Versand naturgemäß nicht — dafür braucht es den echten Schlüssel.
-- [ ] **Cloudflare-Projekt anlegen**, mit dem GitHub-Repo verbinden, Testdeploy prüfen.
-      ⚠️ Als Deploy-Befehl **`npx opennextjs-cloudflare build && npx
-      opennextjs-cloudflare deploy`** eintragen, nicht `wrangler deploy`: Nur der
-      OpenNext-Befehl legt die vorgerenderten Seiten mit in die Assets. Fehlen sie,
-      antwortet jede Seite mit 500.
-- [ ] **Node-Version im Build auf 22 oder höher** setzen — Wrangler verlangt das.
+- [x] **Auto-Deploy über GitHub Actions** eingerichtet
+      (`.github/workflows/deploy.yml`) — statt das Repo im Cloudflare-Dashboard
+      zu verbinden. Gleicher Effekt, aber im Repo nachvollziehbar und änderbar:
+      Push auf `main` → bauen → veröffentlichen. Node 22 und der richtige
+      Deploy-Befehl stehen darin fest.
+      ⚠️ Nicht auf `wrangler deploy` umstellen: Nur der OpenNext-Befehl legt die
+      vorgerenderten Seiten mit in die Assets. Fehlen sie, antwortet jede Seite
+      mit 500.
+- [ ] **Im Repository hinterlegen**, damit der Workflow läuft: Secrets
+      `CLOUDFLARE_API_TOKEN` und `CLOUDFLARE_ACCOUNT_ID`, Variables
+      `NEXT_PUBLIC_SITE_URL` und `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`.
 - [ ] **Öffnungszeiten im strukturierten Datensatz**: In `app/layout.tsx` stehen Mo–Fr
       08:00–18:00 fest, weil Google ein maschinenlesbares Format braucht. Bestätigt der
       Kunde andere Zeiten, hier mitziehen.

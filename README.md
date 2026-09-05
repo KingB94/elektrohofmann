@@ -68,6 +68,13 @@ npm run preview   # baut den Worker und startet ihn lokal (workerd)
 npm run deploy    # baut und veröffentlicht von Hand
 ```
 
+Im Normalbetrieb wird nichts von Hand veröffentlicht: `.github/workflows/deploy.yml`
+baut bei jedem Push auf `main` und lädt hoch. Das schließt die Änderungen des
+Kunden ein — sein „Save" im Editor ist ein Commit, und der löst den Workflow aus.
+Nötig sind dafür zwei Repository-Secrets (`CLOUDFLARE_API_TOKEN`,
+`CLOUDFLARE_ACCOUNT_ID`) und zwei Variables (`NEXT_PUBLIC_SITE_URL`,
+`NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`); die Datei nennt sie im Kopf.
+
 ⚠️ `npm run build` allein erzeugt **keinen** Worker, und
 `opennextjs-cloudflare preview` baut **nicht** — es startet nur das zuletzt
 Gebaute. Beides gehört zusammen; die Skripte oben tun das bereits.
