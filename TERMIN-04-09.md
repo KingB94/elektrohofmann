@@ -1,5 +1,11 @@
 # Termin bei Elektro Hofmann — Freitag, 04.09.2026
 
+> **Nachtrag 05.09.2026 — Hosting gewechselt.** Der Setup-Teil unten beschreibt
+> den Termin vom 04.09., wie er geplant war und stattgefunden hat, und bleibt als
+> Protokoll stehen. Die dort genannten **Netlify-Schritte sind überholt**: Der
+> Kunde hat dem Transfer der Domain zu uns zu Cloudflare zugestimmt, gehostet
+> wird dort. Maßgeblich ist ab „Der Switch-Termin" — dieser Abschnitt ist neu.
+
 **Der Kunde will am 4.9. das Setup fertig haben, aber noch nicht umschalten.**
 Die alte Seite bleibt vorerst online, den Wechsel terminiert er selbst.
 
@@ -264,77 +270,103 @@ später welche kommen — erfahrungsgemäß kommen sie sonst nie.
 
 Geht per Telefon mit Bildschirmfreigabe, es muss niemand hinfahren.
 
-### Drei Tage vorher
+> **Geändert am 05.09.2026.** Ursprünglich war geplant, die Domain bei Strato
+> zu lassen und nur zwei DNS-Einträge auf Netlify umzubiegen. Der Kunde hat
+> stattdessen dem **Transfer der Domain zu uns zu Cloudflare** zugestimmt. Damit
+> ist der Switch kein Zwei-Klick-Termin mehr, sondern ein Vorgang über mehrere
+> Tage — der eigentliche Umschaltmoment bleibt aber kurz.
+>
+> Alles unterhalb dieser Zeile ist entsprechend neu. Der Setup-Teil weiter oben
+> beschreibt den Termin vom 04.09. so, wie er stattgefunden hat, und bleibt
+> als Protokoll stehen — dort genannte Netlify-Schritte sind überholt.
 
-- [ ] **TTL bei Strato absenken.** Prüfen, ob sich der Wert der DNS-Einträge
-      einstellen lässt; falls ja, auf den kleinstmöglichen Wert (z. B. 300
-      Sekunden). TTL bedeutet, wie lange andere Rechner die alte Antwort
-      zwischenspeichern — steht dort der Standardwert von oft 24 Stunden, ist
-      die Seite unter der Domain unter Umständen den ganzen Tag nicht
-      erreichbar.
-- [ ] Prüfen, ob die zweite Callback-URL in der GitHub-App wirklich eingetragen
-      ist (siehe Setup-Termin, Punkt 2)
+### Warum das jetzt länger dauert
+
+Cloudflare Registrar nimmt eine Domain **erst an, wenn sie schon auf
+Cloudflare-Nameservern liegt**. Die Reihenfolge ist also festgelegt, und
+zwischen Schritt 2 und 3 liegen rund fünf Tage:
+
+1. Zone bei Cloudflare anlegen und die Website-Einträge setzen
+2. Nameserver bei Strato auf Cloudflare umstellen → **ab hier ist die neue
+   Seite live**, das ist der eigentliche Switch
+3. Auth-Code ziehen, Transfer starten, ~5 Tage warten → Registrierung liegt
+   danach bei uns
+
+Der Kunde merkt von Schritt 3 nichts. Für ihn ist der Termin bei Schritt 2 zu
+Ende.
+
+### Vorbereitung
+
+- [ ] **Cloudflare-Projekt läuft und ist geprüft** — die Seite muss unter ihrer
+      `*.workers.dev`-Adresse vollständig funktionieren, bevor die Domain
+      angefasst wird.
+- [ ] **Resend eingerichtet** und einmal echt abgesendet.
+- [ ] **Screenshot der kompletten Strato-DNS-Zone.** Billigste Versicherung, die
+      es gibt: Wenn etwas verrutscht, weißt du, wie es vorher aussah.
+- [ ] **DNSSEC bei Strato abschalten**, sonst scheitert der Nameserver-Wechsel.
+- [ ] **TTL bei Strato absenken** (z. B. 300 Sekunden), damit die Umstellung
+      schnell greift.
+- [ ] Prüfen, ob die zweite Callback-URL in der GitHub-App eingetragen ist
+      (siehe Setup-Termin, Punkt 2)
+
+### Die Zone bei Cloudflare
+
+Stand gemessen am 05.09.2026 gegen Zielzustand:
+
+| Eintrag | Jetzt (Strato) | Nachher (Cloudflare) |
+| --- | --- | --- |
+| `elektrohofmann.info` | A `81.169.145.72` | Worker-Route auf das Projekt |
+| `www` | A `81.169.145.72` | Worker-Route auf das Projekt |
+| `MX` | `5 smtpin.rzone.de` | **entfällt** — siehe unten |
+| SPF | — | `v=spf1 -all` (bzw. Resend-Eintrag) |
+| DMARC | — | `v=DMARC1; p=reject;` |
+
+✅ **Der MX kann weg — das ist geprüft, nicht angenommen.** Am 05.09.2026
+nachgemessen: Der Betrieb nutzt für E-Mail ausschließlich
+`hofmann-wonneberg.de` (Microsoft 365 hinter Hornetsecurity, DNS bei Hetzner —
+nichts davon bei Strato). Die alte Website nennt an jeder Stelle nur
+`hofmanngreinach@t-online.de`; eine `@elektrohofmann.info`-Adresse existiert
+nirgends. Der MX ist Stratos Standardeintrag ohne Postfach dahinter.
+
+⚠️ Sobald Resend läuft, gehören dessen SPF- und DKIM-Einträge in die Zone —
+sonst lehnt der Versand ab oder die Anfragen landen im Spam.
 
 ### Am Switch-Tag
 
-- [ ] ⚠️ **Zuerst einen Screenshot der kompletten DNS-Zone machen.** Billigste
-      Versicherung, die es gibt: Wenn etwas verrutscht, weißt du, wie es vorher
-      aussah.
+- [ ] Zone bei Cloudflare vollständig anlegen (Tabelle oben)
+- [ ] Strato-Kundenbereich → Domainverwaltung → Nameserver auf die beiden
+      Cloudflare-Nameserver umstellen
+- [ ] Warten, bis Cloudflare die Zone als aktiv meldet (meist Minuten)
+- [ ] Domain im Worker-Projekt als Custom Domain hinterlegen — Zertifikat
+      kommt automatisch
+- [ ] `NEXT_PUBLIC_SITE_URL` auf `https://www.elektrohofmann.info` setzen und
+      **neu bauen** (der Wert wird beim Bauen fest eingebaut, ein bloßer
+      Neustart genügt nicht)
 
-**Zwei bestehende Einträge ändern**, keine neuen anlegen. Stand gemessen am
-20.08.2026 gegen Zielzustand:
+### Direkt danach
 
-| Eintrag | Jetzt | Nachher |
-| --- | --- | --- |
-| `elektrohofmann.info` (A) | `81.169.145.72` (Strato) | `75.2.60.5` (Netlify) |
-| `www` (CNAME) | → `elektrohofmann.info` | → `websiteelektrohofmann.netlify.app` |
-| `MX` | `smtpin.rzone.de` | **unverändert** |
-
-- [ ] Strato-Kundenbereich → Domainverwaltung → DNS
-- [ ] A-Eintrag der Hauptdomain auf die Netlify-IP ändern
-- [ ] `www`-CNAME auf die Netlify-Adresse des Projekts umbiegen
-- [ ] ⚠️ **MX-Einträge nicht anfassen** — sonst ist die Firmen-E-Mail tot.
-      Kein theoretisches Risiko: der MX zeigt nachweislich auf Strato.
-- [ ] Domain bei Netlify hinterlegen, Zertifikat kommt automatisch
-
-**Werte aus dem Netlify-Dashboard nehmen, nicht aus dieser Tabelle.** Die
-`75.2.60.5` ist Netlifys dokumentierte Fallback-IP für Anbieter ohne
-ALIAS/ANAME — sie stimmt heute, aber im Projekt steht, was gilt.
-
-⚠️ **Die Falle: „Use Netlify DNS".** Netlify bietet im Dashboard an, die Domain
-komplett zu übernehmen, indem man die Nameserver umstellt. Das ist der
-bequemere Weg und hier der falsche: Damit zieht die **gesamte Zone inklusive
-MX** zu Netlify um, und die Mail-Einträge müssten dort von Hand nachgebaut
-werden. Bei einem Kunden mit Postfächern bei Strato ist das genau das Risiko,
-das man nicht eingeht. **Nameserver bleiben bei Strato, nur die zwei Records
-ändern.**
-
-Netlify empfiehlt bei externem DNS, `www` als Hauptadresse zu setzen und die
-nackte Domain dorthin umzuleiten — weil Apex-Domains über die feste IP nicht
-so gut übers CDN routen. Für diese Seite spielt das kaum eine Rolle, ist aber
-die sauberere Einstellung.
-
-### Direkt nach dem Switch
-
-- [ ] 🔴 **`X-Robots-Tag = "noindex"` für `/*` aus `netlify.toml` entfernen.**
-      Der Eintrag hält die Netlify-Adresse aus dem Suchindex, solange die Seite
-      noch nicht unter der echten Domain läuft. Bleibt er drin, ist die fertige
-      Seite für Google unsichtbar. **Der mit Abstand teuerste Fehler auf dieser
-      Liste.**
-- [ ] `NEXT_PUBLIC_SITE_URL` bei Netlify auf die echte Domain, neu bauen
 - [ ] Erreichbarkeit unter der echten Domain prüfen (Handy, mobile Daten)
 - [ ] Schloss-Symbol kontrollieren
-- [ ] Kontaktformular unter der neuen Adresse einmal abschicken
-- [ ] **E-Mail testen**: sich selbst eine Nachricht an seine Firmenadresse
-      schicken lassen und prüfen, ob sie ankommt
+- [ ] Die drei alten Adressen testen: `/leistungen`, `/ueber-uns`,
+      `/kontakt-anfahrt` müssen mit 301 auf die Startseite führen
+- [ ] Kontaktformular unter der neuen Adresse einmal abschicken und prüfen,
+      ob die Mail bei `info@hofmann-wonneberg.de` ankommt
+- [ ] `robots.txt` und `sitemap.xml` aufrufen: Steht dort die echte Domain?
 - [ ] `KURZANLEITUNG-KUNDE.md` mit der echten Adresse neu ausdrucken und
       hinschicken
-- [ ] TTL bei Strato wieder auf den Normalwert hochsetzen
+
+### In den Tagen danach
+
+- [ ] Auth-Code bei Strato anfordern, Domain entsperren, Transfer bei
+      Cloudflare starten
+- [ ] Nach Abschluss: Kunden das Strato-Passwort ändern lassen
+- [ ] Prüfen, ob das Strato-Hostingpaket noch gebraucht wird — erst **nach**
+      dem Sichern und Löschen der Joomla-Installation kündigen
 
 ### Alte Joomla-Seite abschalten
 
-**Nicht vorher löschen** — solange DNS auf Strato zeigt, ist Joomla die Seite.
-Mit der DNS-Umstellung ist sie unter der Domain nicht mehr erreichbar; das ist
+**Nicht vorher löschen** — solange die Nameserver auf Strato zeigen, ist Joomla
+die Seite. Mit dem Nameserver-Wechsel ist sie unter der Domain nicht mehr erreichbar; das ist
 der größte Teil des Problems. Die Installation liegt danach aber weiter auf dem
 Webspace:
 

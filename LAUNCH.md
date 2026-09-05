@@ -8,46 +8,54 @@ Stand: 20.08.2026 · Kunde hat die Website gebucht.
   bleiben auf ausdrücklichen Kundenwunsch als eigene Routen erhalten (weiter `noindex`).
 - **CMS:** Keystatic, Umstellung von `local` auf **GitHub-Storage**. Der Kunde pflegt
   Texte und Bilder selbst unter `/keystatic`.
-- **Hosting:** **Netlify Starter (kostenlos)**.
-- **Domain:** bleibt bei Strato, nur die DNS-Einträge zeigen auf Netlify.
-- **Ablauf:** **zwei Termine.** Am 04.09. wird das Setup fertiggestellt — die
-  Seite läuft dann vollständig unter einer `*.netlify.app`-Adresse und der Kunde
-  kann sie pflegen. Den Wechsel auf seine Domain (DNS + Abschaltung der alten
-  Seite) terminiert er selbst; das ist ein eigener, kurzer Termin.
-  Ablaufplan für beide: `TERMIN-04-09.md`.
+- **Hosting:** **Cloudflare Workers (kostenlos)**. Bis 04.09.2026 war Netlify
+  vorgesehen; der Kunde hat dem Umzug der Domain zu uns zugestimmt, damit liegt
+  Hosting, DNS und Domain an einem Ort. Begründung unten.
+- **Domain:** `elektrohofmann.info` **zieht von Strato zu Cloudflare** (Registrar
+  und DNS). Der Kunde hat uns dafür seine Strato-Zugangsdaten gegeben.
+- **Ablauf:** **zwei Termine.** Am 04.09. wurde das Setup fertiggestellt. Den
+  Wechsel auf die Domain (Transfer + Abschaltung der alten Seite) terminiert der
+  Kunde selbst; das ist ein eigener, kurzer Termin. Ablaufplan: `TERMIN-04-09.md`.
 
 ---
 
-## 1. Warum Netlify
+## 1. Warum Cloudflare
 
 Strato-Webhosting kann kein Next.js (nur PHP/statisch) — die Seite kann dort nicht liegen.
 
-Netlify erlaubt **kommerzielle Nutzung auf dem kostenlosen Plan ausdrücklich** (im
-Gegensatz zu Vercel, dessen Hobby-Plan das verbietet). Netlify-Support wörtlich:
-
-> „Yes, you can use the free plan for commercial projects. What ToS means is that you
-> can't resell it […] but you can definitely charge your customers for your services in
-> building and maintaining their websites."
-
-Also: eigene Arbeit abrechnen ja, Hosting weiterverkaufen nein. Passt.
+Ursprünglich war Netlify gesetzt, weil es kommerzielle Nutzung im Free-Plan
+ausdrücklich erlaubt und die Domain bei Strato bleiben sollte. Beide Annahmen
+sind hinfällig: Der Kunde hat dem Transfer der Domain zu uns zugestimmt. Damit
+liegt alles bei einem Anbieter — Registrierung, DNS, Hosting —, und die
+Netlify-Umwege entfallen.
 
 **Was der Free-Plan bietet:**
 
-- Next.js 16 wird unterstützt (Netlify Runtime v5)
-- 100 GB Bandbreite/Monat, 300 Build-Minuten/Monat — für diese Seite weit überdimensioniert.
-  Jede Keystatic-Speicherung löst einen Rebuild von ~1–2 Min. aus.
-- Eigene Domain + SSL kostenlos, Auto-Deploy bei jedem Commit
-- **Netlify Forms** (100 Einsendungen/Monat gratis) → löst nebenbei das Kontaktformular
+- Next.js 16 läuft über den OpenNext-Adapter (`@opennextjs/cloudflare`)
+- 100.000 Worker-Aufrufe pro Tag; statische Seiten zählen nicht mit, weil sie
+  direkt vom CDN kommen. Für diese Seite weit überdimensioniert.
+- Eigene Domain + SSL kostenlos, Auto-Deploy bei jedem Commit (Workers Builds)
+- Kommerzielle Nutzung ohne Sonderregeln — anders als bei Vercels Hobby-Plan
+
+**Was der Wechsel gekostet hat** (alles erledigt, siehe Git-Verlauf):
+
+- Kontaktformular neu gebaut. Netlify Forms gibt es hier nicht; die Anfrage geht
+  jetzt über eine eigene Route per Resend raus.
+- `lib/inhalte.ts` liest die Inhalte beim Bauen statt zur Laufzeit — im Worker
+  gibt es kein Dateisystem.
+- Weiterleitungen und `noindex` aus `netlify.toml` nach `next.config.ts` bzw. in
+  die Seiten-Metadaten.
+- Next auf 16.3.4 angehoben, weil der Adapter 16.0–16.3.2 ausschließt.
 
 ### Geprüfte, aber verworfene Alternativen
 
 | Option | Kosten | Warum nicht |
 | --- | --- | --- |
-| Cloudflare Workers | 0 € | Geht (OpenNext-Adapter, Next 16 unterstützt), aber deutlich mehr Einrichtung: wrangler-Config, KV-Namespace. Lohnt erst bei viel Traffic. |
+| Netlify Starter | 0 € | War der Plan bis 04.09.2026. Funktioniert, aber sobald die Domain ohnehin zu uns zieht, ist ein zweiter Anbieter nur ein zweiter Ort zum Nachsehen. Netlify Forms wäre der einzige echte Vorteil gewesen. |
 | Vercel Pro | ~20 $/Monat | Hobby-Plan verbietet gewerbliche Nutzung. Pro ist für diese Seite rausgeworfenes Geld. |
-| Alles statisch auf Strato-Webspace | 0 € | **Geht nicht — und keine Paketstufe ändert das.** Strato-Webhosting bietet über *alle* Tarife hinweg nur PHP 8.4, Perl, Python und Ruby, kein Node.js und keinen Root-Zugriff; auch Pro für 22 €/Mon. nicht. Ein größeres Paket kauft Speicherplatz und Domains, keine Laufzeitumgebung. Selbst als statischer Export scheitert es an Keystatic: der API-Handler braucht einen Server (GitHub-OAuth + Git-Schreiboperationen: `/api/keystatic/github/login`, `/oauth/callback`, `/branch/**`). Dazu käme `next/image` ohne Optimierung (13 Dateien nutzen es) und ein Ersatz fürs Kontaktformular. Man müsste den Editor separat betreiben — zwei Deploy-Ziele, kein Vorteil. Und zu sparen gäbe es nichts: Netlify kostet 0 €. |
+| Alles statisch auf Strato-Webspace | 0 € | **Geht nicht — und keine Paketstufe ändert das.** Strato-Webhosting bietet über *alle* Tarife hinweg nur PHP 8.4, Perl, Python und Ruby, kein Node.js und keinen Root-Zugriff; auch Pro für 22 €/Mon. nicht. Ein größeres Paket kauft Speicherplatz und Domains, keine Laufzeitumgebung. Selbst als statischer Export scheitert es an Keystatic: der API-Handler braucht einen Server (GitHub-OAuth + Git-Schreiboperationen). |
 | Strato vServer | 8 €/Mon. + 9 € Setup | Node.js liefe, aber nacktes Linux: Prozess, nginx, certbot, Updates, Backups, Deploy-Pipeline — alles selbst. Für sechs Leistungskacheln absurd. |
-| Eigenes Hosting auf netcup | ~0 € marginal | **Später, nicht zum 04.09.** Siehe unten. |
+| Eigenes Hosting auf netcup | ~0 € marginal | **Später, nicht jetzt.** Siehe unten. |
 
 #### Eigenes netcup-Hosting — vertagt, nicht verworfen
 
@@ -56,20 +64,16 @@ VPS/Root-Server**. netcup-Webhosting scheidet aus demselben Grund aus wie Strato
 ist über Plesk nominell da, hält aber keinen dauerhaften Prozess (Timeout killt ihn).
 
 Auf einem eigenen Server zu bauen wäre: GitHub Actions → SSH-Deploy, systemd/PM2, nginx +
-certbot, und **Ersatz für Netlify Forms** (`components/ContactForm.tsx` und
-`public/__forms.html` hängen daran). Das ist ein lohnendes eigenes Projekt — einmal gebaut
-trägt die Pipeline jede weitere Kundenseite. Nur nicht zwei Wochen vor diesem Termin.
-
-Reihenfolge: am 04.09. auf Netlify live, Umzug später als reine DNS-Änderung plus Deploy.
-Der Kunde merkt davon nichts. Für eine Wartungspauschale muss man ohnehin nicht selbst
-hosten — abgerechnet wird die Arbeit, nicht der Webspace.
+certbot. Das ist ein lohnendes eigenes Projekt — einmal gebaut trägt die Pipeline jede
+weitere Kundenseite. Der Umzug wäre danach eine reine DNS-Änderung, und die liegt jetzt
+in unserer Hand. Der Kunde merkt davon nichts.
 
 ### Laufende Kosten für den Kunden
 
 | Posten | Kosten |
 | --- | --- |
 | Domain bei Strato | zahlt er ohnehin schon |
-| Hosting (Netlify) | 0 € |
+| Hosting (Cloudflare) | 0 € |
 | GitHub (privates Repo) | 0 € |
 | CMS (Keystatic, Open Source) | 0 € |
 
@@ -97,12 +101,19 @@ wäre jederzeit in Minuten möglich.
 - [x] **Keystatic-Speicherung**: schaltet automatisch auf GitHub, sobald die drei
       Zugangsdaten gesetzt sind — sonst lokaler Modus. Fehlen sie im Livebetrieb,
       warnt der Build in den Logs.
-- [x] **Kontaktformular** auf Netlify Forms umgestellt (vorher nur ein `mailto:`-Link,
-      der auf Handys ohne Mailprogramm ins Leere lief). Mit Honigtopf gegen Bots und
-      verständlicher Fehlermeldung, falls der Versand scheitert.
+- [x] **Kontaktformular** über eine eigene Route mit Resend (vorher nur ein
+      `mailto:`-Link, der auf Handys ohne Mailprogramm ins Leere lief; dazwischen
+      kurz Netlify Forms). Mit Honigtopf gegen Bots und verständlicher
+      Fehlermeldung, falls der Versand scheitert. Die Empfängeradresse kommt aus
+      den Betriebsdaten im Editor.
 - [x] **Kennzahlen** lassen sich im Editor wahlweise fest eintragen oder automatisch
       berechnen — die Seite veraltet nicht mehr beim Jahreswechsel.
-- [x] **`netlify.toml`** angelegt (Build-Befehl, Node-Version, `noindex`-Kopfzeilen).
+- [x] **Cloudflare-Aufbau**: `wrangler.jsonc` und `open-next.config.ts` angelegt,
+      Weiterleitungen nach `next.config.ts`, `noindex` in die Seiten-Metadaten.
+      `netlify.toml` und `public/__forms.html` sind entfallen.
+- [x] **Auf workerd geprüft**, nicht nur gebaut: alle Seiten, die drei
+      Weiterleitungen, `noindex`, der Editor unter `/keystatic` und der
+      OAuth-Einstieg `/api/keystatic/github/login` antworten dort richtig.
 - [x] **Aufgeräumt**: Finder-Dubletten gelöscht, `robots.ts` und `sitemap.ts` ziehen die
       Adresse jetzt aus `NEXT_PUBLIC_SITE_URL`, README neu geschrieben.
 
@@ -110,16 +121,24 @@ Build und Linter laufen sauber durch.
 
 ### Offen — braucht Zugangsdaten oder eine Entscheidung
 
-- [ ] **GitHub-App für Keystatic anlegen.** Der Assistent liegt nach dem ersten Deploy
-      unter `/keystatic/setup`. Ergebnis sind vier Werte, die bei Netlify unter
-      *Environment variables* eingetragen werden (Vorlage: `.env.example`):
+- [ ] **GitHub-App für Keystatic anlegen.** Der Assistent läuft nur lokal (siehe
+      `TERMIN-04-09.md`). Ergebnis sind vier Werte, die bei Cloudflare unter
+      *Settings → Variables* eingetragen werden (Vorlage: `.env.example`):
       `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`,
       `KEYSTATIC_SECRET`, `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`
-- [ ] **`NEXT_PUBLIC_SITE_URL`** bei Netlify auf die echte Domain setzen — hängt an der
-      Domain-Frage unten.
-- [ ] **Netlify-Projekt anlegen**, mit dem GitHub-Repo verbinden, Testdeploy prüfen.
-- [ ] **Formular-Benachrichtigung** bei Netlify einschalten (Forms → Notifications), damit
-      Anfragen per Mail beim Betrieb landen statt nur im Netlify-Dashboard.
+- [ ] **`NEXT_PUBLIC_SITE_URL`** bei Cloudflare auf die echte Domain setzen — hängt an
+      der Domain-Frage unten.
+- [ ] **Resend einrichten**: Konto anlegen, `elektrohofmann.info` als Absenderdomain
+      verifizieren (Resend nennt DNS-Einträge, die in die Cloudflare-Zone gehören),
+      `RESEND_API_KEY` als Secret hinterlegen.
+      ⚠️ **Danach einmal echt absenden.** Alles andere am Formular ist geprüft, der
+      tatsächliche Versand naturgemäß nicht — dafür braucht es den echten Schlüssel.
+- [ ] **Cloudflare-Projekt anlegen**, mit dem GitHub-Repo verbinden, Testdeploy prüfen.
+      ⚠️ Als Deploy-Befehl **`npx opennextjs-cloudflare build && npx
+      opennextjs-cloudflare deploy`** eintragen, nicht `wrangler deploy`: Nur der
+      OpenNext-Befehl legt die vorgerenderten Seiten mit in die Assets. Fehlen sie,
+      antwortet jede Seite mit 500.
+- [ ] **Node-Version im Build auf 22 oder höher** setzen — Wrangler verlangt das.
 - [ ] **Öffnungszeiten im strukturierten Datensatz**: In `app/layout.tsx` stehen Mo–Fr
       08:00–18:00 fest, weil Google ein maschinenlesbares Format braucht. Bestätigt der
       Kunde andere Zeiten, hier mitziehen.
@@ -130,7 +149,10 @@ Build und Linter laufen sauber durch.
 
 - [ ] **GitHub-Account des Kunden** (kostenlos, vorher anlegen lassen spart Zeit)
       → als Collaborator ins private Repo einladen. **Ohne das kein CMS-Login.**
-- [ ] **Strato-Zugangsdaten** für die DNS-Umstellung
+- [x] **Strato-Zugangsdaten** liegen vor (vom Kunden übergeben). Werden für
+      Nameserver-Wechsel, Auth-Code und die Sicherung des alten Webspace gebraucht.
+      ⚠️ Fremdes Konto: nur für das Vereinbarte verwenden, nichts nebenbei ändern.
+      Nach Abschluss des Umzugs den Kunden das Passwort ändern lassen.
 
 ### Ausgangslage — per DNS gemessen am 20.08.2026
 
@@ -146,12 +168,27 @@ Strato-Mail eingerichtet. Ob die Postfächer genutzt werden oder nur
 mitgeliefert wurden, sagt DNS nicht; die Frage an den Kunden lautet deshalb
 nicht mehr „gibt es dort Postfächer", sondern „welche sind in Gebrauch".
 
-### DNS bei Strato umstellen
+### Domain von Strato zu Cloudflare umziehen
 
-1. Strato-Kundenbereich → Domainverwaltung → DNS
-2. A-/CNAME-Werte eintragen, **die Netlify im Projekt anzeigt**
-3. ⚠️ **MX-Einträge nicht anfassen** — sonst sind die E-Mail-Postfächer tot.
-   Kein theoretisches Risiko: der MX zeigt nachweislich auf Strato.
+**Reihenfolge ist hier nicht beliebig:** Cloudflare Registrar nimmt eine Domain
+erst an, wenn sie bereits auf Cloudflare-Nameservern liegt. Ein Auth-Code allein
+reicht nicht.
+
+1. Zone `elektrohofmann.info` bei Cloudflare anlegen, Website-Records eintragen
+2. DNSSEC bei Strato abschalten (sonst scheitert der Nameserver-Wechsel)
+3. Strato-Kundenbereich → Domainverwaltung → Nameserver auf Cloudflare umstellen
+4. Domain entsperren, Auth-Code ziehen, Transfer bei Cloudflare starten (~5 Tage)
+5. ✅ **MX-Einträge sind hier unkritisch** — anders als ursprünglich angenommen.
+   Am 05.09.2026 nachgemessen: Der Betrieb nutzt für E-Mail ausschließlich
+   `hofmann-wonneberg.de` (Microsoft 365 hinter Hornetsecurity, Hetzner-DNS,
+   nicht bei Strato). Auch die alte Website nennt durchgehend nur
+   `hofmanngreinach@t-online.de`, keine einzige `@elektrohofmann.info`-Adresse.
+   Der `MX 5 smtpin.rzone.de` ist Stratos Standardeintrag, dahinter liegt nichts.
+   Er kann ersatzlos entfallen.
+6. Stattdessen `v=spf1 -all` und DMARC `p=reject` setzen: Die Domain versendet
+   keine Mail, also soll das auch niemand in ihrem Namen tun können.
+   ⚠️ Ausnahme, sobald Resend läuft — dann gehören dessen SPF-/DKIM-Einträge
+   für den Absender `formular@elektrohofmann.info` in die Zone.
 4. Vorher klären:
    - [ ] Liegt auf der Domain aktuell schon eine Seite? Die geht beim Umstellen offline.
          (Ja — die alte Joomla-Seite, siehe Abschnitt 4.)
@@ -174,7 +211,7 @@ Branchenverzeichnissen. Beim Termin gegenprüfen:
 - [ ] Zeigt `public/images/gewerbehalle.jpg` das eigene Gelände oder ein Referenzprojekt?
 - [x] Kontakt-E-Mail: `info@hofmann-wonneberg.de` (am 04.09.2026 vom Kunden bestätigt,
       löst die alte t-online-Adresse ab). ⚠️ Das Postfach muss existieren, bevor die
-      Seite live geht — und die Netlify-Benachrichtigung für das Formular muss darauf zeigen.
+      Seite live geht — dorthin schickt das Kontaktformular seine Anfragen.
 - [ ] **Eigene Fotos einsammeln.** Stand 03.09.2026 liegen `bild.jpg`, `bildGross.jpg`,
       `bildKlein.jpg` und `logo.png` im Projekt — die alten Platzhalter wurden im Editor
       bereits ersetzt.
@@ -186,10 +223,14 @@ als Hoster und beschrieb das Kontaktformular als `mailto`-Link, obwohl es längs
 Netlify Forms sendet. Beides steht jetzt richtig drin, ebenso sind drei sichtbare
 Bearbeitungsnotizen in eckigen Klammern aus dem Fließtext entfernt.
 
+Am 05.09.2026 mit dem Hosting-Wechsel nachgezogen: Hoster ist jetzt Cloudflare,
+Versender des Kontaktformulars ist Resend. Beide stehen namentlich mit Anschrift
+in der Erklärung, samt Hinweis auf die Drittlandsübermittlung.
+
 Was noch eine Entscheidung des Betriebs braucht:
 
-- [ ] **Auftragsverarbeitungsvertrag mit Netlify** annehmen und ablegen. Betrifft
-      Hosting *und* Kontaktformular — in beiden Fällen verarbeitet Netlify Daten.
+- [ ] **Zwei Auftragsverarbeitungsverträge** annehmen und ablegen:
+      **Cloudflare** (Hosting) und **Resend** (Versand des Kontaktformulars).
 - [ ] **Datenschutzerklärung und Impressum anwaltlich prüfen lassen.** Beide Seiten sind
       Vorlagen und tragen den Hinweis im Dateikopf. Das ist keine Rechtsberatung.
 - [ ] **Verbraucherschlichtung**: Die Aussage im Impressum, nicht an Streitbeilegungs-
@@ -201,7 +242,7 @@ Was noch eine Entscheidung des Betriebs braucht:
 ### Einweisung (15–20 Minuten)
 
 `deinedomain.de/keystatic` → mit GitHub anmelden → Texte und Bilder ändern → speichern.
-Änderung landet als Commit im Repo, Netlify baut automatisch neu, nach ~1 Minute live.
+Änderung landet als Commit im Repo, Cloudflare baut automatisch neu, nach ~1 Minute live.
 Der Editor ist bereits komplett auf Deutsch beschriftet.
 
 ---
@@ -272,8 +313,8 @@ das Einschalten des Zertifikats nicht mehr bloß eine Geste vor dem Termin, sond
 ⚠️ Nur mit ausdrücklicher Zustimmung in seinem Konto klicken — fremdes Hosting-Konto,
 an dem auch seine Mail hängt.
 
-Die neue Seite braucht davon nichts: Netlify stellt das Zertifikat automatisch aus,
-sobald die DNS-Umstellung greift.
+Die neue Seite braucht davon nichts: Cloudflare stellt das Zertifikat automatisch
+aus, sobald die Domain dort liegt.
 
 ### Bereits übernommen (erledigt)
 
@@ -312,10 +353,10 @@ Geändert in `content/startseite/leistungen.json`, `content/startseite/betrieb.j
       nicht mehr erreichbar. Der Webspace bleibt davon unberührt — die Installation
       muss trotzdem gesichert und gelöscht werden, siehe `TERMIN-04-09.md`.
       **Die unsichere Installation darf nicht online bleiben.**
-- [x] **301-Weiterleitungen** stehen in `netlify.toml`: `/leistungen` → `/#leistungen`,
+- [x] **301-Weiterleitungen** stehen in `next.config.ts`: `/leistungen` → `/#leistungen`,
       `/ueber-uns` → `/#betrieb`, `/kontakt-anfahrt` → `/#kontakt`. `/impressum` heißt
       auf der neuen Seite genauso und braucht keine Regel. Wirksam mit dem Switch,
-      testbar schon auf der Netlify-Adresse.
+      testbar schon auf der Worker-Adresse.
 - [ ] **Link auf `elektro-demel.de`**: Im Begrüßungstext der alten Startseite ist das Wort
       „allen" mit einem anderen Elektrobetrieb verlinkt — für einen redaktionellen Link
       ungewöhnlich platziert. Entweder eine Partner-Verlinkung oder ein eingeschleuster
@@ -340,8 +381,9 @@ Geändert in `content/startseite/leistungen.json`, `content/startseite/betrieb.j
 
 ## Quellen
 
-- [Netlify: kommerzielle Nutzung im Free-Plan](https://answers.netlify.com/t/can-we-use-netlify-free-plan-for-commercial-purposes/41545)
-- [Netlify Changelog: Next.js 16](https://www.netlify.com/changelog/next-js-16-deploy-on-netlify/)
-- [Netlify Docs: Next.js](https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/)
+- [OpenNext: Cloudflare-Adapter](https://opennext.js.org/cloudflare)
+- [Cloudflare Registrar: Domain-Transfer](https://developers.cloudflare.com/registrar/get-started/transfer-domain-to-cloudflare/)
+- [Cloudflare Workers: Node.js-Kompatibilität](https://developers.cloudflare.com/workers/runtime-apis/nodejs/)
+- [Cloudflare Workers: node:fs](https://developers.cloudflare.com/workers/runtime-apis/nodejs/fs/)
 - [OpenNext Cloudflare Adapter](https://opennext.js.org/cloudflare)
 - Keystatic API-Handler-Routen: `_autodocs/api-reference/api-handler.md`

@@ -58,13 +58,24 @@ Website: http://localhost:3000 · Editor: http://localhost:3000/keystatic
 
 ## Betrieb
 
-Gehostet bei **Netlify** (kostenloser Starter-Plan, kommerzielle Nutzung
-erlaubt). Die Domain liegt bei Strato und zeigt per DNS auf Netlify.
+Gehostet bei **Cloudflare Workers**, gebaut über
+[`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare). Die Domain
+zieht von Strato zu Cloudflare, DNS und Registrierung liegen dann am selben
+Ort.
 
-Das Kontaktformular läuft über **Netlify Forms**. Damit Netlify die Felder
-erkennt, liegt in `public/__forms.html` eine schlichte Kopie des Formulars
-— Feldnamen dort und in `components/variants/VariantContactForm.tsx`
-müssen übereinstimmen.
+```bash
+npm run preview   # baut den Worker und startet ihn lokal (workerd)
+npm run deploy    # baut und veröffentlicht von Hand
+```
+
+⚠️ `npm run build` allein erzeugt **keinen** Worker, und
+`opennextjs-cloudflare preview` baut **nicht** — es startet nur das zuletzt
+Gebaute. Beides gehört zusammen; die Skripte oben tun das bereits.
+
+Das Kontaktformular läuft über eine eigene Route (`app/api/anfrage/route.ts`),
+die per **Resend** an die Adresse aus den Betriebsdaten schickt. Nötig dafür:
+`RESEND_API_KEY` in den Umgebungsvariablen und die Absenderdomain bei Resend
+verifiziert. Siehe `.env.example`.
 
 Vor dem Live-Schalten: **`LAUNCH.md` durchgehen.** Dort stehen die offenen
 Punkte, die Zugangsdaten und die inhaltlichen Angaben, die der Kunde noch

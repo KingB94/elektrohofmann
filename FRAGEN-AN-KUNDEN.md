@@ -73,13 +73,16 @@ Ihnen wissen.
 
 ### So wird es aufgebaut sein
 
-**Ihre Internetadresse bleibt, wo sie ist.**
-Die Adresse liegt weiter bei Strato, dort ändert sich für Sie nichts. Nur der
-Ort, an dem die Seite selbst gespeichert ist, wechselt. Das funktioniert
-ungefähr wie eine Rufumleitung: Die Nummer bleibt dieselbe, es klingelt nur an
-einem anderen Apparat.
+**Ihre Internetadresse bleibt dieselbe — sie zieht nur um.**
+`elektrohofmann.info` bleibt Wort für Wort, wie sie ist. Verwaltet wird sie
+künftig aber nicht mehr bei Strato, sondern bei uns. Für Sie heißt das: eine
+Rechnung weniger und ein Ansprechpartner statt zwei.
 
-**Die Seite selbst liegt künftig bei einem Anbieter namens Netlify.**
+**Ihre E-Mails sind davon nicht betroffen.**
+Die laufen über `hofmann-wonneberg.de` — eine andere Adresse, die wir gar
+nicht anfassen. An Ihren Postfächern ändert sich nichts.
+
+**Die Seite selbst liegt künftig bei einem Anbieter namens Cloudflare.**
 Für eine Website Ihrer Größe ist das kostenlos. Das Sicherheitszertifikat —
 also das, was aktuell bei Ihrer alten Seite fehlt und die Warnung im Browser
 auslöst — wird dort automatisch erstellt und von selbst erneuert. Darum müssen
