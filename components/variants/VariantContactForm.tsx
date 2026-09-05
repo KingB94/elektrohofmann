@@ -6,13 +6,8 @@ import { Send, Check, Loader2, AlertCircle } from "lucide-react";
 type Tone = "light" | "warm";
 type Status = "idle" | "sending" | "sent" | "error";
 
-// Die Anfrage geht an Netlify Forms und landet dort im Postfach des
-// Betriebs — ohne eigenen Server und ohne Datenbank.
-//
-// Gesendet wird an /__forms.html: eine schlichte Kopie des Formulars
-// im public-Ordner, an der Netlify beim Bauen die Felder erkennt.
-// Die Feldnamen hier und dort müssen übereinstimmen.
-const FORMULARNAME = "anfrage";
+// Die Anfrage geht an /api/anfrage. Dort wird sie geprüft und per
+// E-Mail an den Betrieb geschickt — siehe app/api/anfrage/route.ts.
 const tones: Record<
   Tone,
   { label: string; input: string; button: string; hint: string; sent: string }
@@ -51,16 +46,15 @@ export default function VariantContactForm({ tone = "light" }: { tone?: Tone }) 
     setStatus("sending");
 
     try {
-      const antwort = await fetch("/__forms.html", {
+      const antwort = await fetch("/api/anfrage", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          "form-name": FORMULARNAME,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           name,
           kontakt: contact,
           nachricht: message,
           firmenname,
-        }).toString(),
+        }),
       });
       if (!antwort.ok) throw new Error(String(antwort.status));
       setStatus("sent");
