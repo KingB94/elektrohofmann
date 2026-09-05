@@ -77,6 +77,12 @@ die per **Resend** an die Adresse aus den Betriebsdaten schickt. Nötig dafür:
 `RESEND_API_KEY` in den Umgebungsvariablen und die Absenderdomain bei Resend
 verifiziert. Siehe `.env.example`.
 
+Das Redaktionssystem läuft über **GitHub-Storage**: Das Repository bleibt bei
+`KingB94`, der Kunde ist seit dem 04.09.2026 als **Collaborator** eingetragen
+und meldet sich unter `/keystatic` mit seinem GitHub-Konto an. Sein Speichern
+wird zu einem Commit, Cloudflare baut daraufhin neu. Deshalb steht in
+`keystatic.config.ts` unser Konto als `owner` — das ist so gewollt.
+
 Vor dem Live-Schalten: **`LAUNCH.md` durchgehen.** Dort stehen die offenen
 Punkte, die Zugangsdaten und die inhaltlichen Angaben, die der Kunde noch
 bestätigen muss.

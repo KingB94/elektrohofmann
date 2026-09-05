@@ -1,6 +1,19 @@
 # Live-Schaltung Elektro Hofmann — Plan & Checkliste
 
-Stand: 20.08.2026 · Kunde hat die Website gebucht.
+Stand: 05.09.2026 · Setup-Termin beim Kunden am 04.09.2026 stattgefunden.
+
+## Das Ziel
+
+Drei Sätze, an denen sich alles messen lässt:
+
+1. `elektrohofmann.info` liegt bei **unserem Cloudflare** — Registrierung, DNS
+   und Hosting an einem Ort.
+2. Die neue Website ist **unter dieser Domain** erreichbar, mit gültigem
+   Zertifikat.
+3. Der Kunde meldet sich unter **`elektrohofmann.info/keystatic` mit seinem
+   GitHub-Konto** an und kann Texte und Bilder selbst ändern.
+
+Alles andere in diesem Dokument dient nur dazu.
 
 **Entscheidungen, die schon gefallen sind:**
 
@@ -147,8 +160,16 @@ Build und Linter laufen sauber durch.
 
 ### Zugänge
 
-- [ ] **GitHub-Account des Kunden** (kostenlos, vorher anlegen lassen spart Zeit)
-      → als Collaborator ins private Repo einladen. **Ohne das kein CMS-Login.**
+- [x] **GitHub-Konto des Kunden** — am 04.09.2026 beim Termin gemeinsam angelegt
+      und als **Collaborator** im privaten Repository `KingB94/elektrohofmann`
+      eingetragen. Das ist die Voraussetzung für den CMS-Login.
+
+      ⚠️ **Das Repository bleibt bei `KingB94`.** Ursprünglich war geplant, es
+      auf sein Konto zu übertragen und uns dort als Collaborator einzutragen —
+      es ist andersherum gekommen. Folge: Der Eintrag
+      `owner: "KingB94"` in `keystatic.config.ts` ist **richtig und bleibt
+      stehen**. Frühere Notizen, ihn auf seinen Benutzernamen zu ändern, sind
+      hinfällig.
 - [x] **Strato-Zugangsdaten** liegen vor (vom Kunden übergeben). Werden für
       Nameserver-Wechsel, Auth-Code und die Sicherung des alten Webspace gebraucht.
       ⚠️ Fremdes Konto: nur für das Vereinbarte verwenden, nichts nebenbei ändern.
@@ -179,12 +200,12 @@ reicht nicht.
 3. Strato-Kundenbereich → Domainverwaltung → Nameserver auf Cloudflare umstellen
 4. Domain entsperren, Auth-Code ziehen, Transfer bei Cloudflare starten (~5 Tage)
 5. ✅ **MX-Einträge sind hier unkritisch** — anders als ursprünglich angenommen.
-   Am 05.09.2026 nachgemessen: Der Betrieb nutzt für E-Mail ausschließlich
-   `hofmann-wonneberg.de` (Microsoft 365 hinter Hornetsecurity, Hetzner-DNS,
-   nicht bei Strato). Auch die alte Website nennt durchgehend nur
-   `hofmanngreinach@t-online.de`, keine einzige `@elektrohofmann.info`-Adresse.
-   Der `MX 5 smtpin.rzone.de` ist Stratos Standardeintrag, dahinter liegt nichts.
-   Er kann ersatzlos entfallen.
+   Der Betrieb nutzt für E-Mail **ausschließlich `hofmann-wonneberg.de`**, vom
+   Kunden bestätigt. Diese Domain liegt nicht bei Strato und wird **von dritter
+   Seite verwaltet** (Microsoft 365 hinter Hornetsecurity, DNS bei Hetzner) —
+   wir fassen sie nicht an. Unter `elektrohofmann.info` läuft keine E-Mail; der
+   `MX 5 smtpin.rzone.de` ist Stratos Standardeintrag ohne Postfach dahinter
+   und kann ersatzlos entfallen.
 6. Stattdessen `v=spf1 -all` und DMARC `p=reject` setzen: Die Domain versendet
    keine Mail, also soll das auch niemand in ihrem Namen tun können.
    ⚠️ Ausnahme, sobald Resend läuft — dann gehören dessen SPF-/DKIM-Einträge
@@ -209,9 +230,11 @@ Branchenverzeichnissen. Beim Termin gegenprüfen:
 - [ ] Anzahl der Google-Bewertungen
 - [ ] Telefon-, Mobil- und Faxnummer
 - [ ] Zeigt `public/images/gewerbehalle.jpg` das eigene Gelände oder ein Referenzprojekt?
-- [x] Kontakt-E-Mail: `info@hofmann-wonneberg.de` (am 04.09.2026 vom Kunden bestätigt,
-      löst die alte t-online-Adresse ab). ⚠️ Das Postfach muss existieren, bevor die
-      Seite live geht — dorthin schickt das Kontaktformular seine Anfragen.
+- [x] Kontakt-E-Mail: `info@hofmann-wonneberg.de` (am 04.09.2026 vom Kunden
+      bestätigt). Das ist die einzige Adresse, die der Betrieb noch nutzt; ihre
+      Domain wird von dritter Seite verwaltet, nicht von uns. ⚠️ Das Postfach
+      muss existieren, bevor die Seite live geht — dorthin schickt das
+      Kontaktformular seine Anfragen.
 - [ ] **Eigene Fotos einsammeln.** Stand 03.09.2026 liegen `bild.jpg`, `bildGross.jpg`,
       `bildKlein.jpg` und `logo.png` im Projekt — die alten Platzhalter wurden im Editor
       bereits ersetzt.

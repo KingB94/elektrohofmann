@@ -152,10 +152,14 @@ bei Strato schlicht nie eingeschaltet. Es ist in Ihrem Paket enthalten und wäre
 eine Sache von wenigen Klicks. Wenn Sie mögen, machen wir das vorab gemeinsam
 am Telefon. Zwingend nötig ist es nicht, da die Seite ohnehin abgelöst wird.
 
-**3. Ihre E-Mail-Postfächer**
+**3. Ihre E-Mail-Postfächer** — ✅ *beantwortet am 04.09.2026: Der Betrieb nutzt
+ausschließlich Adressen unter `hofmann-wonneberg.de`; diese Domain liegt nicht
+bei Strato und wird von dritter Seite verwaltet. Unter `elektrohofmann.info`
+läuft keine E-Mail.*
+
 Zu Ihrer Internetadresse gehört bei Strato auch ein Postfach-Bereich. Welche
-Adressen nutzen Sie dort tatsächlich — und gibt es außer
-hofmanngreinach@t-online.de noch weitere, an die Post geht? Ich frage so
+Adressen nutzen Sie dort tatsächlich — und gibt es weitere, an die Post geht?
+Ich frage so
 genau, weil ich bei der Umstellung die Einstellungen für Ihre E-Mails
 unangetastet lassen muss. Und falls sich später herausstellt, dass sich Ihr
 Strato-Vertrag verkleinern lässt: Postfächer hängen dort meistens am
@@ -184,10 +188,10 @@ Auf der neuen Seite steht derzeit Montag bis Freitag, 8 bis 18 Uhr. Stimmt das,
 oder soll ich etwas anderes eintragen? Diese Zeiten werden auch bei Google
 angezeigt.
 
-**7. E-Mail-Adresse für Anfragen**
-Anfragen über das Kontaktformular gehen aktuell an hofmanngreinach@t-online.de.
-Soll das so bleiben, oder hätten Sie lieber eine Adresse unter Ihrer eigenen
-Internetadresse, also zum Beispiel info@ihredomain.de?
+**7. E-Mail-Adresse für Anfragen** — ✅ *beantwortet am 04.09.2026:
+`info@hofmann-wonneberg.de`.*
+
+An welche Adresse sollen Anfragen über das Kontaktformular gehen?
 
 **8. Fotos**
 Das ist der Punkt, der optisch am meisten bringt. Die Bilder Ihrer alten Seite

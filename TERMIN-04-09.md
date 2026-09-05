@@ -1,10 +1,25 @@
 # Termin bei Elektro Hofmann — Freitag, 04.09.2026
 
-> **Nachtrag 05.09.2026 — Hosting gewechselt.** Der Setup-Teil unten beschreibt
-> den Termin vom 04.09., wie er geplant war und stattgefunden hat, und bleibt als
-> Protokoll stehen. Die dort genannten **Netlify-Schritte sind überholt**: Der
-> Kunde hat dem Transfer der Domain zu uns zu Cloudflare zugestimmt, gehostet
-> wird dort. Maßgeblich ist ab „Der Switch-Termin" — dieser Abschnitt ist neu.
+> **Nachtrag 05.09.2026 — der Termin hat stattgefunden.**
+>
+> **Was am 04.09. erledigt wurde:**
+>
+> - **GitHub-Konto des Kunden angelegt** und als **Collaborator** im privaten
+>   Repository `KingB94/elektrohofmann` eingetragen. Damit kann er sich später
+>   unter `/keystatic` anmelden.
+>   ⚠️ **Das Repository bleibt bei `KingB94`** — es wurde *nicht* auf sein Konto
+>   übertragen. Damit ist `owner: "KingB94"` in `keystatic.config.ts` richtig
+>   und bleibt stehen; Punkt 2 unten sagt noch das Gegenteil und ist überholt.
+> - **Strato-Zugangsdaten erhalten.** Für Nameserver-Wechsel, Auth-Code und die
+>   Sicherung des alten Webspace.
+> - **Inhalte, Bilder und Impressumsangaben** durchgegangen (siehe Git-Verlauf
+>   vom 04.09.).
+>
+> **Was sich seither geändert hat:** Der Kunde hat dem **Transfer der Domain zu
+> uns zu Cloudflare** zugestimmt. Gehostet wird dort, nicht mehr bei Netlify und
+> auch nicht bei Strato. Die unten genannten **Netlify-Schritte sind damit
+> überholt**; der Setup-Teil bleibt als Protokoll stehen. Maßgeblich ist ab
+> „Der Switch-Termin".
 
 **Der Kunde will am 4.9. das Setup fertig haben, aber noch nicht umschalten.**
 Die alte Seite bleibt vorerst online, den Wechsel terminiert er selbst.
@@ -90,7 +105,7 @@ Klick, und am Termin dauert dasselbe fünfzehn Minuten statt einer Stunde.
 - [ ] **Öffnungszeiten bestätigt** → ebenda, zusätzlich in `app/layout.tsx`
       (dort stehen sie fest, weil Google ein maschinenlesbares Format braucht)
 - [ ] **Fotos da** → einbauen, zuschneiden, komprimieren
-- [ ] **GitHub-Benutzername da** → Kunde ins Repository einladen
+- [x] **GitHub-Konto** am Termin angelegt → als Collaborator ins Repository eingeladen
 
 ### Mi, 02.09. — zwei Tage vorher, Packliste
 
@@ -98,9 +113,9 @@ Klick, und am Termin dauert dasselbe fünfzehn Minuten statt einer Stunde.
       das WLAN vor Ort)
 - [ ] Kartenleser oder USB-Kabel für die Fotos
 - [ ] Diese Datei und `LAUNCH.md` offen im Browser
-- [ ] Strato-Zugangsdaten — am 4.9. **nicht** zwingend nötig, weil DNS nicht
-      angefasst wird. Trotzdem erfragen: für das SSL-Zertifikat der alten Seite
-      (siehe unten) und damit der Switch später nicht daran scheitert.
+- [x] Strato-Zugangsdaten — am Termin erhalten. Werden jetzt für den
+      Nameserver-Wechsel, den Auth-Code und die Sicherung des alten Webspace
+      gebraucht.
 
 #### ⚠️ Den Netlify-Namen vorher festlegen und freiräumen
 
@@ -126,9 +141,9 @@ Seite landet auf `websiteelektrohofmann-2`.
 
 #### Am Telefon vorab klären: kommt er vor Ort an seine E-Mail?
 
-GitHub, Netlify **und** die Repo-Übertragung schicken je eine Bestätigungsmail.
-Liegt seine `t-online`-Adresse nur auf dem Büro-PC und ihr sitzt in der
-Werkstatt, steht der ganze Termin.
+GitHub schickt eine Bestätigungsmail. Kommt er vor Ort nicht an sein Postfach
+(`@hofmann-wonneberg.de`, fremdverwaltet) und ihr sitzt in der Werkstatt, steht
+der ganze Termin.
 
 - [ ] Fragen, ob er die Firmen-Mail auf dem Handy hat. Falls nein: Termin am
       Rechner mit Mailzugang einplanen.
@@ -175,12 +190,15 @@ Setup aus, das **nur auf deinem Laptop funktioniert**, und merkst es nicht.
       (siehe Punkt 0). Das ist die größte Hürde des ganzen Tages.
       Wiederherstellungscodes **ausdrucken** und ihn wegheften lassen — ohne
       die kommt er bei einem neuen Handy nicht mehr an seine Website.
-- [ ] **Netlify-Konto** auf seinen Namen
-- [ ] Repository auf sein Konto übertragen, dich als Collaborator eintragen
-- [ ] ⚠️ **In `keystatic.config.ts` den Besitzer anpassen** — dort steht
-      `owner: "KingB94"` fest verdrahtet (Zeile 94). Wandert das Repository auf
-      sein Konto, zeigt die Zeile ins Leere und der Editor speichert gegen ein
-      Repo, das ihm nicht mehr gehört. Ändern, committen, pushen.
+- [x] ~~Netlify-Konto auf seinen Namen~~ — hinfällig, gehostet wird auf unserem
+      Cloudflare. Der Kunde braucht dort kein eigenes Konto.
+- [x] **Kunde als Collaborator** im Repository `KingB94/elektrohofmann`.
+      ⚠️ Nicht wie ursprünglich geplant andersherum: Das Repository wurde
+      **nicht** auf sein Konto übertragen und bleibt bei uns.
+- [x] ✅ **`keystatic.config.ts` bleibt unverändert.** Dort steht
+      `owner: "KingB94"` — das war nur zu ändern, wenn das Repository auf sein
+      Konto wandert. Da es bei uns bleibt und er als Collaborator arbeitet, ist
+      der Eintrag richtig. Nichts zu tun.
 
 ### 2. Redaktionssystem scharf schalten — 20 Min
 
@@ -324,9 +342,9 @@ Stand gemessen am 05.09.2026 gegen Zielzustand:
 ✅ **Der MX kann weg — das ist geprüft, nicht angenommen.** Am 05.09.2026
 nachgemessen: Der Betrieb nutzt für E-Mail ausschließlich
 `hofmann-wonneberg.de` (Microsoft 365 hinter Hornetsecurity, DNS bei Hetzner —
-nichts davon bei Strato). Die alte Website nennt an jeder Stelle nur
-`hofmanngreinach@t-online.de`; eine `@elektrohofmann.info`-Adresse existiert
-nirgends. Der MX ist Stratos Standardeintrag ohne Postfach dahinter.
+nichts davon bei Strato, sondern von dritter Seite verwaltet). Unter
+`elektrohofmann.info` läuft keine E-Mail — der MX ist Stratos Standardeintrag
+ohne Postfach dahinter.
 
 ⚠️ Sobald Resend läuft, gehören dessen SPF- und DKIM-Einträge in die Zone —
 sonst lehnt der Versand ab oder die Anfragen landen im Spam.

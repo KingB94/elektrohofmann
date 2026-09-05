@@ -88,9 +88,10 @@ if (
 
 export default config({
   storage: githubModus
-    ? // ⚠️ Nach der Übertragung des Repositorys auf das Konto des Kunden
-      // muss hier sein GitHub-Benutzername stehen. Bleibt der alte drin,
-      // speichert der Editor gegen ein Repository, das ihm nicht gehört.
+    ? // Das Repository bleibt bei uns; der Kunde ist dort seit dem
+      // 04.09.2026 als Collaborator eingetragen und speichert darüber.
+      // Deshalb steht hier unser Konto und nicht seines — anders als
+      // ursprünglich geplant wird das Repository nicht übertragen.
       { kind: "github", repo: { owner: "KingB94", name: "elektrohofmann" } }
     : { kind: "local" },
 
