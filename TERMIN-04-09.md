@@ -426,14 +426,25 @@ Webspace:
 
 ## Vor dem Setup-Termin noch zu erledigen
 
-- [ ] 🔴 **Vercel-Projekt löschen** — es existiert noch und baut bei jedem
-      Push auf `main` automatisch mit (bestätigt am 03.09.2026 durch eine
-      Fehlermeldung von Vercel zu Commit `09586a2`). Zwei Gründe: dieselbe
-      Seite stünde unter zwei Adressen im Netz, und du bekommst Fehlermails
-      zu einem Projekt, das niemand mehr pflegt — morgen der denkbar
-      schlechteste Zeitpunkt für eine Fehlalarm-Mail.
-- [ ] 301-Weiterleitungen in `netlify.toml` eintragen (greifen erst mit dem
-      Switch, lassen sich aber auf der Netlify-Adresse schon testen)
+- [x] ~~Vercel-Projekt löschen~~ — **bewusst stehen gelassen.** Es baut bei
+      jedem Push auf `main` mit, und genau das wird gebraucht: Der Kunde
+      schaut sich über diesen Link das Design an und gibt Rückmeldung.
+
+      **Löschen, sobald die Cloudflare-Adresse steht** und er sie kennt. Bis
+      dahin drei Dinge im Blick behalten:
+
+      - Das **Kontaktformular funktioniert dort nicht**, solange
+        `RESEND_API_KEY` in den Vercel-Variablen fehlt. Es zeigt dann seine
+        Fehlermeldung. Entweder den Schlüssel dort ebenfalls hinterlegen oder
+        dem Kunden sagen, dass er das Formular auf dieser Adresse nicht testen
+        soll.
+      - Die Startseite trägt **kein `noindex`** (nur die Entwurfsseiten). Die
+        Vercel-Adresse ist damit grundsätzlich indexierbar — bei einer
+        `*.vercel.app`-Adresse ohne eingehende Links ein kleines Risiko, aber
+        ein Grund, sie nach der Freigabe zügig abzuschalten.
+      - Vercels Hobby-Plan untersagt gewerbliche Nutzung. Als kurzlebiger
+        Abstimmungslink vertretbar, als Dauerzustand nicht.
+- [x] ~~301-Weiterleitungen in `netlify.toml`~~ — stehen in `next.config.ts`.
 
 ## Nach dem Switch
 
