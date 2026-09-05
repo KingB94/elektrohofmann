@@ -148,7 +148,7 @@ Build und Linter laufen sauber durch.
       `508e089` im Repository → Workflow lief von allein → Änderung nach rund
       anderthalb Minuten auf der Seite. Der Weg, den der Kunde täglich geht,
       funktioniert nachweislich.
-- [ ] ⚠️ **Vierte Callback-URL nachtragen** in der GitHub-App:
+- [ ] 🔴 **Vor dem Nameserver-Wechsel: vierte Callback-URL nachtragen** in der GitHub-App:
       `https://www.elektrohofmann.info/api/keystatic/github/oauth/callback`
       Keystatic hat beim Anlegen nur localhost, 127.0.0.1 und die Worker-Adresse
       eingetragen. Ohne diese Zeile kommt der Kunde **nach dem Domain-Umzug nicht
@@ -197,6 +197,18 @@ Build und Linter laufen sauber durch.
       `owner: "KingB94"` in `keystatic.config.ts` ist **richtig und bleibt
       stehen**. Frühere Notizen, ihn auf seinen Benutzernamen zu ändern, sind
       hinfällig.
+- [ ] **Verlängerung der Domain bestätigen.** Die Registry nennt als Ablauf
+      **15.09.2026** (Registrar: Cronon GmbH, also Strato). Bei einem Kunden
+      seit 2007 verlängert sich das erfahrungsgemäß automatisch, solange nicht
+      gekündigt wurde — bestätigt ist es aber nicht. Nachzusehen unter
+      *Mein Konto → Alle Pakete* bzw. in der letzten Rechnung.
+      Objektive Gegenprobe ohne Login: Springt das Registry-Datum nach dem
+      15.09. auf **2027-09-15**, hat die Verlängerung gegriffen.
+      ⚠️ Den Registrar-Transfer nicht über diesen Termin laufen lassen.
+- [ ] **Inhaberdaten prüfen** (Domainverwaltung → Tab *Inhaberdaten*): Geht die
+      dort hinterlegte E-Mail-Adresse an jemanden, der sie liest? Dorthin
+      gehen Transfer-Code und Bestätigung. Häufigster Grund für hängende
+      Transfers.
 - [x] **Strato-Zugangsdaten** liegen vor (vom Kunden übergeben). Werden für
       Nameserver-Wechsel, Auth-Code und die Sicherung des alten Webspace gebraucht.
       ⚠️ Fremdes Konto: nur für das Vereinbarte verwenden, nichts nebenbei ändern.
@@ -222,10 +234,44 @@ nicht mehr „gibt es dort Postfächer", sondern „welche sind in Gebrauch".
 erst an, wenn sie bereits auf Cloudflare-Nameservern liegt. Ein Auth-Code allein
 reicht nicht.
 
-1. Zone `elektrohofmann.info` bei Cloudflare anlegen, Website-Records eintragen
-2. DNSSEC bei Strato abschalten (sonst scheitert der Nameserver-Wechsel)
-3. Strato-Kundenbereich → Domainverwaltung → Nameserver auf Cloudflare umstellen
-4. Domain entsperren, Auth-Code ziehen, Transfer bei Cloudflare starten (~5 Tage)
+1. [x] **Zone angelegt und vollständig bestückt** (05.09.2026).
+   Zone-ID `d8b8eb74b1e8c8138a4e4320c9a95881`, Status `pending` — sie wird
+   aktiv, sobald die Nameserver zeigen.
+
+   | Eintrag | Inhalt |
+   | --- | --- |
+   | `elektrohofmann.info` | Worker `elektrohofmann` |
+   | `www.elektrohofmann.info` | Worker `elektrohofmann` |
+   | TXT `@` | `v=spf1 -all` |
+   | TXT `_dmarc` | `v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;` |
+
+   Die `AAAA`-Einträge auf `100::` sind kein Versehen: So bindet Cloudflare
+   einen Worker an eine Domain. Der Worker greift, bevor die Adresse je
+   verwendet wird. Kein MX — siehe Punkt 5.
+
+   ⚠️ Cloudflare hat beim Anlegen **nichts** von Strato übernommen; die Zone
+   war leer. Ein Nameserver-Wechsel vor dem Bestücken hätte die Domain ins
+   Leere zeigen lassen.
+2. [x] **DNSSEC ist kein Thema.** Bei Strato liefe es über das Zusatzprodukt
+   *Domain Guard* — das ist **nicht gebucht** (am 05.09.2026 im Kundenbereich
+   geprüft, die Seite dort ist ein Angebot, kein Status). Damit entfällt auch
+   der Transfer-Schutz: Die Domain ist bereits entsperrt, was die
+   Registry-Abfrage bestätigt (Status `active`, kein `clientTransferProhibited`).
+   **Nicht nachbuchen** — es würde genau die zwei Dinge einschalten, die wir
+   für den Umzug wieder abschalten müssten.
+3. [ ] **Nameserver bei Strato umstellen** → Domainverwaltung → Tab *DNS*:
+
+       laila.ns.cloudflare.com
+       sterling.ns.cloudflare.com
+
+   ⚠️ **Das ist der Umschaltmoment**, nicht der Transfer. Ab hier ist die neue
+   Seite unter der Domain erreichbar und die alte Joomla-Seite verschwindet.
+   Der Kunde wollte diesen Zeitpunkt selbst bestimmen.
+4. [ ] **Auth-Code bei Strato anfordern, Transfer bei Cloudflare starten** (~5 Tage).
+   Gestartet wird beim **aufnehmenden** Anbieter, also bei Cloudflare — Strato
+   gibt nur den Code heraus und lässt los.
+   ⚠️ Nicht über den Menüpunkt *Verträge → Domainumzug* bei Strato gehen: Der
+   ist für Umzüge **innerhalb** von Strato und kostenpflichtig.
 5. ✅ **MX-Einträge sind hier unkritisch** — anders als ursprünglich angenommen.
    Der Betrieb nutzt für E-Mail **ausschließlich `hofmann-wonneberg.de`**, vom
    Kunden bestätigt. Diese Domain liegt nicht bei Strato und wird **von dritter
