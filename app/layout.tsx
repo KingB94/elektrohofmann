@@ -16,6 +16,10 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s – ${betrieb.name}`,
     },
     description: beschreibung,
+    // Sagt Suchmaschinen, welche Adresse die maßgebliche ist. "./" löst
+    // je Seite gegen metadataBase auf, ergibt also die www-Adresse mit
+    // dem jeweiligen Pfad.
+    alternates: { canonical: "./" },
     keywords: [
       "Elektriker Wonneberg",
       "Elektroinstallation Chiemgau",
