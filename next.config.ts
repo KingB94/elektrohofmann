@@ -20,6 +20,31 @@ const nextConfig: NextConfig = {
   // Umzug still zu ändern.
   async redirects() {
     return [
+      // Die Seite hat genau eine richtige Adresse: die mit www. Ohne diese
+      // Regel liefert auch die nackte Domain dieselben Seiten aus — für
+      // Suchmaschinen derselbe Inhalt unter zwei Adressen.
+      //
+      // Zwei Fallstricke, beide schon einmal in eine Endlosschleife geführt:
+      //
+      //   1. Der Host-Wert wird als Ausdruck ausgewertet und ist NICHT
+      //      verankert. "elektrohofmann.info" trifft damit auch
+      //      "www.elektrohofmann.info" — die www-Adresse leitete auf sich
+      //      selbst. Deshalb ^…$ und der Punkt maskiert.
+      //   2. "/:pfad*" wird bei der Startseite nicht ersetzt; im
+      //      Location-Kopf landet wörtlich "/:pfad*". Deshalb zwei Regeln:
+      //      eine für "/" und eine für alles darunter mit "+" statt "*".
+      {
+        source: "/",
+        has: [{ type: "host", value: "^elektrohofmann\\.info$" }],
+        destination: "https://www.elektrohofmann.info/",
+        statusCode: 301,
+      },
+      {
+        source: "/:pfad+",
+        has: [{ type: "host", value: "^elektrohofmann\\.info$" }],
+        destination: "https://www.elektrohofmann.info/:pfad+",
+        statusCode: 301,
+      },
       { source: "/leistungen", destination: "/#leistungen", statusCode: 301 },
       { source: "/ueber-uns", destination: "/#betrieb", statusCode: 301 },
       { source: "/kontakt-anfahrt", destination: "/#kontakt", statusCode: 301 },
