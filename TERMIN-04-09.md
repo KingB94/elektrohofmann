@@ -191,7 +191,26 @@ Setup aus, das **nur auf deinem Laptop funktioniert**, und merkst es nicht.
       Konto wandert. Da es bei uns bleibt und er als Collaborator arbeitet, ist
       der Eintrag richtig. Nichts zu tun.
 
-### 2. Redaktionssystem scharf schalten — 20 Min
+### 2. Redaktionssystem scharf schalten — ✅ erledigt am 05.09.2026
+
+> **Protokoll.** Die App heißt **`kingb94-keystatic`**, liegt unter dem Konto
+> `KingB94` und ist **nur** auf `KingB94/elektrohofmann` installiert — nicht auf
+> allen Repositories, denn sie darf Code schreiben.
+>
+> Die drei geheimen Werte liegen als Secrets beim Worker, der App-Slug als
+> Repository-Variable. Geprüft: Login → Speichern → Commit `508e089` →
+> automatischer Deploy → nach rund anderthalb Minuten auf der Seite.
+>
+> ⚠️ **Noch offen:** die vierte Callback-URL für `www.elektrohofmann.info`.
+>
+> Zwei Stolpersteine, falls das noch einmal jemand aufsetzt:
+> - Der Assistent zeigt sich nur im Entwicklungsmodus. Ruft man den Dev-Server
+>   über `127.0.0.1` statt `localhost` auf, blockiert Next seine eigenen
+>   Dev-Ressourcen und die Seite bleibt **weiß, ohne Fehlermeldung im Browser**.
+>   Behoben über `allowedDevOrigins` in `next.config.ts`.
+> - Bei „Install & Authorize" steht **„All repositories" vorausgewählt**. Das
+>   gäbe der App Schreibzugriff auf sämtliche Repositories des Kontos.
+
 
 - [ ] ⚠️ **Korrigiert am 05.09.2026: Die GitHub-App gehört unter *unser*
       Konto (`KingB94`), nicht unter seines.** Der ursprüngliche Plan ging

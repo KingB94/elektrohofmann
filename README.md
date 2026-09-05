@@ -58,6 +58,9 @@ Website: http://localhost:3000 · Editor: http://localhost:3000/keystatic
 
 ## Betrieb
 
+Live unter `https://elektrohofmann.landingpage-next.workers.dev` (bis die Domain
+umgezogen ist), Editor unter `/keystatic`.
+
 Gehostet bei **Cloudflare Workers**, gebaut über
 [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare). Die Domain
 zieht von Strato zu Cloudflare, DNS und Registrierung liegen dann am selben

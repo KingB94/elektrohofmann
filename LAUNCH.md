@@ -1,6 +1,11 @@
 # Live-Schaltung Elektro Hofmann — Plan & Checkliste
 
 Stand: 05.09.2026 · Setup-Termin beim Kunden am 04.09.2026 stattgefunden.
+**Die Seite läuft auf Cloudflare**, das Redaktionssystem ist scharf geschaltet.
+Offen ist nur noch die Domain (Etappe 2) und das Kontaktformular.
+
+**Live-Adresse bis zum Domain-Umzug:**
+`https://elektrohofmann.landingpage-next.workers.dev`
 
 ## Das Ziel
 
@@ -134,13 +139,24 @@ Build und Linter laufen sauber durch.
 
 ### Offen — braucht Zugangsdaten oder eine Entscheidung
 
-- [ ] **GitHub-App für Keystatic anlegen.** Der Assistent läuft nur lokal (siehe
-      `TERMIN-04-09.md`). Ergebnis sind vier Werte, die bei Cloudflare unter
-      *Settings → Variables* eingetragen werden (Vorlage: `.env.example`):
-      `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`,
-      `KEYSTATIC_SECRET`, `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`
-- [ ] **`NEXT_PUBLIC_SITE_URL`** bei Cloudflare auf die echte Domain setzen — hängt an
-      der Domain-Frage unten.
+- [x] **GitHub-App für Keystatic angelegt** — `kingb94-keystatic`, unter dem Konto
+      `KingB94`, installiert **nur** auf `KingB94/elektrohofmann` (nicht auf allen
+      Repositories: die App darf Code schreiben, das gehört eng gefasst).
+      Die drei geheimen Werte liegen als Secrets beim Worker, der App-Slug als
+      Repository-Variable.
+- [x] **Ende zu Ende geprüft am 05.09.2026**: Im Editor gespeichert → Commit
+      `508e089` im Repository → Workflow lief von allein → Änderung nach rund
+      anderthalb Minuten auf der Seite. Der Weg, den der Kunde täglich geht,
+      funktioniert nachweislich.
+- [ ] ⚠️ **Vierte Callback-URL nachtragen** in der GitHub-App:
+      `https://www.elektrohofmann.info/api/keystatic/github/oauth/callback`
+      Keystatic hat beim Anlegen nur localhost, 127.0.0.1 und die Worker-Adresse
+      eingetragen. Ohne diese Zeile kommt der Kunde **nach dem Domain-Umzug nicht
+      mehr in sein CMS**. → https://github.com/apps/kingb94-keystatic
+- [ ] **`NEXT_PUBLIC_SITE_URL`** auf die echte Domain setzen, sobald sie steht —
+      als Repository-Variable, und danach **neu bauen**. Der Wert wird beim Bauen
+      fest eingebaut; ohne neuen Build stehen in Metadaten, `robots.txt` und
+      `sitemap.xml` weiter die Worker-Adresse.
 - [ ] **Resend einrichten**: Konto anlegen, `elektrohofmann.info` als Absenderdomain
       verifizieren (Resend nennt DNS-Einträge, die in die Cloudflare-Zone gehören),
       `RESEND_API_KEY` als Secret hinterlegen.
@@ -154,9 +170,15 @@ Build und Linter laufen sauber durch.
       ⚠️ Nicht auf `wrangler deploy` umstellen: Nur der OpenNext-Befehl legt die
       vorgerenderten Seiten mit in die Assets. Fehlen sie, antwortet jede Seite
       mit 500.
-- [ ] **Im Repository hinterlegen**, damit der Workflow läuft: Secrets
-      `CLOUDFLARE_API_TOKEN` und `CLOUDFLARE_ACCOUNT_ID`, Variables
-      `NEXT_PUBLIC_SITE_URL` und `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`.
+- [x] **Im Repository hinterlegt**: Secrets `CLOUDFLARE_API_TOKEN` und
+      `CLOUDFLARE_ACCOUNT_ID`, Variables `NEXT_PUBLIC_SITE_URL` und
+      `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`. Der Token darf zusätzlich Zonen
+      anlegen und DNS schreiben — damit ist er auch für Etappe 2 gerüstet.
+
+      ℹ️ Beim Setzen: `gh secret set` fragt den Wert interaktiv ab. In einer
+      Umgebung ohne Terminal speichert es kommentarlos einen **leeren** Wert,
+      und der Workflow scheitert, obwohl das Secret zu existieren scheint.
+      Sicherer Weg auf dem Mac: `pbpaste | tr -d '\n\r' | gh secret set NAME`.
 - [ ] **Öffnungszeiten im strukturierten Datensatz**: In `app/layout.tsx` stehen Mo–Fr
       08:00–18:00 fest, weil Google ein maschinenlesbares Format braucht. Bestätigt der
       Kunde andere Zeiten, hier mitziehen.
