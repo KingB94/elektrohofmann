@@ -1,0 +1,81 @@
+{
+  "kicker": "Kundenstimmen",
+  "headline": "Was unsere Kunden\nüber uns schreiben",
+  "intro": "Eine Auswahl aus den Bewertungen, die Kundinnen und Kunden bei Google hinterlassen haben. Die vollständige Liste steht dort für jeden einsehbar.",
+  "stand": "Stand September 2026",
+  "linkText": "Alle Bewertungen bei Google",
+  "eintraege": [
+    {
+      "autor": "J. Rehrl",
+      "jahr": "2026",
+      "sterne": 5,
+      "text": "Absolut empfehlenswert! Fa. Hofmann arbeitet zuverlässig, sauber und äußerst professionell. Von der Planung bis zur Fertigstellung, alles top! Besonders erwähnenswert ist die Kommunikation mit Florian: unkompliziert, freundlich, hilfsbereit und transparent – besser kann man sich das kaum wünschen. Wir sind jedenfalls sehr zufrieden!"
+    },
+    {
+      "autor": "Monika",
+      "jahr": "2026",
+      "sterne": 5,
+      "text": "Wie auch bereits von anderen Kunden berichtet, waren wir SEHR zufrieden mit der Fa. Hofmann. Florian ist kompetent und hilfsbereit und stets zur Stelle, wenn wir ein Anliegen haben. Die Arbeiten wurden schnell, sauber und professionell ausgeführt."
+    },
+    {
+      "autor": "Isabella W.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Absolut empfehlenswert! Super Elektroplanung mit ehrlichem, durchdachtem Input und wertvollen Tipps zur Lichtgestaltung. Einwandfreie Ausführung, schnelle Rückmeldungen (sehr geschätzt!) und ein sympathischer, professioneller Umgang. Top!"
+    },
+    {
+      "autor": "August E.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Herr Hofmann ist ein sehr kompetenter, freundlicher, immer gut erreichbarer und pünktlicher Elektriker. Er hat im Rahmen von Posch Bau unseren Einfamilienhaus Bau vorbildlich betreut und war auch nach der Bauphase für Fragen noch erreichbar und hat diese sehr fachkundig beantwortet. Uneingeschränkt empfehlenswert."
+    },
+    {
+      "autor": "Simon K.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Sehr zuverlässig, kompetent und immer hilfsbereit. Wenn wir Fragen hatten, war Florian Hofmann schnell erreichbar und hat uns fachkundig unterstützt. Die Arbeiten wurden schnell, professionell und termingerecht erledigt. Wir waren sehr zufrieden mit der Zusammenarbeit und können die Fa. Hofmann wärmstens weiterempfehlen!"
+    },
+    {
+      "autor": "Bastian H.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Wir waren top zufrieden mit der Firma Hofmann. Florian und sein Team waren unglaublich zuverlässig. Das angenehmste Gewerk bei unserem Bauvorhaben. Sehr gute und vorallem schnelle Kommunikation. Uneingeschränkt weiter zu empfehlen."
+    },
+    {
+      "autor": "Natasa T.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Wenn ich könnte, würde ich 10 Sterne geben! Weltklasse! Zuverlässig, sehr freundlich, pünktlich, super Beratung, tolle Arbeit und für Fragen immer offen. Danke Florian!"
+    },
+    {
+      "autor": "Matthias S.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Kann man bedenkenlos weiterempfehlen! Vom ersten Gespräch bis zur finalen Ausführung haben wir uns stets gut betreut gefühlt. Pünktliche Umsetzung, hervorragende Qualität und jederzeit erreichbar. Top Service!"
+    },
+    {
+      "autor": "Christiane B.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Uneingeschränkt empfehlenswert. Professionelle freundliche Beratung, exakte termingerechte Installationen. Preis-Leistungsverhältnis passt bzgl. der Installationen unseres Einfamilienhauses. Danke."
+    },
+    {
+      "autor": "Hannes G.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Ausführliche, superkompetente Beratung, absolut pünktlich und maximal zuverlässig. So geht sorgenfreies Bauen. Absolute Empfehlung!!"
+    },
+    {
+      "autor": "Tobi G.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Alles super! Top Beratung, saubere Arbeit, sehr flexibel und fair bei der Abrechnung."
+    },
+    {
+      "autor": "Horst H.",
+      "jahr": "2025",
+      "sterne": 5,
+      "text": "Top Elektriker, zuverlässig und tolle Arbeit. Es ist gut wenn man Handwerker kennt, auf die man sich verlassen kann und das ist hier der Fall."
+    }
+  ]
+}

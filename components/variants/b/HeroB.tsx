@@ -111,9 +111,9 @@ export default function HeroB({ betrieb, hero }: { betrieb: Betrieb; hero: Hero 
               Falschaussage — der fruehere Ersatzwert 5 stand immer da. */}
           {betrieb.ratingValue != null && (
             <div className="flex items-center gap-2.5">
-              <StarRating value={betrieb.ratingValue} />
+              <StarRating value={betrieb.ratingValue} starClassName="text-gold" />
               <span className="font-mono text-[0.7rem] text-carbon/65">
-                {betrieb.ratingValue.toFixed(1)} auf Google
+                {betrieb.ratingValue.toFixed(1).replace(".", ",")} auf Google
               </span>
             </div>
           )}

@@ -30,6 +30,7 @@ import heroDaten from "@/content/startseite/hero.json";
 import zahlenDaten from "@/content/startseite/zahlen.json";
 import leistungenDaten from "@/content/startseite/leistungen.json";
 import ablaufDaten from "@/content/startseite/ablauf.json";
+import stimmenDaten from "@/content/startseite/stimmen.json";
 import ueberUnsDaten from "@/content/startseite/betrieb.json";
 import kontaktDaten from "@/content/startseite/kontakt.json";
 
@@ -40,6 +41,7 @@ const inhalt = {
   zahlen: zahlenDaten as Entry<Singletons["zahlen"]>,
   leistungen: leistungenDaten as Entry<Singletons["leistungen"]>,
   ablauf: ablaufDaten as Entry<Singletons["ablauf"]>,
+  stimmen: stimmenDaten as Entry<Singletons["stimmen"]>,
   ueberUns: ueberUnsDaten as Entry<Singletons["ueberUns"]>,
   kontakt: kontaktDaten as Entry<Singletons["kontakt"]>,
 };
@@ -106,6 +108,7 @@ export async function getBetrieb() {
 export const getHero = async () => inhalt.hero;
 export const getLeistungen = async () => inhalt.leistungen;
 export const getAblauf = async () => inhalt.ablauf;
+export const getStimmen = async () => inhalt.stimmen;
 export const getUeberUns = async () => inhalt.ueberUns;
 export const getKontakt = async () => inhalt.kontakt;
 
@@ -141,6 +144,7 @@ export type Betrieb = Awaited<ReturnType<typeof getBetrieb>>;
 export type Hero = Awaited<ReturnType<typeof getHero>>;
 export type Leistungen = Awaited<ReturnType<typeof getLeistungen>>;
 export type Ablauf = Awaited<ReturnType<typeof getAblauf>>;
+export type Stimmen = Awaited<ReturnType<typeof getStimmen>>;
 export type UeberUns = Awaited<ReturnType<typeof getUeberUns>>;
 export type Kontakt = Awaited<ReturnType<typeof getKontakt>>;
 export type Zahlen = Awaited<ReturnType<typeof getZahlen>>;

@@ -5,6 +5,7 @@ import type { Betrieb } from "@/lib/inhalte";
 const links = [
   { href: "#leistungen", label: "Leistungen" },
   { href: "#ablauf", label: "Ablauf" },
+  { href: "#stimmen", label: "Stimmen" },
   { href: "#betrieb", label: "Betrieb" },
   { href: "#kontakt", label: "Kontakt" },
 ];

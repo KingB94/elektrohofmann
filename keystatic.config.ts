@@ -101,7 +101,7 @@ export default config({
     // übersichtlich, auch wenn später mehr dazukommt.
     navigation: {
       Stammdaten: ["betrieb"],
-      Startseite: ["hero", "zahlen", "leistungen", "ablauf", "ueberUns", "kontakt"],
+      Startseite: ["hero", "zahlen", "leistungen", "ablauf", "stimmen", "ueberUns", "kontakt"],
       "Weitere Inhalte": ["referenzen"],
     },
   },
@@ -286,6 +286,55 @@ export default config({
             label: "Schritte",
             description: "Die Nummerierung (01, 02, 03) entsteht automatisch.",
             itemLabel: (props) => props.fields.title.value || "Neuer Schritt",
+          }
+        ),
+      },
+    }),
+
+    // ----------------------------------------------------------------
+    stimmen: singleton({
+      label: "Kundenstimmen",
+      path: "content/startseite/stimmen",
+      format: { data: "json" },
+      schema: {
+        kicker,
+        headline: fields.text({
+          label: "Überschrift",
+          description: "Zeilenumbruch mit Eingabetaste möglich.",
+          multiline: true,
+        }),
+        intro: fields.text({ label: "Einleitung", multiline: true }),
+        stand: fields.text({
+          label: "Stand der Auswahl",
+          description:
+            "Zeigt an, wann die Rezensionen zuletzt übertragen wurden, z. B. „Stand September 2026“. Bitte beim Nachtragen neuer Stimmen mit aktualisieren.",
+        }),
+        linkText: fields.text({ label: "Beschriftung des Google-Knopfes" }),
+        eintraege: fields.array(
+          fields.object({
+            autor: fields.text({
+              label: "Name",
+              description:
+                "Bitte abgekürzt eintragen, z. B. „Simon K.“ — der volle Name der Person gehört nicht auf die Website.",
+            }),
+            jahr: fields.text({ label: "Jahr", description: "z. B. 2025" }),
+            sterne: fields.number({
+              label: "Sterne",
+              description: "Zahl zwischen 1 und 5.",
+              validation: { min: 1, max: 5 },
+            }),
+            text: fields.text({
+              label: "Text der Rezension",
+              description:
+                "Wörtlich von Google übernehmen, nicht sinngemäß umschreiben oder kürzen.",
+              multiline: true,
+            }),
+          }),
+          {
+            label: "Rezensionen",
+            description:
+              "Eine Auswahl der Google-Rezensionen. Die Gesamtzahl und der Schnitt stehen unter „Betriebsdaten“.",
+            itemLabel: (props) => props.fields.autor.value || "Neue Rezension",
           }
         ),
       },

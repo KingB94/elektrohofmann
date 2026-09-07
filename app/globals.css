@@ -51,6 +51,12 @@
   --carbon-soft: #4d4c47;
 }
 
+/* Das Gold der Google-Bewertungssterne. Bewusst kein Blau: Wer die
+   Sterne sieht, soll sie sofort als Google-Bewertung erkennen. */
+:root {
+  --gold: #fbbc04;
+}
+
 /* ---------------------------------------------------------
    Variante C — „Hell & Handwerklich“
    Warmes Werkstattpapier, Ruß statt Schwarz, Kupfer als
@@ -84,6 +90,7 @@
   --color-frost-line: var(--frost-line);
   --color-carbon: var(--carbon);
   --color-carbon-soft: var(--carbon-soft);
+  --color-gold: var(--gold);
 
   --color-bone: var(--bone);
   --color-bone-raised: var(--bone-raised);
@@ -354,5 +361,64 @@ body {
   }
   50% {
     transform: translateY(-9px);
+  }
+}
+
+/* ---------------------------------------------------------
+   Laufband der Kundenstimmen.
+
+   Die Karten liegen in einer Reihe und wandern endlos nach
+   links. Dafür steht die Liste zweimal im Markup; nach genau
+   der halben Strecke sieht das Bild wieder aus wie am Anfang,
+   und der Sprung zurück auf 0 fällt nicht auf. Die zweite
+   Hälfte ist im Markup aria-hidden, damit Vorleseprogramme
+   die Rezensionen nicht doppelt ansagen.
+   --------------------------------------------------------- */
+.marquee {
+  overflow: hidden;
+  /* Die Karten laufen an den Rändern aus, statt hart abgeschnitten
+     zu werden — sonst wirkt die Reihe wie abgesägt. */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 5rem,
+    #000 calc(100% - 5rem),
+    transparent
+  );
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-dauer, 70s) linear infinite;
+}
+
+/* Anhalten, solange jemand mit der Maus darauf ruht oder ein
+   Element darin den Tastaturfokus hat — sonst wäre ein Zitat
+   nicht in Ruhe lesbar. */
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Bei „Bewegung reduzieren" steht das Band still und wird
+   stattdessen von Hand seitlich scrollbar. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+
+  .marquee-track {
+    animation: none;
   }
 }
