@@ -14,7 +14,7 @@
   "hours": [
     {
       "days": "Montag – Freitag",
-      "time": "08:00 – 18:00 Uhr"
+      "time": "07:00-16.00"
     },
     {
       "days": "Samstag / Sonntag",
@@ -23,7 +23,6 @@
   ],
   "ratingValue": 5,
   "ratingCount": "57",
-  "googleMapsUrl": null,
   "legalForm": "Einzelunternehmen",
   "vatId": "DE244185087",
   "profession": "Elektrotechnikermeister für Energie- und Gebäudetechnik",
