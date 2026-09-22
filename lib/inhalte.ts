@@ -76,6 +76,61 @@ function mitVorgaben<T, V extends object>(daten: T, vorgaben: V): T & V {
   return { ...vorgaben, ...daten } as T & V;
 }
 
+// ---------------------------------------------------------------
+// Sicherheitsnetz gegen genau den Fehler, der die Seite im September
+// 2026 zehn Tage lang stehen ließ.
+//
+// Bekommt das Schema später ein weiteres Feld, das leer bleiben darf,
+// ohne dass es oben eine Vorgabe erhält, soll das sofort auffallen —
+// beim Entwickeln, nicht Wochen danach beim Kunden.
+//
+// Die Prüfung liest ausschließlich das Schema aus keystatic.config.ts,
+// nie die JSON-Dateien. Sie kann also nicht an einer Eingabe des Kunden
+// scheitern, sondern nur an einer Änderung von uns. Schlägt sie an,
+// nennt die Fehlermeldung das Feld beim Namen:
+//
+//   Type '"neuesFeld"' does not satisfy the constraint 'true'.
+//
+// Dann gehört oben eine Vorgabe dazu — und die Stelle, die das Feld
+// anzeigt, muss mit null zurechtkommen.
+// ---------------------------------------------------------------
+type Leerbar<T> = { [K in keyof T]-?: null extends T[K] ? K : never }[keyof T];
+type Element<T> = T extends readonly (infer U)[] ? U : never;
+type Bereich<K extends keyof Singletons> = Entry<Singletons[K]>;
+
+type OhneVorgabe =
+  // Versorgt: die drei Stellen mit Vorgabe. Übrig bleibt, was fehlt.
+  | Exclude<Leerbar<Bereich<"betrieb">>, keyof typeof betriebVorgaben>
+  | Exclude<
+      Leerbar<Element<Bereich<"zahlen">["eintraege"]>>,
+      keyof typeof kennzahlVorgabe
+    >
+  | Exclude<
+      Leerbar<Element<Bereich<"stimmen">["eintraege"]>>,
+      keyof typeof rezensionVorgabe
+    >
+  // Alles Weitere darf gar kein leerbares Feld haben.
+  | Leerbar<Bereich<"hero">>
+  | Leerbar<Bereich<"zahlen">>
+  | Leerbar<Bereich<"leistungen">>
+  | Leerbar<Bereich<"ablauf">>
+  | Leerbar<Bereich<"stimmen">>
+  | Leerbar<Bereich<"ueberUns">>
+  | Leerbar<Bereich<"kontakt">>
+  | Leerbar<Element<Bereich<"betrieb">["hours"]>>
+  | Leerbar<Element<Bereich<"zahlen">["chronik"]>>
+  | Leerbar<Element<Bereich<"leistungen">["eintraege"]>>
+  | Leerbar<Element<Bereich<"ablauf">["schritte"]>>
+  | Leerbar<Element<Bereich<"ueberUns">["galerie"]>>
+  | Leerbar<Element<Bereich<"ueberUns">["vertrauen"]>>;
+
+type MussStimmen<T extends true> = T;
+export type JedesLeerbareFeldHatEineVorgabe = MussStimmen<
+  // Die Klammern verhindern, dass TypeScript die Vereinigung einzeln
+  // durchgeht — sonst wäre die Prüfung bei mehreren Feldern zahnlos.
+  [OhneVorgabe] extends [never] ? true : OhneVorgabe
+>;
+
 const inhalt = {
   betrieb: mitVorgaben(betriebDaten, betriebVorgaben) as Entry<Singletons["betrieb"]>,
   hero: heroDaten as Entry<Singletons["hero"]>,

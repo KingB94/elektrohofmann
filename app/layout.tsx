@@ -87,7 +87,14 @@ export default async function RootLayout({
       <body className="min-h-full bg-paper text-ink">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          // Das < wird maskiert, damit ein „</script>" aus einem Textfeld
+          // das Skript hier nicht vorzeitig beendet. Passiert das, bricht
+          // kein Build — die Seite wird bloß still unbrauchbar, und der
+          // Rest der Angaben steht als Text mitten im Dokument. \u003c ist
+          // gültiges JSON, Google liest es unverändert als „<".
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
         />
         {children}
         <SmoothAnchors />
