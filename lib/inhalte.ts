@@ -36,27 +36,59 @@ import kontaktDaten from "@/content/startseite/kontakt.json";
 
 type Singletons = typeof keystaticConfig.singletons;
 
-// Als eigene Konstante und nicht als Felder im Objekt darunter: Stünden
-// sie dort direkt neben dem Spread, meldete TypeScript sie als doppelt
-// vergeben, sobald der Kunde die Werte wieder füllt — dieselbe Falle in
-// Grün.
+// ---------------------------------------------------------------
+// Vorgaben für die vier Felder, die im Editor leer bleiben dürfen.
+//
+// Keystatic schreibt ein leer gelassenes Feld nicht als null in die
+// JSON-Datei — es lässt den Schlüssel ganz weg. Fehlt er, scheitert der
+// Cast weiter unten an der Typprüfung, der Build bricht ab, und der Kunde
+// bekommt davon nichts mit: Der Editor meldet „gespeichert", die Seite
+// bleibt aber auf dem alten Stand stehen. Genau daran hing sie vom
+// 12.09.2026 bis zum 22.09.2026 fest, nachdem das Maps-Feld geleert wurde.
+//
+// Es sind genau diese vier. Alle übrigen Felder des Schemas sind Text-
+// oder Auswahlfelder; die landen leer als "" in der Datei, der Schlüssel
+// bleibt erhalten. Nachzählen lässt sich das mit
+//   type Leer<T> = { [K in keyof T]-?: null extends T[K] ? K : never }[keyof T]
+// über jedem Entry<…> — kommt dabei mehr heraus als diese vier, gehört
+// die neue Stelle hier ergänzt.
+//
+// Die Vorgaben stehen bewusst als eigene Konstanten und nicht als Felder
+// direkt neben dem Spread: dort meldete TypeScript sie als doppelt
+// vergeben, sobald der Kunde den Wert wieder füllt — dieselbe Falle mit
+// umgekehrtem Vorzeichen. Alle vier Stellen kommen mit null zurecht.
+// ---------------------------------------------------------------
 const betriebVorgaben = { googleMapsUrl: null, ratingValue: null };
+const kennzahlVorgabe = { wert: null };
+const rezensionVorgabe = { sterne: null };
+
+/**
+ * Legt die Vorgaben unter die gelesenen Daten. Vorhandene Werte gewinnen.
+ *
+ * Als Funktion und nicht als Spread an Ort und Stelle: Löscht der Kunde
+ * eine Liste vollständig, steht in der JSON-Datei nur noch `[]`, und
+ * TypeScript leitet daraus `never` als Elementtyp ab. Ein Spread von
+ * `never` ist ein Fehler — der leere Zustand, den der Editor ausdrücklich
+ * erlaubt, hätte den Build also seinerseits gekippt. Innerhalb einer
+ * generischen Funktion ist derselbe Spread erlaubt.
+ */
+function mitVorgaben<T, V extends object>(daten: T, vorgaben: V): T & V {
+  return { ...vorgaben, ...daten } as T & V;
+}
 
 const inhalt = {
-  // Die beiden Vorgaben davor sind kein Schönheitsfehler, sondern
-  // Absicherung: Keystatic lässt ein leer gelassenes URL- oder Zahlenfeld
-  // beim Speichern ganz aus der JSON-Datei weg. Fehlt der Schlüssel,
-  // scheitert die Typprüfung beim Bauen — die Seite ließe sich nach einer
-  // harmlosen Änderung im Editor nicht mehr veröffentlichen. Stehen Werte
-  // in der Datei, gewinnen sie. Beide Stellen kommen mit null zurecht:
-  // googleMapsUrl fällt unten auf die Adress-Suche zurück, die
-  // Google-Bewertung wird ohne Zahl gar nicht erst angezeigt.
-  betrieb: { ...betriebVorgaben, ...betriebDaten } as Entry<Singletons["betrieb"]>,
+  betrieb: mitVorgaben(betriebDaten, betriebVorgaben) as Entry<Singletons["betrieb"]>,
   hero: heroDaten as Entry<Singletons["hero"]>,
-  zahlen: zahlenDaten as Entry<Singletons["zahlen"]>,
+  zahlen: {
+    ...zahlenDaten,
+    eintraege: zahlenDaten.eintraege.map((e) => mitVorgaben(e, kennzahlVorgabe)),
+  } as Entry<Singletons["zahlen"]>,
   leistungen: leistungenDaten as Entry<Singletons["leistungen"]>,
   ablauf: ablaufDaten as Entry<Singletons["ablauf"]>,
-  stimmen: stimmenDaten as Entry<Singletons["stimmen"]>,
+  stimmen: {
+    ...stimmenDaten,
+    eintraege: stimmenDaten.eintraege.map((e) => mitVorgaben(e, rezensionVorgabe)),
+  } as Entry<Singletons["stimmen"]>,
   ueberUns: ueberUnsDaten as Entry<Singletons["ueberUns"]>,
   kontakt: kontaktDaten as Entry<Singletons["kontakt"]>,
 };
