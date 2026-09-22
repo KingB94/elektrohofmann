@@ -35,13 +35,23 @@ import ueberUnsDaten from "@/content/startseite/betrieb.json";
 import kontaktDaten from "@/content/startseite/kontakt.json";
 
 type Singletons = typeof keystaticConfig.singletons;
+
+// Als eigene Konstante und nicht als Felder im Objekt darunter: Stünden
+// sie dort direkt neben dem Spread, meldete TypeScript sie als doppelt
+// vergeben, sobald der Kunde die Werte wieder füllt — dieselbe Falle in
+// Grün.
+const betriebVorgaben = { googleMapsUrl: null, ratingValue: null };
+
 const inhalt = {
-  // googleMapsUrl steht bewusst als Vorgabe davor: Keystatic lässt ein
-  // leeres URL-Feld beim Speichern ganz aus der JSON-Datei weg, und ohne
-  // diesen Wert scheitert die Typprüfung beim Bauen — die Seite ließe
-  // sich dann nach einer harmlosen Änderung im Editor nicht mehr
-  // veröffentlichen. Steht ein Link in der Datei, gewinnt er.
-  betrieb: { googleMapsUrl: null, ...betriebDaten } as Entry<Singletons["betrieb"]>,
+  // Die beiden Vorgaben davor sind kein Schönheitsfehler, sondern
+  // Absicherung: Keystatic lässt ein leer gelassenes URL- oder Zahlenfeld
+  // beim Speichern ganz aus der JSON-Datei weg. Fehlt der Schlüssel,
+  // scheitert die Typprüfung beim Bauen — die Seite ließe sich nach einer
+  // harmlosen Änderung im Editor nicht mehr veröffentlichen. Stehen Werte
+  // in der Datei, gewinnen sie. Beide Stellen kommen mit null zurecht:
+  // googleMapsUrl fällt unten auf die Adress-Suche zurück, die
+  // Google-Bewertung wird ohne Zahl gar nicht erst angezeigt.
+  betrieb: { ...betriebVorgaben, ...betriebDaten } as Entry<Singletons["betrieb"]>,
   hero: heroDaten as Entry<Singletons["hero"]>,
   zahlen: zahlenDaten as Entry<Singletons["zahlen"]>,
   leistungen: leistungenDaten as Entry<Singletons["leistungen"]>,
