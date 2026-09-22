@@ -106,7 +106,9 @@ den alten Stand zurück.
 
 **Meine Änderung erscheint nicht auf der Website.**
 Warten Sie zwei Minuten und laden Sie die Seite neu (F5 oder Strg+F5). Wenn es
-dann immer noch nicht da ist: Haben Sie auf „Save" geklickt?
+dann immer noch nicht da ist: Haben Sie auf „Save" geklickt? Steht die Änderung
+im Editor, ist sie nicht verloren — dann hakt es beim Veröffentlichen, und ich
+bekomme davon automatisch Bescheid. Ein Anruf schadet trotzdem nie.
 
 **Ich komme nicht mehr rein.**
 Prüfen Sie, ob Sie im Browser mit dem richtigen GitHub-Konto angemeldet sind —
@@ -127,8 +129,6 @@ sich einfach:
 - Das Aussehen — Farben, Schriften, Anordnung
 - Neue Unterseiten
 - Der Text der Datenschutzerklärung
-- Die Öffnungszeiten, die bei **Google** angezeigt werden
-  (die stehen an einer zweiten Stelle und müssen mitgezogen werden)
 
 ---
 

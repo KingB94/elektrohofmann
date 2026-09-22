@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { getBetrieb, getHero } from "@/lib/inhalte";
+import { oeffnungszeitenFuerGoogle } from "@/lib/oeffnungszeiten";
 import { siteUrl } from "@/lib/site";
 import SmoothAnchors from "@/components/SmoothAnchors";
 
@@ -47,6 +48,7 @@ export default async function RootLayout({
 }>) {
   const betrieb = await getBetrieb();
   const hero = await getHero();
+  const oeffnungszeiten = oeffnungszeitenFuerGoogle(betrieb.hours);
 
   // Strukturierte Daten für Google — sorgen dafür, dass Adresse,
   // Telefonnummer und Öffnungszeiten direkt in der Suche erscheinen.
@@ -73,22 +75,11 @@ export default async function RootLayout({
       longitude: betrieb.geo.lng,
     },
     foundingDate: betrieb.foundedISO,
-    // Feste Zeiten, weil Google hier ein maschinenlesbares Format
-    // erwartet. Ändern sich die Öffnungszeiten, bitte hier mitziehen.
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"],
-        opens: "07:00",
-        closes: "16:00",
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Friday"],
-        opens: "07:00",
-        closes: "12:00",
-      },
-    ],
+    // Übersetzt aus den Öffnungszeiten im Editor. Steht dort nichts
+    // Lesbares, entfällt die Angabe — siehe lib/oeffnungszeiten.ts.
+    ...(oeffnungszeiten.length
+      ? { openingHoursSpecification: oeffnungszeiten }
+      : {}),
   };
 
   return (

@@ -1,0 +1,67 @@
+# Wegwerf-Workflow: prüft einmalig, ob der Fehlerbericht aus
+# deploy.yml wirklich ein Issue anlegen darf. Die Voreinstellung des
+# Repositories ist „nur Lesen"; ob der permissions-Block das aufhebt,
+# zeigt sich erst im Lauf. Wird direkt nach dem Test wieder gelöscht.
+name: Probe — Fehlerbericht
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Absichtlich scheitern
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Hier bricht es mit Absicht ab
+        run: exit 1
+
+      - name: Bei Fehlschlag Bescheid geben
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LAUF: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          AUSGELOEST_VON: ${{ github.actor }}
+          NACHRICHT: ${{ github.event.head_commit.message }}
+          BETREUER: ${{ github.repository_owner }}
+        run: |
+          set -uo pipefail
+          marke="deploy-fehler"
+
+          # Nur die erste Zeile der Commit-Nachricht; der Rest ist hier Beiwerk.
+          aenderung="${NACHRICHT%%$'\n'*}"
+
+          text="@${BETREUER} — die Website konnte nicht veröffentlicht werden.
+
+          **Sie ist online, steht aber auf dem Stand von vor dieser Änderung.**
+
+          | | |
+          |---|---|
+          | Änderung | ${aenderung:-ohne Nachricht} |
+          | Ausgelöst von | ${AUSGELOEST_VON} |
+          | Protokoll | ${LAUF} |
+
+          Im Protokoll steht, woran es gescheitert ist. Nach dem Beheben genügt
+          ein Push auf \`main\` — oder „Run workflow\" von Hand."
+
+          # Beim ersten Fehlschlag gibt es das Etikett noch nicht.
+          gh label create "$marke" --color B60205 \
+            --description "Veröffentlichung fehlgeschlagen" >/dev/null 2>&1 || true
+
+          offen=$(gh issue list --label "$marke" --state open --limit 1 \
+            --json number --jq '.[0].number // empty')
+
+          if [ -n "$offen" ]; then
+            gh issue comment "$offen" --body "$text"
+          else
+            neu=$(gh issue create \
+              --title "Veröffentlichung fehlgeschlagen — die Website steht auf altem Stand" \
+              --label "$marke" \
+              --body "$text")
+            echo "$neu"
+            # Zuweisen ist Beiwerk: Schlägt es fehl, soll das Issue trotzdem stehen.
+            gh issue edit "${neu##*/}" --add-assignee "$BETREUER" >/dev/null 2>&1 || true
+          fi
