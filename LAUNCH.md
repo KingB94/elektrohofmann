@@ -1,13 +1,14 @@
 # Live-Schaltung Elektro Hofmann — Plan & Checkliste
 
-Stand: 05.09.2026 · **Die Website ist live unter der eigenen Domain.**
+Stand: 22.09.2026 · **Die Website ist live, der Umzug ist abgeschlossen.**
 
 # 🟢 https://www.elektrohofmann.info
 
 Gehostet auf unserem Cloudflare, Zertifikat automatisch, das Redaktionssystem
-läuft und wurde vom Kunden selbst benutzt. Was noch offen ist, betrifft
-Verwaltung, nicht den Betrieb: der Registrar-Transfer, die Sicherung der alten
-Joomla-Installation und ein paar Aufräumarbeiten.
+läuft und wurde vom Kunden selbst benutzt. Die Domain liegt seit dem 21.09.2026
+bei **Spaceship**, die Strato-Pakete sind gekündigt — Strato kommt in keinem
+Glied der Kette mehr vor. Offen ist nur noch Aufräumarbeit, die den Betrieb
+nicht berührt (Abschnitt „Was jetzt noch offen ist").
 
 Die Adresse `elektrohofmann.landingpage-next.workers.dev` funktioniert weiter
 und ist der Rückfallweg, falls es an der Domain je klemmt.
@@ -16,8 +17,9 @@ und ist der Rückfallweg, falls es an der Domain je klemmt.
 
 Drei Sätze, an denen sich alles messen lässt:
 
-1. ✅ **DNS und Hosting liegen bei unserem Cloudflare.** Die Registrierung
-   selbst noch bei Strato — der Transfer ist beantragt, siehe unten.
+1. ✅ **DNS und Hosting bei unserem Cloudflare, Registrierung bei Spaceship.**
+   Der Transfer ist am 21.09.2026 durchgelaufen, die Delegierung zeigt
+   unverändert auf Cloudflare. Belege unten.
 2. ✅ **Die Website ist unter der Domain erreichbar**, mit gültigem Zertifikat.
    Seit 05.09.2026, geprüft: alle Seiten, 404, die drei Weiterleitungen der
    alten Joomla-Adressen, `robots.txt` und `sitemap.xml`.
@@ -36,11 +38,32 @@ Alles andere in diesem Dokument dient nur dazu.
 - **Hosting:** **Cloudflare Workers (kostenlos)**. Bis 04.09.2026 war Netlify
   vorgesehen; der Kunde hat dem Umzug der Domain zu uns zugestimmt, damit liegt
   Hosting, DNS und Domain an einem Ort. Begründung unten.
-- **Domain:** `elektrohofmann.info` **zieht von Strato zu Cloudflare** (Registrar
-  und DNS). Der Kunde hat uns dafür seine Strato-Zugangsdaten gegeben.
+- **Domain:** `elektrohofmann.info` ist **von Strato zu Spaceship** gezogen
+  (21.09.2026), auf unser Konto. DNS und Hosting bleiben bei Cloudflare.
+  Ursprünglich war Cloudflare auch als Registrar vorgesehen — an der Kette
+  ändert der andere Registrar nichts: Er trägt nur die Nameserver bei der
+  Registry ein, und die zeigen unverändert auf Cloudflare. Der Kunde hat uns
+  für den Umzug seine Strato-Zugangsdaten gegeben.
 - **Ablauf:** **zwei Termine.** Am 04.09. wurde das Setup fertiggestellt. Den
   Wechsel auf die Domain (Transfer + Abschaltung der alten Seite) terminiert der
   Kunde selbst; das ist ein eigener, kurzer Termin. Ablaufplan: `TERMIN-04-09.md`.
+
+## Was jetzt noch offen ist
+
+Stand 22.09.2026. Nichts davon macht die Website unerreichbar — der Umzug
+selbst ist abgeschlossen.
+
+- [ ] **Vercel-Projekt löschen.** Baut bei jedem Commit mit — auch bei denen des
+      Kunden — und ist eine zweite öffentliche Kopie der Seite, deren Startseite
+      kein `noindex` trägt. Netlify ist am 05.09.2026 gelöscht.
+- [ ] **Strato-Passwort ändern lassen.** Wir hatten die Zugangsdaten des Kunden
+      für den Umzug; gebraucht werden sie nicht mehr.
+- [ ] **Öffnungszeiten im strukturierten Datensatz** (`app/layout.tsx`), sobald
+      der Kunde die tatsächlichen bestätigt.
+- [ ] **Restliche Inhaltsprüfungen** aus Abschnitt 3 (USt-ID, Nummern, eigene Fotos).
+- [ ] **Rechtstexte** aus Abschnitt 3: AV-Vertrag mit Cloudflare, anwaltliche
+      Prüfung von Impressum und Datenschutzerklärung, Verbraucherschlichtung,
+      die Angabe „5,0 auf Google". Der einzige Block hier mit echtem Risiko.
 
 ---
 
@@ -97,7 +120,7 @@ in unserer Hand. Der Kunde merkt davon nichts.
 
 | Posten | Kosten |
 | --- | --- |
-| Domain bei Strato | zahlt er ohnehin schon |
+| Domain bei Spaceship | Verlängerung fällig 15.09.2027, Auto-Renew an |
 | Hosting (Cloudflare) | 0 € |
 | Kontaktformular | 0 € (kein Dienst nötig) |
 | GitHub (privates Repo) | 0 € |
@@ -166,10 +189,13 @@ Build und Linter laufen sauber durch.
       ohne Sitzung auf, landet **jede** Adresse auf der Login-Seite — auch eine
       frei erfundene. Ein solcher Test sagt nichts aus. Die echte Probe ist der
       Login unter der Domain nach dem Umschalten.
-- [ ] **`NEXT_PUBLIC_SITE_URL`** auf die echte Domain setzen, sobald sie steht —
-      als Repository-Variable, und danach **neu bauen**. Der Wert wird beim Bauen
-      fest eingebaut; ohne neuen Build stehen in Metadaten, `robots.txt` und
-      `sitemap.xml` weiter die Worker-Adresse.
+- [x] **`NEXT_PUBLIC_SITE_URL`** steht als Repository-Variable auf
+      `https://www.elektrohofmann.info` (seit 05.09.2026) und ist eingebaut.
+      Gegenprobe am 22.09.2026 an der Live-Seite: `robots.txt` und `sitemap.xml`
+      nennen die echte Domain, nicht mehr die Worker-Adresse.
+      ⚠️ Bleibt eine Stolperstelle für später: Der Wert wird **beim Bauen** fest
+      eingesetzt. Ändert sich die Domain je, reicht das Setzen der Variable
+      nicht — es braucht einen neuen Build.
 - [x] **Kontaktformular: `mailto`** — am 05.09.2026 auf Kundenwunsch so entschieden.
       Das Formular sammelt die Angaben und öffnet damit das E-Mail-Programm des
       Besuchers. Kein Server, kein Dienstleister, kein Schlüssel, nichts das
@@ -235,22 +261,19 @@ Build und Linter laufen sauber durch.
       `owner: "KingB94"` in `keystatic.config.ts` ist **richtig und bleibt
       stehen**. Frühere Notizen, ihn auf seinen Benutzernamen zu ändern, sind
       hinfällig.
-- [ ] **Verlängerung der Domain bestätigen.** Die Registry nennt als Ablauf
-      **15.09.2026** (Registrar: Cronon GmbH, also Strato). Bei einem Kunden
-      seit 2007 verlängert sich das erfahrungsgemäß automatisch, solange nicht
-      gekündigt wurde — bestätigt ist es aber nicht. Nachzusehen unter
-      *Mein Konto → Alle Pakete* bzw. in der letzten Rechnung.
-      Objektive Gegenprobe ohne Login: Springt das Registry-Datum nach dem
-      15.09. auf **2027-09-15**, hat die Verlängerung gegriffen.
-      ⚠️ Den Registrar-Transfer nicht über diesen Termin laufen lassen.
-- [ ] **Inhaberdaten prüfen** (Domainverwaltung → Tab *Inhaberdaten*): Geht die
-      dort hinterlegte E-Mail-Adresse an jemanden, der sie liest? Dorthin
-      gehen Transfer-Code und Bestätigung. Häufigster Grund für hängende
-      Transfers.
-- [x] **Strato-Zugangsdaten** liegen vor (vom Kunden übergeben). Werden für
-      Nameserver-Wechsel, Auth-Code und die Sicherung des alten Webspace gebraucht.
-      ⚠️ Fremdes Konto: nur für das Vereinbarte verwenden, nichts nebenbei ändern.
-      Nach Abschluss des Umzugs den Kunden das Passwort ändern lassen.
+- [x] **Verlängerung der Domain** — die vorhergesagte Gegenprobe ist
+      eingetreten: Die Registry nennt als Ablauf jetzt **15.09.2027**. Der
+      Transfer hat zusätzlich ein Jahr angehängt, Auto-Renew bei Spaceship
+      steht auf *An*.
+- [x] **Inhaberdaten** — mit dem abgeschlossenen Transfer erledigt. Die
+      unerreichbare Inhaber-Adresse `…@aol.com` war die größte Hürde des
+      Umzugs; sie ist umgangen, der Auth-Code kam an. Gilt weiter als Lehre für
+      den nächsten Fall: **Inhaberadresse zuerst prüfen**, bevor irgendetwas
+      beantragt wird.
+- [x] **Strato-Zugangsdaten** lagen vor (vom Kunden übergeben), gebraucht für
+      Nameserver-Wechsel und Auth-Code.
+      ⚠️ **Jetzt fällig:** Der Umzug ist durch, die Zugangsdaten werden nicht
+      mehr gebraucht. Den Kunden sein Strato-Passwort ändern lassen.
 
 ### Ausgangslage — per DNS gemessen am 20.08.2026
 
@@ -266,11 +289,51 @@ Strato-Mail eingerichtet. Ob die Postfächer genutzt werden oder nur
 mitgeliefert wurden, sagt DNS nicht; die Frage an den Kunden lautet deshalb
 nicht mehr „gibt es dort Postfächer", sondern „welche sind in Gebrauch".
 
-### Domain von Strato zu Cloudflare umziehen
+### Endstand — gemessen am 22.09.2026
 
-**Reihenfolge ist hier nicht beliebig:** Cloudflare Registrar nimmt eine Domain
-erst an, wenn sie bereits auf Cloudflare-Nameservern liegt. Ein Auth-Code allein
-reicht nicht.
+Registry (RDAP der `.info`-Registry, also die Quelle, der alle Resolver folgen):
+
+```
+Registrar   Spaceship, Inc.
+Nameserver  laila.ns.cloudflare.com, sterling.ns.cloudflare.com
+Transfer    21.09.2026, 16:50 UTC   (abgeschlossen)
+Ablauf      15.09.2027
+Status      client transfer prohibited, transfer period
+```
+
+Auflösung und Auslieferung:
+
+```
+NS:   laila / sterling .ns.cloudflare.com     → Cloudflare
+A:    104.21.81.63, 172.67.157.104            → Cloudflare Worker
+MX:   keine                                   → keine Mail auf der Domain
+TXT:  v=spf1 -all  ·  _dmarc  p=reject
+https://www.elektrohofmann.info               → 200
+```
+
+Kein `rzone.de` mehr in der Kette. Stratos Webserver `81.169.145.72` antwortet
+für die Domain mit **404** — er liefert seit dem Nameserver-Wechsel am 05.09.
+nichts mehr aus, während die Seite läuft. Genau das war der Grund, warum die
+Abschaltung des Pakets die Website nicht berühren konnte.
+
+ℹ️ `client transfer prohibited` + `transfer period` ist die übliche
+60-Tage-Sperre nach einem Transfer, kein Fehler. Sie schützt vor einem
+unerwünschten Weitertransfer und läuft von allein aus.
+
+### Domain von Strato wegziehen — abgeschlossen am 21.09.2026
+
+Zielregistrar wurde am Ende **Spaceship**, nicht Cloudflare. Die ursprüngliche
+Reihenfolge-Regel galt für Cloudflare Registrar: Der nimmt eine Domain erst an,
+wenn sie bereits auf Cloudflare-Nameservern liegt. Bei Spaceship entfällt diese
+Bedingung — die Domain lag aber ohnehin schon seit dem 05.09. auf
+Cloudflare-Nameservern, und genau das hat den Transfer unauffällig gemacht:
+**Die Delegierung hat den Registrarwechsel unverändert überstanden.**
+
+ℹ️ Das ist der Punkt, an dem im Nachhinein die meiste Unsicherheit entstand
+(„bleibt die Website aktiv, wenn Strato wegfällt?"). Die Antwort steckt in der
+Rollenverteilung: Der Nameserver-Eintrag liegt nicht beim Registrar, sondern
+**bei der Registry**. Der Registrar trägt ihn dort nur im Auftrag ein. Wechselt
+der Registrar, wandert diese Befugnis mit, der Eintrag selbst bleibt stehen.
 
 1. [x] **Zone angelegt und vollständig bestückt** (05.09.2026).
    Zone-ID `d8b8eb74b1e8c8138a4e4320c9a95881`, Status `pending` — sie wird
@@ -319,11 +382,11 @@ reicht nicht.
    **Fürs nächste Mal:** Mit diesem Loch rechnen und den Kunden vorwarnen. Die
    Annahme „die alte Seite bleibt erreichbar, bis die Delegierung greift" ist
    bei Strato falsch.
-4. [ ] **Auth-Code besorgen, Transfer bei Cloudflare starten** (~5 Tage).
-   Gestartet wird beim **aufnehmenden** Anbieter, also bei Cloudflare — Strato
-   gibt nur den Code heraus und lässt los.
+4. [x] **Auth-Code besorgt, Transfer bei Spaceship gestartet** — abgeschlossen
+   am **21.09.2026, 16:50 UTC**. Gestartet wird beim **aufnehmenden** Anbieter;
+   Strato gibt nur den Code heraus und lässt los.
 
-   Stand 05.09.2026, drei Hürden, alle bei Strato:
+   Die drei Hürden vom 05.09.2026, rückblickend — alle lagen bei Strato:
 
    - **Strato rückt den Code erst nach Kündigung heraus.** Ist erledigt:
      gekündigt zum **19.08.2027**. Damit ist auch die Frage der Verlängerung
@@ -348,6 +411,11 @@ reicht nicht.
 
    ⚠️ Nicht über den Menüpunkt *Verträge → Domainumzug* bei Strato gehen: Der
    ist für Umzüge **innerhalb** von Strato und kostenpflichtig.
+
+   ✅ **Strato-Pakete beendet.** Der Support hat am 22.09.2026 telefonisch
+   bestätigt, dass alles gekündigt ist; die Kündigungsseite im Kundenbereich
+   meldet seither *„Keine Pakete gefunden"*. Das Hosting-Paket (9 €/Mon., seit
+   2008) und die Domain sind damit vom Tisch.
 5. ✅ **MX-Einträge sind hier unkritisch** — anders als ursprünglich angenommen.
    Der Betrieb nutzt für E-Mail **ausschließlich `hofmann-wonneberg.de`**, vom
    Kunden bestätigt. Diese Domain liegt nicht bei Strato und wird **von dritter
@@ -359,15 +427,14 @@ reicht nicht.
    keine Mail, also soll das auch niemand in ihrem Namen tun können.
    ⚠️ Ausnahme, sobald Resend läuft — dann gehören dessen SPF-/DKIM-Einträge
    für den Absender `formular@elektrohofmann.info` in die Zone.
-4. Vorher klären:
-   - [ ] Liegt auf der Domain aktuell schon eine Seite? Die geht beim Umstellen offline.
-         (Ja — die alte Joomla-Seite, siehe Abschnitt 4.)
-   - [ ] Erlaubt der Strato-Tarif freie A-Einträge für die Root-Domain?
-   - [ ] Kann der Kunde auf ein günstigeres reines Domain-Paket runterstufen?
-         **Erst nach Klärung der Postfächer.** Bei Strato hängen die meist am
-         Hostingpaket — ein Downgrade kann sie mitnehmen. Regulär: Webhosting
-         5 €/Mon. (Starter) bis 22 €/Mon. (Pro), reine Domain `.de` 1 €/Mon.,
-         `.info` 2,75 €/Mon. Am Termin die Rechnung zeigen lassen, statt zu raten.
+7. ✅ **Die Fragen „vorher klären" haben sich alle erledigt:**
+   - Lag auf der Domain schon eine Seite? Ja, die alte Joomla-Seite — sie ist
+     am 05.09. offline gegangen, siehe Abschnitt 4.
+   - Erlaubt der Strato-Tarif freie A-Einträge für die Root-Domain? Irrelevant
+     geworden: Die Zone liegt bei Cloudflare, nicht bei Strato.
+   - Downgrade auf ein reines Domain-Paket? Nicht mehr nötig — statt
+     runterzustufen ist Strato ganz entfallen. Die Sorge um die Postfächer war
+     unbegründet (Punkt 5): Unter dieser Domain lief nie Mail.
 
 ### Inhalte prüfen (⚠️ vor dem Live-Schalten)
 
@@ -422,8 +489,23 @@ Der Editor ist bereits komplett auf Deutsch beschriftet.
 
 ## 4. Alte Website elektrohofmann.info
 
-Läuft noch (Joomla), erreichbar **nur über HTTP**. Struktur: Startseite, Leistungen,
-Über Uns, Kontakt & Anfahrt, Impressum.
+**Abgeschaltet.** Seit dem Nameserver-Wechsel am 05.09.2026 liefert der
+Strato-Webspace unter der Domain nichts mehr aus (404), und mit dem Ende der
+Strato-Pakete verschwindet auch der Webspace selbst.
+
+🗄️ **Keine Sicherung** — am 22.09.2026 so entschieden. Die Joomla-Installation
+wird nicht archiviert. Begründung: Die Inhalte sind vollständig in `content/`
+übernommen (siehe „Bereits übernommen" weiter unten), die Bilder liegen im
+Repository, und eine elf Jahre ungepatchte Joomla-2.5-Installation ist nichts,
+was man aufbewahren will. Die Entscheidung ist endgültig — nach Ablauf des
+Pakets ist der Webspace gelöscht.
+
+Der folgende Befund bleibt als Dokumentation dessen stehen, was dort lief.
+
+---
+
+Lief bis zuletzt unter Joomla, erreichbar **nur über HTTP**. Struktur: Startseite,
+Leistungen, Über Uns, Kontakt & Anfahrt, Impressum.
 
 ### Was tatsächlich dort läuft — nachgemessen am 20.08.2026
 
@@ -475,19 +557,13 @@ abgelaufenes Zertifikat, sondern gar keins — für Port 443 ist nichts hinterle
 Strato heißt das praktisch immer: Let's Encrypt wurde im Kundenbereich nie
 eingeschaltet. Das ist der „unsicher"-Hinweis, den der Kunde im Browser sieht.
 
-**Falls er es vorab abgestellt haben will** (Kundenbereich → Domains → Domain wählen →
-SSL-Verwaltung → Let's Encrypt aktivieren; im Hosting-Paket enthalten, Ausstellung bis zu
-einige Stunden): Danach ist HTTPS *erreichbar*, aber nicht *erzwungen* — dafür braucht es
-`force_ssl` in der Joomla-`configuration.php` oder eine `.htaccess`-Regel. Und wenn das
-Template Assets hart mit `http://` verlinkt, bleibt eine Mixed-Content-Warnung.
+Erwogen war, bei Strato Let's Encrypt nachträglich einzuschalten, weil der
+Switch damals offen terminiert war und die alte Seite noch Monate hätte laufen
+können. **Nicht mehr nötig** — die alte Seite war nach dem 05.09.2026 ohnehin
+nur noch zwei Wochen erreichbar, und auch das nur intern.
 
-Da der Switch offen terminiert ist, läuft die alte Seite womöglich noch Monate. Damit ist
-das Einschalten des Zertifikats nicht mehr bloß eine Geste vor dem Termin, sondern sinnvoll.
-⚠️ Nur mit ausdrücklicher Zustimmung in seinem Konto klicken — fremdes Hosting-Konto,
-an dem auch seine Mail hängt.
-
-Die neue Seite braucht davon nichts: Cloudflare stellt das Zertifikat automatisch
-aus, sobald die Domain dort liegt.
+Die neue Seite braucht davon nichts: Cloudflare stellt das Zertifikat
+automatisch aus. Steht seit dem 05.09.2026.
 
 ### Bereits übernommen (erledigt)
 
