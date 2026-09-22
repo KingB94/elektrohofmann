@@ -462,9 +462,14 @@ als Hoster und beschrieb das Kontaktformular als `mailto`-Link, obwohl es längs
 Netlify Forms sendet. Beides steht jetzt richtig drin, ebenso sind drei sichtbare
 Bearbeitungsnotizen in eckigen Klammern aus dem Fließtext entfernt.
 
-Am 05.09.2026 mit dem Hosting-Wechsel nachgezogen: Hoster ist jetzt Cloudflare,
-Versender des Kontaktformulars ist Resend. Beide stehen namentlich mit Anschrift
-in der Erklärung, samt Hinweis auf die Drittlandsübermittlung.
+Am 05.09.2026 mit dem Hosting-Wechsel nachgezogen: Hoster ist Cloudflare, mit
+Anschrift und Hinweis auf die Drittlandsübermittlung in der Erklärung.
+
+⚠️ Der Satz „Versender des Kontaktformulars ist Resend" stand hier bis zum
+22.09.2026 und war falsch: Resend wurde am selben Tag wieder verworfen, das
+Formular ist ein `mailto`. Gegengeprüft — im ganzen Projekt kommt „Resend"
+nicht mehr vor, und die Erklärung beschreibt das Formular richtig als
+„kein Kontaktformular im technischen Sinne".
 
 Was noch eine Entscheidung des Betriebs braucht:
 
@@ -475,9 +480,29 @@ Was noch eine Entscheidung des Betriebs braucht:
       Vorlagen und tragen den Hinweis im Dateikopf. Das ist keine Rechtsberatung.
 - [ ] **Verbraucherschlichtung**: Die Aussage im Impressum, nicht an Streitbeilegungs-
       verfahren teilzunehmen, ist die übliche — bestätigen lassen.
-- [ ] **Bewertungsangabe „5,0 auf Google"** im Kopfbereich: Es gibt kein
-      Google-Unternehmensprofil (Stand 03.09.2026, Kartenabruf), also auch keine
-      Bewertungen. Ohne Beleg muss die Angabe raus.
+- [ ] **Bewertungsangabe „5,0 auf Google"** im Kopfbereich — **der schärfste
+      Punkt, und er ist live.** Stand 22.09.2026 an der echten Seite gemessen:
+      Der Kopfbereich zeigt „5,0 auf Google", der Stimmen-Abschnitt „57
+      Bewertungen auf Google".
+
+      Die Zahl kommt aus dem Editor: Bei der Einrichtung am 20.08.2026 stand
+      dort unsere Recherche-Annahme `ratingCount: "4"`, inzwischen `"57"` —
+      also hat der Kunde sie selbst eingetragen. Das ist ein Beleg dafür, dass
+      er die Zahl für richtig hält, aber keiner dafür, dass sie stimmt.
+
+      🔴 Dagegen steht der Befund vom 03.09.2026: kein Google-Unternehmensprofil
+      auffindbar. Dazu passt, dass das Feld *Link zu Google Maps* im Editor leer
+      ist — der Knopf „Alle Bewertungen bei Google" fällt deshalb auf eine
+      Maps-**Suche** nach der Anschrift zurück (`lib/inhalte.ts:220`), nicht auf
+      ein Profil. Wer draufklickt, sieht keine Bewertungen.
+
+      Unbelegte Bewertungsangaben sind wettbewerbsrechtlich angreifbar. Die
+      Entscheidung ist binär:
+      - Profil existiert → dessen URL im Editor unter *Link zu Google Maps*
+        eintragen. Damit ist die Angabe belegt und nachprüfbar.
+      - Profil existiert nicht → `ratingValue` und `ratingCount` im Editor
+        leeren. Beide Bausteine blenden sich dann von allein aus, dafür sind
+        sie gebaut (`HeroB.tsx:109`).
 
 ### Einweisung (15–20 Minuten)
 
