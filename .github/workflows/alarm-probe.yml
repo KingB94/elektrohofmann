@@ -23,6 +23,9 @@ jobs:
         if: failure()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Ohne diese Angabe sucht gh das Repository im Arbeitsverzeichnis
+          # und bricht ab, sobald dort keine Git-Ablage liegt.
+          GH_REPO: ${{ github.repository }}
           LAUF: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           AUSGELOEST_VON: ${{ github.actor }}
           NACHRICHT: ${{ github.event.head_commit.message }}
