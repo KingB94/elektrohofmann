@@ -59,7 +59,6 @@ type Singletons = typeof keystaticConfig.singletons;
 // umgekehrtem Vorzeichen. Alle vier Stellen kommen mit null zurecht.
 // ---------------------------------------------------------------
 const betriebVorgaben = { googleMapsUrl: null, ratingValue: null };
-const kennzahlVorgabe = { wert: null };
 const rezensionVorgabe = { sterne: null };
 
 /**
@@ -74,6 +73,32 @@ const rezensionVorgabe = { sterne: null };
  */
 function mitVorgaben<T, V extends object>(daten: T, vorgaben: V): T & V {
   return { ...vorgaben, ...daten } as T & V;
+}
+
+/**
+ * Dasselbe für die Kennzahlen, eine Ebene tiefer.
+ *
+ * Steht die Zahl nicht fest, sondern wird gerechnet, gibt es im Editor
+ * nichts einzutragen — dann fehlt „value" in der Datei. Keystatics
+ * eigener Leser verträgt das, unsere Typprüfung nicht.
+ *
+ * Warum eine eigene Funktion statt map() an Ort und Stelle: Löscht der
+ * Kunde alle Kennzahlen, steht in der Datei `[]`, und TypeScript leitet
+ * daraus `never` als Elementtyp ab — auf `never` ist dann nicht einmal
+ * mehr ein Feldzugriff erlaubt. Der ausgeschriebene Parametertyp hier
+ * verhindert das, und ein leeres Array erfüllt ihn ohne Weiteres.
+ */
+function mitKennzahlVorgaben<
+  T extends {
+    readonly quelle: { readonly discriminant: string };
+    readonly label: string;
+    readonly note: string;
+  },
+>(eintraege: readonly T[]): Entry<Singletons["zahlen"]>["eintraege"] {
+  return eintraege.map((e) => ({
+    ...e,
+    quelle: { value: null, ...e.quelle },
+  })) as Entry<Singletons["zahlen"]>["eintraege"];
 }
 
 // ---------------------------------------------------------------
@@ -101,10 +126,10 @@ type Bereich<K extends keyof Singletons> = Entry<Singletons[K]>;
 type OhneVorgabe =
   // Versorgt: die drei Stellen mit Vorgabe. Übrig bleibt, was fehlt.
   | Exclude<Leerbar<Bereich<"betrieb">>, keyof typeof betriebVorgaben>
-  | Exclude<
-      Leerbar<Element<Bereich<"zahlen">["eintraege"]>>,
-      keyof typeof kennzahlVorgabe
-    >
+  | Leerbar<Element<Bereich<"zahlen">["eintraege"]>>
+  // Das „value" der Auswahl „Woher kommt die Zahl?" versorgt
+  // mitKennzahlVorgaben, deshalb hier ausgenommen.
+  | Exclude<Leerbar<Element<Bereich<"zahlen">["eintraege"]>["quelle"]>, "value">
   | Exclude<
       Leerbar<Element<Bereich<"stimmen">["eintraege"]>>,
       keyof typeof rezensionVorgabe
@@ -136,7 +161,7 @@ const inhalt = {
   hero: heroDaten as Entry<Singletons["hero"]>,
   zahlen: {
     ...zahlenDaten,
-    eintraege: zahlenDaten.eintraege.map((e) => mitVorgaben(e, kennzahlVorgabe)),
+    eintraege: mitKennzahlVorgaben(zahlenDaten.eintraege),
   } as Entry<Singletons["zahlen"]>,
   leistungen: leistungenDaten as Entry<Singletons["leistungen"]>,
   ablauf: ablaufDaten as Entry<Singletons["ablauf"]>,
@@ -151,6 +176,14 @@ const inhalt = {
 // Zwei Angaben stehen bewusst nicht im Editor: Die Koordinaten
 // ändern sich nie und das Gründungsdatum ist die Grundlage für
 // gerechnete Jahreszahlen — beides wäre im CMS nur eine Stolperfalle.
+//
+// Die beiden springen bewusst zu verschiedenen Zeitpunkten weiter, das
+// ist kein Fehler: Vom Betrieb ist der Tag der Gründung bekannt, also
+// zählt er am 15. August hoch. Vom Handwerk ist nur das Jahr 1991
+// überliefert — dort wird zum Jahreswechsel gerechnet, wie man es auch
+// sagen würde („seit 1991 im Handwerk"). Jede Zahl rechnet mit der
+// Genauigkeit, die sie hat. Wird der Ausbildungsbeginn einmal genau
+// bekannt, gehört hier ein Datum hin und unten jahreSeit() davor.
 const GRUENDUNG = new Date("2005-08-15");
 const AUSBILDUNGSBEGINN = 1991;
 
@@ -233,7 +266,10 @@ export async function getZahlen() {
     ...z,
     eintraege: z.eintraege.map((e) => ({
       ...e,
-      wert: berechnet[e.quelle] ?? e.wert ?? 0,
+      wert:
+        e.quelle.discriminant === "fest"
+          ? e.quelle.value ?? 0
+          : berechnet[e.quelle.discriminant] ?? 0,
     })),
   };
 }

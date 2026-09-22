@@ -3,20 +3,23 @@
   "headline": "Erfahrung, die man nicht abkürzen kann.",
   "eintraege": [
     {
-      "quelle": "jahreHandwerk",
-      "wert": 37,
+      "quelle": {
+        "discriminant": "jahreHandwerk"
+      },
       "label": "Jahre im Elektrohandwerk",
       "note": "Ausbildungsbeginn 1991, Meisterprüfung 2004."
     },
     {
-      "quelle": "jahreBetrieb",
-      "wert": 20,
+      "quelle": {
+        "discriminant": "jahreBetrieb"
+      },
       "label": "Jahre eigener Meisterbetrieb",
       "note": "Gegründet am 15. August 2005 in Wonneberg."
     },
     {
-      "quelle": "anzahlLeistungen",
-      "wert": 6,
+      "quelle": {
+        "discriminant": "anzahlLeistungen"
+      },
       "label": "Leistungsbereiche",
       "note": "Installation, Photovoltaik, Prüfung, Reparatur, Medientechnik, Licht."
     }

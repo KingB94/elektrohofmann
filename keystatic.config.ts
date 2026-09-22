@@ -206,22 +206,37 @@ export default config({
             // Jahreszahlen sollen nicht jedes Jahr von Hand nachgezogen
             // werden müssen — deshalb lässt sich hier auswählen, ob die
             // Zahl fest steht oder aus dem Datum berechnet wird.
-            quelle: fields.select({
-              label: "Woher kommt die Zahl?",
-              description:
-                "Automatisch berechnete Zahlen bleiben ohne Ihr Zutun aktuell.",
-              options: [
-                { label: "Fest eingetragen", value: "fest" },
-                { label: "Jahre im Handwerk (seit 1991)", value: "jahreHandwerk" },
-                { label: "Jahre eigener Betrieb (seit 2005)", value: "jahreBetrieb" },
-                { label: "Anzahl der Leistungen", value: "anzahlLeistungen" },
-              ],
-              defaultValue: "fest",
-            }),
-            wert: fields.number({
-              label: "Zahl",
-              description: "Wird nur verwendet, wenn oben „Fest eingetragen\u201c gewählt ist.",
-            }),
+            //
+            // Als conditional und nicht als zwei Felder nebeneinander:
+            // Vorher stand der Kasten „Zahl“ immer da, auch wenn die Zahl
+            // gerechnet wurde. Wer hineinschrieb, sah auf der Website
+            // nichts davon — die Erläuterung daneben liest man erst, wenn
+            // man sich schon wundert. Jetzt erscheint der Kasten nur,
+            // wenn er auch gilt, und dann ist er Pflicht: „fest
+            // eingetragen“ ohne Zahl ergäbe keinen Sinn.
+            quelle: fields.conditional(
+              fields.select({
+                label: "Woher kommt die Zahl?",
+                description:
+                  "Automatisch berechnete Zahlen bleiben ohne Ihr Zutun aktuell.",
+                options: [
+                  { label: "Fest eingetragen", value: "fest" },
+                  { label: "Jahre im Handwerk (seit 1991)", value: "jahreHandwerk" },
+                  { label: "Jahre eigener Betrieb (seit 2005)", value: "jahreBetrieb" },
+                  { label: "Anzahl der Leistungen", value: "anzahlLeistungen" },
+                ],
+                defaultValue: "fest",
+              }),
+              {
+                fest: fields.number({
+                  label: "Zahl",
+                  validation: { isRequired: true },
+                }),
+                jahreHandwerk: fields.empty(),
+                jahreBetrieb: fields.empty(),
+                anzahlLeistungen: fields.empty(),
+              }
+            ),
             label: fields.text({ label: "Bezeichnung" }),
             note: fields.text({ label: "Erläuterung darunter", multiline: true }),
           }),
