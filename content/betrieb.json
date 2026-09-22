@@ -13,12 +13,16 @@
   "ownerRole": "Inhaber & Elektromeister",
   "hours": [
     {
-      "days": "Montag – Freitag",
+      "days": "Montag – Donnerstag",
       "time": "07:00-16.00"
     },
     {
       "days": "Samstag / Sonntag",
       "time": "geschlossen"
+    },
+    {
+      "days": "Freitag",
+      "time": "7:00 - 12:00"
     }
   ],
   "ratingValue": 5,
