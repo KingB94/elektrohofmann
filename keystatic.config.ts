@@ -9,7 +9,7 @@
 // wird zu einem Commit, der automatisch einen neuen Build auslöst.
 // ---------------------------------------------------------------
 
-import { config, fields, singleton, collection } from "@keystatic/core";
+import { config, fields, singleton } from "@keystatic/core";
 
 // Bilder liegen alle im selben Ordner wie die bereits vorhandenen —
 // so vermischen sich Bestand und neue Uploads nicht.
@@ -102,7 +102,6 @@ export default config({
     navigation: {
       Stammdaten: ["betrieb"],
       Startseite: ["hero", "zahlen", "leistungen", "ablauf", "stimmen", "ueberUns", "kontakt"],
-      "Weitere Inhalte": ["referenzen"],
     },
   },
 
@@ -115,7 +114,13 @@ export default config({
       schema: {
         name: fields.text({ label: "Firmenname" }),
         legalSuffix: fields.text({ label: "Zusatz unter dem Namen" }),
-        claim: fields.text({ label: "Slogan" }),
+
+        // Hier stand bis zum 22.09.2026 ein Feld „Slogan" mit dem Satz
+        // „Elektrotechnik mit Energie". Angezeigt wurde es nie: Der
+        // sichtbare Schriftzug ist die Überschrift im Kopfbereich, auf
+        // zwei Zeilen verteilt. Wer den Slogan ändern wollte, fand das
+        // Feld, das genau so hieß, änderte es — und nichts geschah.
+        // Ein Feld, das nichts tut, ist schlimmer als keines.
 
         phoneDisplay: fields.text({
           label: "Telefon",
@@ -395,36 +400,6 @@ export default config({
         headline: fields.text({ label: "Überschrift" }),
         formTitel: fields.text({ label: "Überschrift über dem Formular" }),
         formText: fields.text({ label: "Text über dem Formular", multiline: true }),
-      },
-    }),
-  },
-
-  collections: {
-    // ----------------------------------------------------------------
-    // Beispiel für eine Sammlung: beliebig viele gleichartige Einträge,
-    // die der Kunde selbst anlegen und löschen kann. Aktuell nicht auf
-    // der Website eingebaut — dient zum Ausprobieren.
-    referenzen: collection({
-      label: "Referenzen",
-      slugField: "titel",
-      path: "content/referenzen/*",
-      format: { data: "json" },
-      columns: ["titel", "ort", "jahr"],
-      schema: {
-        titel: fields.slug({
-          name: {
-            label: "Titel",
-            description: "Zum Beispiel: Photovoltaikanlage Gewerbehalle",
-          },
-        }),
-        ort: fields.text({ label: "Ort" }),
-        jahr: fields.text({ label: "Jahr" }),
-        bild: fields.image({
-          label: "Projektbild",
-          directory: "public/images",
-          publicPath: "/images",
-        }),
-        beschreibung: fields.text({ label: "Kurzbeschreibung", multiline: true }),
       },
     }),
   },
