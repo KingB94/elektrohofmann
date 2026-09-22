@@ -36,7 +36,12 @@ import kontaktDaten from "@/content/startseite/kontakt.json";
 
 type Singletons = typeof keystaticConfig.singletons;
 const inhalt = {
-  betrieb: betriebDaten as Entry<Singletons["betrieb"]>,
+  // googleMapsUrl steht bewusst als Vorgabe davor: Keystatic lässt ein
+  // leeres URL-Feld beim Speichern ganz aus der JSON-Datei weg, und ohne
+  // diesen Wert scheitert die Typprüfung beim Bauen — die Seite ließe
+  // sich dann nach einer harmlosen Änderung im Editor nicht mehr
+  // veröffentlichen. Steht ein Link in der Datei, gewinnt er.
+  betrieb: { googleMapsUrl: null, ...betriebDaten } as Entry<Singletons["betrieb"]>,
   hero: heroDaten as Entry<Singletons["hero"]>,
   zahlen: zahlenDaten as Entry<Singletons["zahlen"]>,
   leistungen: leistungenDaten as Entry<Singletons["leistungen"]>,
