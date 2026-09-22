@@ -17,12 +17,12 @@
       "time": "07:00-16.00"
     },
     {
-      "days": "Samstag / Sonntag",
-      "time": "geschlossen"
-    },
-    {
       "days": "Freitag",
       "time": "7:00 - 12:00"
+    },
+    {
+      "days": "Samstag / Sonntag",
+      "time": "geschlossen"
     }
   ],
   "ratingValue": 5,
