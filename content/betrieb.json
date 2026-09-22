@@ -23,6 +23,10 @@
     {
       "days": "Samstag / Sonntag",
       "time": "geschlossen"
+    },
+    {
+      "days": "samstaf",
+      "time": "5.00"
     }
   ],
   "ratingValue": 5,
