@@ -2,9 +2,21 @@
   "kicker": "Kundenstimmen",
   "headline": "Was unsere Kunden\nüber uns schreiben",
   "intro": "Eine Auswahl aus den Bewertungen, die Kundinnen und Kunden bei Google hinterlassen haben. Die vollständige Liste steht dort für jeden einsehbar.",
-  "stand": "Stand September 2026",
+  "stand": "Stand Oktober 2026",
   "linkText": "Alle Bewertungen bei Google",
   "eintraege": [
+    {
+      "autor": "Volker N.",
+      "jahr": "2026",
+      "sterne": 5,
+      "text": "Wir haben unser Einfamilienhaus 2025/2026 mit Posch Bau gebaut und die komplette Elektroinstallation wurde von Elektro Hofmann ausgeführt. Wir sind rundum zufrieden und können das Unternehmen uneingeschränkt weiterempfehlen. […] Florian war bei Fragen jederzeit erreichbar und hat per WhatsApp innerhalb kürzester Zeit auf alle Fragen geantwortet. […] Änderungen während der Bauphase und sogar nachträgliche Anpassungen wurden flexibel und problemlos umgesetzt."
+    },
+    {
+      "autor": "Bianca R.",
+      "jahr": "2026",
+      "sterne": 5,
+      "text": "Die Planung und die Umsetzung liefen reibungslos. Hr. Hofmann hat sich sehr viel Zeit genommen, um die Pläne stimmig zu gestalten. Er stand uns mit Rat und Tat zur Seite und war sehr oft persönlich vor Ort. Deswegen haben wir die Fa. Hofmann auch für die spätere Installation unserer elektrischen Markise gewählt. Es lief alles wie erwartet: schnell, zuverlässig, professionell und unkompliziert."
+    },
     {
       "autor": "J. Rehrl",
       "jahr": "2026",
